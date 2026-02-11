@@ -1,0 +1,21 @@
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using ServiceCore.Models;
+
+namespace ServiceCore.Controllers
+{
+    public class ProjectsController : Controller
+    {
+        public IActionResult Index()
+        {
+            var sample = new List<Project>
+            {
+                new Project { Id = 1, Name = "Website Redesign", Status = "Active", Lead = "Alex Morgan" },
+                new Project { Id = 2, Name = "API Migration", Status = "Planning", Lead = "Dana Lee" }
+            };
+
+            ViewData["Projects"] = sample;
+            return View();
+        }
+    }
+}

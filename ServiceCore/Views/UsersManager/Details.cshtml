@@ -1,0 +1,24 @@
+@model ServiceCore.Models.User
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container">
+    <h1>User #@Model.Id</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Role</dt>
+        <dd class="col-sm-9">@Model.Role</dd>
+
+        <dt class="col-sm-3">Department</dt>
+        <dd class="col-sm-9">@Model.Department</dd>
+    </dl>
+
+    <div class="mt-3">
+        <a class="btn btn-secondary" href="/UsersManager">Back to list</a>
+        <a class="btn btn-primary" href="/UsersManager/Edit/@Model.Id">Edit</a>
+    </div>
+</div>

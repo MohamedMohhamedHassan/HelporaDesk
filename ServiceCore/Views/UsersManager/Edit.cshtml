@@ -1,0 +1,60 @@
+@model ServiceCore.Models.User
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="content">
+    <div class="mb-4">
+        <h1 class="h3 fw-700">Edit User</h1>
+        <p class="text-muted small">Modify profile and access settings for <strong>@Model.Name</strong></p>
+    </div>
+
+    <div class="card glass border-0 shadow-sm" style="max-width: 600px;">
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="PasswordHash" />
+                
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-600 small">Full Name</label>
+                        <input class="form-control" asp-for="Name" required />
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-600 small">Email Address</label>
+                        <input class="form-control" asp-for="Email" type="email" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-600 small">Role</label>
+                        <select class="form-select" asp-for="Role">
+                            @foreach (var role in (string[])ViewBag.Roles)
+                            {
+                                <option value="@role">@role</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-600 small">Department</label>
+                        <select class="form-select" asp-for="Department">
+                            <option value="">None</option>
+                            @foreach (var dept in (List<string>)ViewBag.Departments)
+                            {
+                                <option value="@dept">@dept</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

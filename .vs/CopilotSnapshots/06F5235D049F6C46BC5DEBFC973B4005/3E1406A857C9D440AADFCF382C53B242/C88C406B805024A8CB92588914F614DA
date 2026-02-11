@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ServiceCore.Models;
+
+namespace ServiceCore.Data
+{
+    // Minimal in-memory replacement for a real DbContext to keep project runnable without EF packages.
+    public class ServiceCoreDbContext
+    {
+        public List<Ticket> Tickets { get; } = new();
+        public List<Project> Projects { get; } = new();
+        public List<User> Users { get; } = new();
+        public List<KanbanCard> KanbanCards { get; } = new();
+        public List<Article> Articles { get; } = new();
+
+        public void EnsureCreated()
+        {
+            // nothing to do for in-memory
+        }
+
+        public void SaveChanges()
+        {
+            // no-op for in-memory
+        }
+    }
+}

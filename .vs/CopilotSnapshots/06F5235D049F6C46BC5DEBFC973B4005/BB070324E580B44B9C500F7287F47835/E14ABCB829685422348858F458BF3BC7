@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using ServiceCore.Models;
+
+namespace ServiceCore.Controllers
+{
+    public class HelpController : Controller
+    {
+        public IActionResult Index()
+        {
+            var articles = new List<Article>
+            {
+                new Article { Id = 1, Title = "How to reset your password" },
+                new Article { Id = 2, Title = "Managing project members" }
+            };
+
+            ViewData["Articles"] = articles;
+            return View();
+        }
+    }
+}

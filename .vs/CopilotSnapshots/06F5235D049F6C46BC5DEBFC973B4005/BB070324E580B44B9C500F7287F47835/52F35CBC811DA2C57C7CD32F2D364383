@@ -1,0 +1,13 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+/* Configure a SQL Server connection string below. Update Server and credentials as needed. */
+/* For local development with SQL Server Express use: "Server=.\\SQLEXPRESS;Database=ServiceCoreDb;Trusted_Connection=True;TrustServerCertificate=True" */
+

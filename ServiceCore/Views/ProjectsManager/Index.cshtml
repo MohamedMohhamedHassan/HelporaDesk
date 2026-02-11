@@ -1,0 +1,39 @@
+@model IEnumerable<ServiceCore.Models.Project>
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h1>Projects</h1>
+
+<p>
+    <a class="btn btn-primary" href="/ProjectsManager/Create">Create Project</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Lead</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+            <td>@p.Status</td>
+            <td>@p.Lead</td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" href="/ProjectsManager/Edit/@p.Id">Edit</a>
+                <form method="post" asp-action="Delete" asp-route-id="@p.Id" style="display:inline">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

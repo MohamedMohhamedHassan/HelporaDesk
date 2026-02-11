@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- EF Core packages removed in this build environment. To enable SQL Server persistence, add these package references and restore packages:
+       - Microsoft.EntityFrameworkCore.SqlServer
+       - Microsoft.EntityFrameworkCore.Tools (PrivateAssets=all)
+       - Microsoft.EntityFrameworkCore.Design
+  -->
+
+</Project>

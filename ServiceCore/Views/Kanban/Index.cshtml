@@ -1,0 +1,107 @@
+@model IEnumerable<ServiceCore.Models.ProjectTask>
+
+@{
+    ViewData["Title"] = "Kanban Board";
+}
+
+<div class="container-fluid py-4 h-100">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1 fw-bold">Kanban Board</h1>
+             <p class="text-secondary small mb-0">Drag and drop tasks to update status.</p>
+        </div>
+    </div>
+
+    <div class="d-flex gap-4 overflow-auto pb-4" style="min-height: 600px;">
+        @foreach (var status in new[] { "To Do", "In Progress", "Review", "Done" })
+        {
+            <div class="kanban-column flex-shrink-0" style="width: 300px;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-uppercase text-secondary small mb-0">@status</h6>
+                    <span class="badge bg-light text-dark border">@Model.Count(t => t.Status == status)</span>
+                </div>
+                
+                <div class="kanban-lane bg-light rounded p-2 h-100" data-status="@status">
+                    @foreach (var item in Model.Where(t => t.Status == status))
+                    {
+                        <div class="card p-3 mb-2 border-0 shadow-sm draggable" draggable="true" data-id="@item.Id">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge @(item.Priority == "High" ? "bg-danger" : "bg-secondary")" style="font-size: 0.65rem;">@item.Priority</span>
+                                <small class="text-muted">#@item.Id</small>
+                            </div>
+                            <h6 class="card-title mb-2">@item.Title</h6>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="avatar-xs bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:24px;height:24px;font-size:10px;">
+                                    @if(item.Assignee != null) { @item.Assignee.Name.Substring(0,1) } else { <span>?</span> }
+                                </div>
+                                <small class="@(item.DueDate < DateTime.Now ? "text-danger fw-bold" : "text-muted")" style="font-size: 0.75rem;">
+                                    @item.DueDate?.ToString("MMM dd")
+                                </small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const draggables = document.querySelectorAll('.draggable');
+            const lanes = document.querySelectorAll('.kanban-lane');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    const id = draggable.getAttribute('data-id');
+                    const status = draggable.parentElement.getAttribute('data-status');
+                    updateTaskStatus(id, status);
+                });
+            });
+
+            lanes.forEach(lane => {
+                lane.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const afterElement = getDragAfterElement(lane, e.clientY);
+                    const draggable = document.querySelector('.dragging');
+                    if (afterElement == null) {
+                        lane.appendChild(draggable);
+                    } else {
+                        lane.insertBefore(draggable, afterElement);
+                    }
+                });
+            });
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
+
+            function updateTaskStatus(id, status) {
+                 fetch(`/Kanban/MoveTask?taskId=${id}&newStatus=${status}`, { method: 'POST' });
+            }
+        });
+    </script>
+    
+    <style>
+        .kanban-lane { min-height: 200px; }
+        .draggable { cursor: move; }
+        .draggable.dragging { opacity: 0.5; }
+    </style>
+}

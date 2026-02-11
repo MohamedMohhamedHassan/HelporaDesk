@@ -1,0 +1,49 @@
+@model IEnumerable<ServiceCore.Models.Setting>
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 fw-bold">Settings</h1>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">General Configuration</h6>
+                    
+                    @if(Model.Any()) {
+                        <form asp-action="Update" method="post">
+                            @foreach (var item in Model) {
+                                <div class="mb-3">
+                                    <label class="form-label text-capitalize">@item.Key</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="value" value="@item.Value" />
+                                        <input type="hidden" name="key" value="@item.Key" />
+                                        <button class="btn btn-outline-secondary" type="submit">Save</button>
+                                    </div>
+                                </div>
+                            }
+                        </form>
+                    } else {
+                        <p class="text-muted">No settings defined in database.</p>
+                        <div class="alert alert-info">
+                            Seed some settings like 'CompanyName', 'Theme', 'AllowRegistration' to see them here.
+                        </div>
+                    }
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">System Info</h6>
+                    <div class="d-flex justify-content-between">
+                        <div>Version</div>
+                        <div class="text-muted">2.0.0 (Project Management Edition)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

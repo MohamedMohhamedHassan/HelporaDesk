@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - ServiceCore</title>
+    <meta name="description" content="ServiceCore is a modern helpdesk and project management system for teams to plan, track, and deliver work." />
+
+    <link rel="icon" type="image/png" href="~/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="~/css/servicecore.css" rel="stylesheet" /> <!-- Using main css now -->
+    
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="visually-hidden-focusable" href="#app">Skip to content</a>
+
+    <div class="app-shell" id="app" data-testid="app-shell">
+      <aside class="sidebar" data-testid="nav-sidebar">
+        <div class="sidebar__brand" data-testid="brand-sidebar">
+          <img src="~/favicon.png" class="brand__logo" alt="ServiceCore" />
+          <div class="brand__text">
+            <div class="brand__name">ServiceCore</div>
+            <div class="brand__tag">Helpdesk + Projects</div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary" data-testid="nav-primary">
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="~/" data-testid="nav-dashboard">
+            <span class="nav-dot"></span>
+            <span>Dashboard</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tickets" || ViewContext.RouteData.Values["controller"]?.ToString() == "TicketsManager" ? "active" : "")" href="~/TicketsManager" data-testid="nav-tickets">
+            <span class="nav-dot"></span>
+            <span>Tickets</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")" href="~/Projects" data-testid="nav-projects">
+            <span class="nav-dot"></span>
+            <span>Projects</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tasks" ? "active" : "")" href="~/Tasks" data-testid="nav-tasks">
+            <span class="nav-dot"></span>
+            <span>Tasks</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Kanban" ? "active" : "")" href="~/Kanban" data-testid="nav-kanban">
+            <span class="nav-dot"></span>
+            <span>Kanban Board</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Approvals" ? "active" : "")" href="~/Approvals" data-testid="nav-approvals">
+            <span class="nav-dot"></span>
+            <span>Approvals Center</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Assets" ? "active" : "")" href="~/Assets" data-testid="nav-assets">
+            <span class="nav-dot"></span>
+            <span>Asset Management</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" || ViewContext.RouteData.Values["controller"]?.ToString() == "UsersManager" ? "active" : "")" href="~/Users" data-testid="nav-users">
+            <span class="nav-dot"></span>
+            <span>Team & Users</span>
+          </a>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")" href="~/Reports" data-testid="nav-reports">
+            <span class="nav-dot"></span>
+            <span>Analytics & Reports</span>
+          </a>
+
+          <div class="nav-section mt-4 mb-2">
+            <span class="nav-section__label">Administration</span>
+          </div>
+
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")" href="~/Admin" data-testid="nav-admin">
+            <span class="nav-dot"></span>
+            <span>System Metadata</span>
+          </a>
+
+          <div class="nav-section" data-testid="nav-section-system">
+            <div class="nav-section__label">System</div>
+
+            <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Help" ? "active" : "")" href="~/Help" data-testid="nav-help">
+              <span class="nav-dot"></span>
+              <span>Help & Support</span>
+            </a>
+
+            <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")" href="~/Account/Login" data-testid="nav-login">
+              <span class="nav-dot"></span>
+              <span>Login</span>
+            </a>
+          </div>
+        </nav>
+
+        <div class="sidebar__foot" data-testid="sidebar-footer">
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar" data-testid="header-topbar">
+          <div class="topbar__search">
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-0 opacity-50"><i class="bi bi-search"></i></span>
+              <input class="form-control bg-transparent border-0" type="search" placeholder="Search..." data-testid="input-search" />
+            </div>
+          </div>
+
+          <div class="topbar__actions" data-testid="actions-topbar">
+            <button class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Mode">
+                <i class="bi bi-moon-stars"></i>
+            </button>
+
+            <a href="/TicketsManager/Create" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg"></i> New Ticket
+            </a>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-kanban"></i> Board
+            </button>
+            
+            <div class="dropdown me-3">
+                <a href="#" class="btn btn-light btn-sm position-relative p-2" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-bell"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationCount" style="display:none;">
+                        0
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-0" aria-labelledby="notificationDropdown" id="notificationList" style="width: 320px; max-height: 480px; overflow-y: auto;">
+                    <li class="p-3 border-bottom d-flex justify-content-between align-items-center bg-light">
+                        <strong class="text-primary">Notifications</strong>
+                        <button class="btn btn-sm btn-link p-0 text-decoration-none text-muted" onclick="markAllAsRead()">Mark all as read</button>
+                    </li>
+                    <div id="notificationItems" style="max-height: 350px; overflow-y: auto;">
+                        <li class="text-center p-4 text-muted">
+                            <i class="bi bi-info-circle d-block fs-4 mb-2"></i>
+                            No new notifications
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/TicketsManager?filter=my" class="profile text-decoration-none" title="My Assigned Tickets">
+                      <div class="avatar">
+                          @(User.Identity.Name?.Substring(0, Math.Min(2, User.Identity.Name.Length)).ToUpper() ?? "U")
+                      </div>
+                      <div class="profile__meta">
+                        <div class="profile__name">@User.Identity.Name</div>
+                        <div class="profile__role">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</div>
+                      </div>
+                    </a>
+                    <form method="post" action="/Account/Logout" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Log out">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <a href="/Account/Login" class="btn btn-primary btn-sm">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </a>
+            }
+          </div>
+        </header>
+
+        <main class="content" data-testid="main-content">
+          @RenderBody()
+
+          <div class="modal fade" id="modalNewTicket" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" data-testid="text-modal-newticket-title">Create new ticket</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-testid="button-close-newticket"></button>
+                </div>
+                <form id="formNewTicket" data-testid="form-new-ticket">
+                  <div class="modal-body">
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label">Subject</label>
+                        <input class="form-control" id="newTicketSubject" required data-testid="input-newticket-subject" />
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Type</label>
+                        <select class="form-select" id="newTicketType" data-testid="select-newticket-type">
+                          <option>Incident</option>
+                          <option>Service Request</option>
+                          <option>Problem</option>
+                          <option>Change</option>
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Priority</label>
+                        <select class="form-select" id="newTicketPriority" data-testid="select-newticket-priority">
+                          <option>Low</option>
+                          <option selected>Medium</option>
+                          <option>High</option>
+                          <option>Critical</option>
+                        </select>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="newTicketDescription" rows="4" required data-testid="input-newticket-description"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-testid="button-cancel-newticket">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-testid="button-create-newticket">Create ticket</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalNewProject" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" data-testid="text-modal-newproject-title">Create new project</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-testid="button-close-newproject"></button>
+                </div>
+                <form id="formNewProject" data-testid="form-new-project">
+                  <div class="modal-body">
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label">Project name</label>
+                        <input class="form-control" id="newProjectName" required data-testid="input-newproject-name" />
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="newProjectDescription" rows="3" data-testid="input-newproject-description"></textarea>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="newProjectStatus" data-testid="select-newproject-status">
+                          <option>Planning</option>
+                          <option selected>Active</option>
+                          <option>On Hold</option>
+                          <option>Completed</option>
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Lead</label>
+                        <select class="form-select" id="newProjectLead" data-testid="select-newproject-lead"></select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Start date</label>
+                        <input class="form-control" type="date" id="newProjectStart" data-testid="input-newproject-start" />
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">End date</label>
+                        <input class="form-control" type="date" id="newProjectEnd" data-testid="input-newproject-end" />
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">Team</label>
+                        <div class="team-pills" id="newProjectTeam" data-testid="list-newproject-team"></div>
+                        <div class="text-muted small mt-2">Click members to toggle selection.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-testid="button-cancel-newproject">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-testid="button-create-newproject">Create project</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalInviteUser" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" data-testid="text-modal-invite-title">Invite user</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-testid="button-close-invite"></button>
+                </div>
+                <form id="formInviteUser" data-testid="form-invite-user">
+                  <div class="modal-body">
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label">Email</label>
+                        <input class="form-control" type="email" id="inviteEmail" required data-testid="input-invite-email" />
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Role</label>
+                        <select class="form-select" id="inviteRole" data-testid="select-invite-role">
+                          <option>Admin</option>
+                          <option>Manager</option>
+                          <option selected>Member</option>
+                          <option>Viewer</option>
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label">Department</label>
+                        <input class="form-control" id="inviteDept" data-testid="input-invite-dept" />
+                      </div>
+                    </div>
+
+                    <div class="mt-4" id="inviteResult" hidden>
+                      <div class="alert alert-success mb-3" role="alert" data-testid="alert-invite-sent">Invitation generated. Share this link:</div>
+                      <div class="input-group">
+                        <input class="form-control font-monospace" id="inviteLink" readonly data-testid="input-invite-link" />
+                        <button class="btn btn-outline-secondary" type="button" id="inviteCopy" data-testid="button-invite-copy">Copy</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-testid="button-cancel-invite">Close</button>
+                    <button type="submit" class="btn btn-primary" data-testid="button-send-invite">Send invite</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastHost" data-testid="toast-host"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/servicecore.js"></script>
+    
+    <script>
+      // Theme Toggle Logic
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+      
+      function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+          themeIcon.className = 'bi bi-sun';
+        } else {
+          themeIcon.className = 'bi bi-moon-stars';
+        }
+      }
+
+      // Initial state
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      updateThemeIcon(currentTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        function updateNotifications() {
+            fetch('/Notifications/GetUnread')
+                .then(response => response.json())
+                .then(data => {
+                    const countBadge = document.getElementById('notificationCount');
+                    const itemsContainer = document.getElementById('notificationItems');
+                    
+                    if (data.count > 0) {
+                        countBadge.innerText = data.count;
+                        countBadge.style.display = 'block';
+                        
+                        itemsContainer.innerHTML = data.items.map(item => `
+                            <li>
+                                <a class="dropdown-item p-3 border-bottom" href="${item.linkAction || '#'}" onclick="markAsRead(${item.id})">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1 text-truncate" style="max-width: 200px;">${item.title}</h6>
+                                        <small class="text-muted">${new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
+                                    </div>
+                                    <p class="mb-0 small text-muted text-wrap">${item.message}</p>
+                                </a>
+                            </li>
+                        `).join('');
+                    } else {
+                        countBadge.style.display = 'none';
+                        itemsContainer.innerHTML = '<li class="text-center p-4 text-muted"><i class="bi bi-shield-check d-block fs-4 mb-2"></i>All caught up!</li>';
+                    }
+                })
+                .catch(error => console.error('Error fetching notifications:', error));
+        }
+
+        function markAsRead(id) {
+            fetch(`/Notifications/MarkAsRead?id=${id}`, { method: 'POST' })
+                .then(() => updateNotifications());
+        }
+
+        function markAllAsRead() {
+            fetch('/Notifications/MarkAllAsRead', { method: 'POST' })
+                .then(() => updateNotifications());
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNotifications();
+            // Poll for notifications every 60 seconds
+            setInterval(updateNotifications, 60000);
+        });
+    </script>
+  </body>
+</html>

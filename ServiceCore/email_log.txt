@@ -1,0 +1,220 @@
+--- EMAIL SENT AT 2/4/2026 8:10:05 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: You're invited to ServiceCore!
+Body:
+Welcome! Click the link below to complete your registration:
+http://localhost:5032/Account/CompleteRegistration?token=3c3b3f22-3e28-40c5-8293-b9a6886f3cc7
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 2:23:16 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: You're invited to ServiceCore!
+Body:
+Welcome! Click the link below to complete your registration:
+https://localhost:7087/Account/CompleteRegistration?token=5d6eece7-45b6-491e-91e7-f01a8eefd7da
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:29:44 PM ---
+To: m.hassan@iteshare.com
+Subject: You're invited to ServiceCore!
+Body:
+Welcome! Click the link below to complete your registration:
+https://localhost:7087/Account/CompleteRegistration?token=535e1005-597c-431c-931d-026542a0ab23
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:31:48 PM ---
+To: m.hassan@iteshare.com
+Subject: Ticket Created
+Body:
+Your ticket #4 - test has been created successfully.
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:32:35 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "hhhvh"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:32:35 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "hhhvh"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:32:50 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "mbmjbj"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:32:50 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "mbmjbj"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:40:50 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "hbiuniun"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:40:50 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: New Comment on Ticket #4
+Body:
+Admin User added a comment: "hbiuniun"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:49:16 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+mohamed hassan added a comment: "oijoo"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 4:53:11 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+mohamed hassan added a comment: "kjbkub"
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 5:16:36 PM ---
+To: m.hassan@iteshare.com
+Subject: Ticket #4 Updated
+Body:
+Ticket #4 was updated by a user.
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 5:16:36 PM ---
+To: m.hassan@sggroupglobal.com
+Subject: Ticket #4 Updated
+Body:
+Ticket #4 was updated by a user.
+------------------------------------
+
+--- EMAIL SENT AT 2/6/2026 5:16:43 PM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+mohamed hassan added a comment: "fgdghvhgvh"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 11:59:47 AM ---
+To: m.hassan@iteshare.com
+Subject: New Comment on Ticket #4
+Body:
+mohamed hassan added a comment: "gyuguygyiu"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:29:01 PM ---
+To: admin@servicecore.local
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:29:01 PM ---
+To: m.hassan@gmail.com
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:29:25 PM ---
+To: admin@servicecore.local
+Subject: New Comment on Ticket #5
+Body:
+mohamed hassan added a comment: "hello plz help me"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:29:25 PM ---
+To: m.hassan@gmail.com
+Subject: New Comment on Ticket #5
+Body:
+mohamed hassan added a comment: "hello plz help me"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:29:58 PM ---
+To: admin@servicecore.local
+Subject: New Comment on Ticket #5
+Body:
+Mohamed Hassan added a comment: "what happened"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:30:36 PM ---
+To: admin@servicecore.local
+Subject: New Comment on Ticket #5
+Body:
+mohamed hassan added a comment: "network not working"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:30:36 PM ---
+To: m.hassan@gmail.com
+Subject: New Comment on Ticket #5
+Body:
+mohamed hassan added a comment: "network not working"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:31:15 PM ---
+To: admin@servicecore.local
+Subject: New Comment on Ticket #5
+Body:
+Mohamed Hassan added a comment: "i will check now"
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:31:40 PM ---
+To: admin@servicecore.local
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:31:40 PM ---
+To: m.hassan@gmail.com
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:31:51 PM ---
+To: admin@servicecore.local
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/7/2026 10:31:51 PM ---
+To: m.hassan@gmail.com
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/11/2026 1:26:29 AM ---
+To: m.hassan@gmail.com
+Subject: New Comment on Ticket #5
+Body:
+Admin User added a comment: "done"
+------------------------------------
+
+--- EMAIL SENT AT 2/11/2026 1:31:40 AM ---
+To: admin@servicecore.local
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+
+--- EMAIL SENT AT 2/11/2026 1:31:40 AM ---
+To: m.hassan@gmail.com
+Subject: Ticket #5 Updated
+Body:
+Ticket #5 was updated by a manager.
+------------------------------------
+

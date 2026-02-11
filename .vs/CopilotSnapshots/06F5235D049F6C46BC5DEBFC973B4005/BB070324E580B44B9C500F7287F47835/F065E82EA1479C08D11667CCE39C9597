@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using ServiceCore.Models;
+
+namespace ServiceCore.Controllers
+{
+    public class TicketsController : Controller
+    {
+        public IActionResult Index()
+        {
+            // sample data for views / JS to use if required
+            var sample = new List<Ticket>
+            {
+                new Ticket { Id = 1, Subject = "Cannot login", Status = "Open", Priority = "High", Requester = "Alice Morgan", Assigned = "Bob Smith", Updated = DateTime.Now.AddHours(-5) },
+                new Ticket { Id = 2, Subject = "Payment failed", Status = "Resolved", Priority = "Medium", Requester = "Carol Jones", Assigned = "Dana Lee", Updated = DateTime.Now.AddDays(-2) }
+            };
+
+            ViewData["Tickets"] = sample;
+            return View();
+        }
+    }
+}

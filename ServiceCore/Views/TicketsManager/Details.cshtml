@@ -1,0 +1,148 @@
+@model ServiceCore.Models.Ticket
+@{
+    ViewData["Title"] = "Ticket Details";
+}
+
+<div class="content">
+    <!-- Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-5">
+        <div class="d-flex align-items-center gap-3">
+            <a href="/TicketsManager" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge text-bg-primary">#@Model.Id</span>
+                    <h1 class="h3 fw-bold mb-0">@Model.Subject</h1>
+                </div>
+                <div class="text-muted small">
+                    Opened by <strong>@Model.Requester?.Name</strong> on @Model.CreatedAt.ToString("MMM dd, yyyy")
+                </div>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i> Edit Ticket
+            </a>
+            <form method="post" action="@Url.Action("Delete", new { id = Model.Id })">
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Archive this ticket?')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Ticket Info Card -->
+            <div class="card glass mb-4">
+                <div class="card-header d-flex justify-content-between">
+                    <span>Description</span>
+                    <span class="badge @(Model.Status?.Name == "Closed" ? "text-bg-success" : "text-bg-warning")">@Model.Status?.Name</span>
+                </div>
+                <div class="card-body">
+                    <div class="ticket-description mb-4 lead">
+                        @Model.Description
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card glass">
+                <div class="card-header">
+                    <i class="bi bi-chat-dots me-2"></i>Comments & Responses
+                </div>
+                <div class="card-body">
+                    @{
+                        var currentUserId = 0;
+                        int.TryParse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value, out currentUserId);
+                    }
+                    <div class="chat mb-4" style="max-height: 400px; overflow-y: auto;">
+                        @if (Model.Comments != null && Model.Comments.Any())
+                        {
+                            foreach (var comment in Model.Comments.OrderBy(c => c.CreatedAt))
+                            {
+                                var isMe = comment.UserId == currentUserId;
+                                <div class="chat-msg mb-4 @(isMe ? "me" : "")">
+                                    <div class="chat-msg__meta mb-1 d-flex gap-2 align-items-center @(isMe ? "flex-row-reverse" : "")">
+                                        <div class="avatar-sm bg-primary-subtle text-primary rounded-circle" style="width:24px; height:24px; display:grid; place-items:center; font-size:10px;">
+                                            @(comment.User?.Name?.Substring(0,1).ToUpper() ?? "U")
+                                        </div>
+                                        <strong class="small">@comment.User?.Name</strong>
+                                        <small class="text-muted smaller">@comment.CreatedAt.ToString("MMM dd HH:mm")</small>
+                                    </div>
+                                    <div class="chat-bubble shadow-sm @(isMe ? "ms-auto" : "")" style="@(isMe ? "border-bottom-right-radius: 4px;" : "border-bottom-left-radius: 4px;")">
+                                        @comment.Content
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-5 text-muted opacity-50">
+                                <i class="bi bi-chat-left mb-2 h2"></i>
+                                <p>No responses yet.</p>
+                            </div>
+                        }
+                    </div>
+
+                    <form method="post" action="@Url.Action("AddComment")">
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <textarea name="content" class="form-control glass-elevated" rows="3" placeholder="Type your response..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-send-fill"></i> Send Response
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Details -->
+        <div class="col-lg-4">
+            <div class="card glass-elevated mb-4">
+                <div class="card-header">Metadata</div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted small">Category</span>
+                            <span class="fw-bold">@Model.Category?.Name</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted small">Priority</span>
+                            <span class="badge @(Model.Priority?.Name == "Critical" || Model.Priority?.Name == "High" ? "text-bg-danger" : "text-bg-info")">@Model.Priority?.Name</span>
+                        </div>
+                        <hr class="my-1 border-light opacity-10">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted small">Assigned To</span>
+                            <span class="fw-bold">@(Model.Assigned?.Name ?? "Unassigned")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card glass-elevated">
+                <div class="card-header">Quick Actions</div>
+                <div class="card-body">
+                    @if (Model.Status?.Name != "Closed") {
+                        <form asp-action="UpdateStatus" method="post" class="mb-2">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="status" value="Closed" />
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="bi bi-check2-circle"></i> Resolve Ticket
+                            </button>
+                        </form>
+                    }
+                    <button class="btn btn-outline-primary w-100 mb-2">
+                        <i class="bi bi-person-plus"></i> Reassign
+                    </button>
+                    <button class="btn btn-outline-primary w-100">
+                        <i class="bi bi-bell"></i> Send Reminder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

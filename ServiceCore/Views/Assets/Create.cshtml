@@ -1,0 +1,120 @@
+@model ServiceCore.Models.Asset
+@{
+    ViewData["Title"] = "Register New Asset";
+}
+
+<div class="content">
+    <div class="mb-4">
+        <h1 class="h3 fw-700">Register New Asset</h1>
+        <p class="text-muted small">Initialize a new physical or digital asset in the system for lifecycle tracking.</p>
+    </div>
+
+    <div class="card glass border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                <div class="row g-4">
+                    <!-- Basic Information -->
+                    <div class="col-12">
+                        <div class="sc-section-title mb-3">Basic Information</div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-600 small">Asset Tag</label>
+                                <input class="form-control" asp-for="Tag" placeholder="e.g. LAP-001" required />
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-label fw-600 small">Asset Name</label>
+                                <input class="form-control" asp-for="Name" placeholder="e.g. MacBook Pro 16\" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Classification -->
+                    <div class="col-12">
+                        <div class="sc-section-title mb-3">Classification & Location</div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Category</label>
+                                <select class="form-select" asp-for="CategoryId">
+                                    <option value="">Select Category</option>
+                                    @foreach (var cat in (List<ServiceCore.Models.AssetCategory>)ViewBag.Categories)
+                                    {
+                                        <option value="@cat.Id">@cat.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Status</label>
+                                <select class="form-select" asp-for="Status">
+                                    <option value="Available">Available</option>
+                                    <option value="In Use">In Use</option>
+                                    <option value="Under Maintenance">Under Maintenance</option>
+                                    <option value="Retired">Retired</option>
+                                    <option value="Disposed">Disposed</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Permanent Location</label>
+                                <input class="form-control" asp-for="Location" placeholder="e.g. HQ - Floor 2" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hardware Details -->
+                    <div class="col-12">
+                        <div class="sc-section-title mb-3">Hardware Details</div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Serial Number</label>
+                                <input class="form-control" asp-for="SerialNumber" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Model / SKU</label>
+                                <input class="form-control" asp-for="Model" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-600 small">Vendor / Manufacturer</label>
+                                <input class="form-control" asp-for="Vendor" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financials -->
+                    <div class="col-12">
+                        <div class="sc-section-title mb-3">Financials & Warranty</div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-600 small">Purchase Date</label>
+                                <input class="form-control" type="date" asp-for="PurchaseDate" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-600 small">Purchase Cost</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" step="0.01" asp-for="PurchaseCost" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-600 small">Warranty Expiry</label>
+                                <input class="form-control" type="date" asp-for="WarrantyExpiry" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-600 small">Residual Value</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" step="0.01" asp-for="ResidualValue" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-5">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary px-5 py-2 fw-600" type="submit">Create Asset</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

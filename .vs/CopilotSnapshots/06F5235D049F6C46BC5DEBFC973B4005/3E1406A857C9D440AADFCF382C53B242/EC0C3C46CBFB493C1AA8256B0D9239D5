@@ -1,0 +1,70 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Try to configure EF Core with SQL Server when available. In constrained environments (no NuGet restore)
+// fallback to the simple in-memory context implemented in Data/InMemoryDb.cs
+try
+{
+    // If Microsoft.EntityFrameworkCore exists this will succeed; otherwise runtime will throw and we fallback.
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                           ?? "Server=.\\SQLEXPRESS;Database=ServiceCoreDb;Trusted_Connection=True;TrustServerCertificate=True";
+    builder.Services.AddDbContext<ServiceCore.Data.ServiceCoreDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+catch
+{
+    builder.Services.AddSingleton<ServiceCore.Data.ServiceCoreDbContext>();
+}
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseAuthorization();
+
+// Ensure database is created and seed basic data for development
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ServiceCore.Data.ServiceCoreDbContext>();
+    try
+    {
+        db.Database.EnsureCreated();
+
+        if (!db.Tickets.Any())
+        {
+            db.Tickets.AddRange(new[] {
+                new ServiceCore.Models.Ticket { Subject = "Cannot login", Status = "Open", Priority = "High", Requester = "Alice Morgan", Assigned = "Bob Smith", Updated = DateTime.Now.AddHours(-5) },
+                new ServiceCore.Models.Ticket { Subject = "Payment failed", Status = "Resolved", Priority = "Medium", Requester = "Carol Jones", Assigned = "Dana Lee", Updated = DateTime.Now.AddDays(-2) }
+            });
+            db.SaveChanges();
+        }
+    }
+    catch
+    {
+        // ignore seeding errors in startup
+    }
+}
+
+app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
+
+
+app.Run();

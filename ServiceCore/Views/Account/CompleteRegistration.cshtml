@@ -1,0 +1,61 @@
+@model ServiceCore.Models.User
+@{
+    ViewData["Title"] = "Complete Registration";
+    Layout = null; // Use a simpler layout or none for this page
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete Registration - ServiceCore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center min-vh-100 align-items-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-primary">Welcome to ServiceCore</h3>
+                            <p class="text-muted">Please complete your profile to continue.</p>
+                        </div>
+                        
+                        <form asp-action="CompleteRegistration" method="post">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="token" value="@Model.InviteToken" />
+
+                            <div class="mb-3">
+                                <label class="form-label text-secondary small text-uppercase fw-bold">Email</label>
+                                <input type="text" class="form-control" value="@Model.Email" disabled readonly />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-bold">Full Name</label>
+                                <input type="text" name="name" class="form-control" value="@Model.Name" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phonenumber" class="form-label fw-bold">Phone Number</label>
+                                <input type="tel" name="phonenumber" class="form-control" required placeholder="+1 (555) 000-0000" />
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold">Set Password</label>
+                                <input type="password" name="password" class="form-control" required />
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Complete Registration</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

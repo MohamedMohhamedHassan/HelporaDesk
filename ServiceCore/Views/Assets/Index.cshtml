@@ -1,0 +1,140 @@
+@model IEnumerable<ServiceCore.Models.Asset>
+@{
+    ViewData["Title"] = "Asset Management Dashboard";
+    var page = (int)(ViewData["Page"] ?? 1);
+    var pageSize = (int)(ViewData["PageSize"] ?? 20);
+    var total = (int)(ViewData["TotalCount"] ?? Model.Count());
+    var selectedCategoryId = (int?)ViewData["CategoryId"];
+}
+
+<div class="content">
+    <div class="mb-5 d-flex justify-content-between align-items-end">
+        <div>
+            <h1 class="display-6 fw-bold mb-1">Asset Lifecycle Management</h1>
+            <p class="text-muted mb-0">Track, monitor, and manage company assets with full visibility.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/Assets/Create" class="btn btn-primary shadow-sm">
+                <i class="bi bi-plus-lg me-2"></i>Register New Asset
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card glass border-0 shadow-sm mb-4">
+        <div class="card-body p-3">
+            <form method="get" class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-transparent border-sc"><i class="bi bi-search"></i></span>
+                        <input class="form-control border-sc" name="search" value="@ViewData["Search"]" placeholder="Search by name or tag..." />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select form-select-sm border-sc" name="categoryId">
+                        <option value="">All Categories</option>
+                        @foreach (var cat in (List<ServiceCore.Models.AssetCategory>)ViewBag.Categories)
+                        {
+                            <option value="@cat.Id" selected="@(selectedCategoryId == cat.Id)">@cat.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-sm btn-sc-primary px-4">Apply Filters</button>
+                    <a href="/Assets" class="btn btn-sm btn-link text-muted">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Asset List -->
+    <div class="card glass border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-brand-blue">
+                        <tr>
+                            <th class="ps-4">Asset Details</th>
+                            <th>Status</th>
+                            <th>Assignment</th>
+                            <th>Location</th>
+                            <th>Book Value</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asset in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="asset-icon me-3">
+                                            <i class="bi bi-cpu text-primary h4 mb-0"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-700">@asset.Name</div>
+                                            <div class="smaller-2 text-muted">TAG: @asset.Tag | @asset.Category?.Name</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge @(asset.Status == "Available" ? "bg-success-subtle text-success" : 
+                                                      asset.Status == "In Use" ? "bg-primary-subtle text-primary" : 
+                                                      asset.Status == "Under Maintenance" ? "bg-warning-subtle text-warning" : 
+                                                      "bg-secondary-subtle text-secondary") border-0 px-2 fw-500">
+                                        @asset.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (asset.User != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2">@asset.User.Name?.Substring(0,1)</div>
+                                            <div class="smaller-1">@asset.User.Name</div>
+                                        </div>
+                                    }
+                                    else if (!string.IsNullOrEmpty(asset.Location))
+                                    {
+                                        <span class="text-muted smaller-1">In Stock</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted smaller-1 italic">Unassigned</span>
+                                    }
+                                </td>
+                                <td><span class="smaller-1">@asset.Location</span></td>
+                                <td><span class="fw-600">@asset.PurchaseCost?.ToString("C0")</span></td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-action" href="/Assets/Details/@asset.Id" title="Details"><i class="bi bi-eye"></i></a>
+                                        <a class="btn btn-sm btn-action" href="/Assets/Edit/@asset.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                                        <form method="post" asp-action="Delete" asp-route-id="@asset.Id" onsubmit="return confirm('Archive this asset?')">
+                                            <button type="submit" class="btn btn-sm btn-action text-danger"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-4 d-flex justify-content-between align-items-center">
+        <div class="text-muted smaller-1">
+            Showing @((page - 1) * pageSize + 1) to @Math.Min(page * pageSize, total) of @total entries
+        </div>
+        <nav>
+            <ul class="pagination pagination-sm mb-0">
+                @for (var i = 1; i <= (int)Math.Ceiling(total / (double)pageSize); i++)
+                {
+                    <li class="page-item @(i == page ? "active" : "")">
+                        <a class="page-link border-sc" href="?page=@i&search=@ViewData["Search"]&categoryId=@ViewData["CategoryId"]">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

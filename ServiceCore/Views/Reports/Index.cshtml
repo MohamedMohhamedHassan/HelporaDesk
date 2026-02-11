@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Reports";
+    var stats = ViewData["ProjectStats"] as IEnumerable<dynamic>;
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1 fw-bold">Analytics & Reports</h1>
+            <p class="text-secondary small mb-0">Overview of project performance and team velocity.</p>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-outline-secondary">Last 30 Days</button>
+            <button class="btn btn-outline-secondary">Export</button>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-secondary small text-uppercase fw-bold mb-2">Total Projects</div>
+                    <div class="display-6 fw-bold">@stats?.Count()</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+             <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-secondary small text-uppercase fw-bold mb-2">Tasks Completed</div>
+                    <div class="display-6 fw-bold text-success">
+                        @* Assuming we can sum dynamic props, else 0 *@
+                        0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h6 class="mb-0 fw-bold">Project Performance</h6>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Project</th>
+                        <th>Total Tasks</th>
+                        <th>Completed</th>
+                        <th>Completion Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(stats != null) {
+                        @foreach (var item in stats) {
+                             var total = (int)item.GetType().GetProperty("TaskCount").GetValue(item, null);
+                             var completed = (int)item.GetType().GetProperty("CompletedTaskCount").GetValue(item, null);
+                             var rate = total > 0 ? (completed * 100 / total) : 0;
+                            <tr>
+                                <td class="ps-4 fw-bold">@item.GetType().GetProperty("Name").GetValue(item, null)</td>
+                                <td>@total</td>
+                                <td>@completed</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height: 6px; width: 100px;">
+                                            <div class="progress-bar bg-primary" style="width: @rate%"></div>
+                                        </div>
+                                        <span class="small fw-bold">@rate%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

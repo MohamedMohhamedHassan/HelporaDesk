@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "ServiceCore.Controllers.SettingsApiController",
+    "Method": "GetAll",
+    "RelativePath": "api/SettingsApi",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServiceCore.Controllers.SettingsApiController",
+    "Method": "Save",
+    "RelativePath": "api/SettingsApi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "s",
+        "Type": "ServiceCore.Models.Setting",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

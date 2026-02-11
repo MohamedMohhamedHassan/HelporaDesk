@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using ServiceCore.Models;
+using System.Collections.Generic;
+
+namespace ServiceCore.Controllers
+{
+    public class KanbanController : Controller
+    {
+        public IActionResult Index()
+        {
+            var sample = new List<KanbanCard>
+            {
+                new KanbanCard { Id = 1, Title = "Fix login bug", Column = "Todo" },
+                new KanbanCard { Id = 2, Title = "Write tests", Column = "In Progress" }
+            };
+
+            ViewData["Cards"] = sample;
+            return View();
+        }
+    }
+}

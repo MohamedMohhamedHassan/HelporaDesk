@@ -1,0 +1,54 @@
+@model ServiceCore.Models.Ticket
+@{
+    ViewData["Title"] = "Edit Ticket";
+}
+
+<h1>Edit Ticket</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label">Subject</label>
+        <input class="form-control" asp-for="Subject" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" asp-for="Description" rows="4"></textarea>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                <option value="">-- Select Category --</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" asp-for="StatusId" asp-items="@(new SelectList(ViewBag.Statuses, "Id", "Name"))">
+                 <option value="">-- Select Status --</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-3">
+             <label class="form-label">Priority</label>
+            <select class="form-select" asp-for="PriorityId" asp-items="@(new SelectList(ViewBag.Priorities, "Id", "Name"))">
+                 <option value="">-- Select Priority --</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Requester</label>
+             <!-- Readonly for edit? Or allow change? Let's allow change for Manager -->
+            <select class="form-select" asp-for="RequesterId" asp-items="@(new SelectList(ViewBag.Users, "Id", "Name"))">
+                 <option value="">-- Select Requester --</option>
+            </select>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Assigned To</label>
+            <select class="form-select" asp-for="AssignedId" asp-items="@(new SelectList(ViewBag.Users, "Id", "Name"))">
+                 <option value="">-- Unassigned --</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

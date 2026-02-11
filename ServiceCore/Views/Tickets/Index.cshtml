@@ -1,0 +1,85 @@
+@{
+  ViewData["Title"] = "Tickets";
+  Layout = "_Layout";
+}
+
+<div class="container-fluid">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h3 fw-bold mb-1" data-testid="text-tickets-title">Tickets</h1>
+      <div class="text-muted" data-testid="text-tickets-subtitle">Manage and track all support requests.</div>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary btn-sm" data-testid="button-export-tickets">Export</button>
+      <a href="/TicketsManager/Create" class="btn btn-primary btn-sm" data-testid="button-new-ticket-2">
+        <i class="bi bi-plus-circle"></i> New Ticket
+      </a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm" data-testid="card-tickets-table">
+    <div class="card-body">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+        <div class="input-group" style="max-width: 420px">
+          <span class="input-group-text">Search</span>
+          <input class="form-control" id="ticketSearch" type="search" placeholder="Search tickets..." data-testid="input-ticket-search" />
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <button class="btn btn-outline-secondary btn-sm" id="ticketFilterBtn" data-testid="button-ticket-filter">Filter</button>
+          <select class="form-select form-select-sm" id="ticketRange" style="width: 170px" data-testid="select-ticket-range">
+            <option value="30" selected>Last 30 days</option>
+            <option value="7">Last 7 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle" data-testid="table-tickets">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Requester</th>
+              <th>Assigned</th>
+              <th class="text-end">Updated</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ticketsTbody">
+            @if (ViewData["Tickets"] is List<ServiceCore.Models.Ticket> tickets)
+            {
+                foreach (var t in tickets)
+                {
+                    <tr>
+                        <td>#@t.Id</td>
+                        <td>@t.Subject</td>
+                        <td><span class="badge bg-secondary">@t.Status?.Name</span></td>
+                        <td>@t.Priority?.Name</td>
+                        <td>@t.Requester?.Name</td>
+                        <td>@t.Assigned?.Name</td>
+                        <td class="text-end">@(t.UpdatedAt?.ToString("g") ?? t.CreatedAt.ToString("g"))</td>
+                        <td class="text-end">
+                            <a href="/Tickets/Details/@t.Id" class="btn btn-sm btn-primary">
+                                <i class="bi bi-chat-dots"></i> View & Chat
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="text-muted small" id="ticketsMeta" data-testid="text-tickets-meta"></div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" id="ticketsPrev" data-testid="button-tickets-prev" disabled>Previous</button>
+          <button class="btn btn-outline-secondary btn-sm" id="ticketsNext" data-testid="button-tickets-next">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

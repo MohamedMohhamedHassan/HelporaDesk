@@ -1,0 +1,107 @@
+@model ServiceCore.Models.Project
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none">Projects</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                </ol>
+            </nav>
+            <div class="d-flex align-items-center gap-3">
+                <h1 class="h3 mb-0 fw-bold">@Model.Name</h1>
+                <span class="badge bg-primary rounded-pill">@Model.Status</span>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-controller="Tasks" asp-action="Index" asp-route-projectId="@Model.Id" class="btn btn-outline-primary shadow-sm">
+                <i class="bi bi-list-check"></i> Tasks
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary shadow-sm">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Main Stats -->
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Overview</h5>
+                    <div class="row g-4 text-center">
+                        <div class="col-6 col-md-3">
+                            <div class="display-6 fw-bold text-primary">@Model.Tasks.Count</div>
+                            <div class="text-secondary small text-uppercase fw-bold">Total Tasks</div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="display-6 fw-bold text-success">@Model.Tasks.Count(t => t.Status == "Done")</div>
+                            <div class="text-secondary small text-uppercase fw-bold">Completed</div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="display-6 fw-bold text-warning">@Model.Tasks.Count(t => t.Status == "In Progress")</div>
+                            <div class="text-secondary small text-uppercase fw-bold">In Progress</div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="display-6 fw-bold text-danger">@Model.Tasks.Count(t => t.DueDate < DateTime.Now && t.Status != "Done")</div>
+                            <div class="text-secondary small text-uppercase fw-bold">Overdue</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Preview -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 fw-bold">Recent Tasks</h6>
+                    <a asp-controller="Tasks" asp-action="Index" asp-route-projectId="@Model.Id" class="small text-decoration-none">View All</a>
+                </div>
+                <div class="list-group list-group-flush">
+                    @foreach (var task in Model.Tasks.Take(5).OrderByDescending(t => t.Id))
+                    {
+                        <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-medium">@task.Title</div>
+                                <div class="small text-muted">Assigned to: @(task.Assignee?.Name ?? "Unassigned")</div>
+                            </div>
+                            <span class="badge bg-light text-dark border">@task.Status</span>
+                        </a>
+                    }
+                    @if (!Model.Tasks.Any())
+                    {
+                        <div class="p-4 text-center text-muted">No tasks loaded.</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Details -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="card-title fw-bold text-uppercase text-secondary small mb-3">Project Details</h6>
+                    <p class="small mb-3">@Model.Description</p>
+                    
+                    <div class="mb-3">
+                        <label class="small text-secondary fw-bold">Lead</label>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <div class="avatar-sm bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:24px;height:24px;font-size:10px;">OW</div>
+                            <div>@(Model.Owner?.Name ?? "Admin")</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small text-secondary fw-bold">Timeline</label>
+                        <div class="mt-1 small">@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

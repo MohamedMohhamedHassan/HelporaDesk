@@ -1,0 +1,19 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceCore.Models;
+
+namespace ServiceCore.Data
+{
+    public class ServiceCoreDbContext : DbContext
+    {
+        public ServiceCoreDbContext(DbContextOptions<ServiceCoreDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Ticket> Tickets { get; set; } = null!;
+        public DbSet<Project> Projects { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<KanbanCard> KanbanCards { get; set; } = null!;
+        public DbSet<Article> Articles { get; set; } = null!;
+        public DbSet<ServiceCore.Models.Asset> Assets { get; set; } = null!;
+    }
+}

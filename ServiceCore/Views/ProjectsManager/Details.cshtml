@@ -1,0 +1,24 @@
+@model ServiceCore.Models.Project
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div class="container">
+    <h1>Project #@Model.Id</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Status</dd>
+
+        <dt class="col-sm-3">Lead</dt>
+        <dd class="col-sm-9">@Model.Lead</dd>
+    </dl>
+
+    <div class="mt-3">
+        <a class="btn btn-secondary" href="/ProjectsManager">Back to list</a>
+        <a class="btn btn-primary" href="/ProjectsManager/Edit/@Model.Id">Edit</a>
+    </div>
+</div>

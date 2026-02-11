@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using ServiceCore.Models;
+using System.Collections.Generic;
+
+namespace ServiceCore.Controllers
+{
+    public class UsersController : Controller
+    {
+        public IActionResult Index()
+        {
+            var sample = new List<User>
+            {
+                new User { Id = 1, Name = "Alex Morgan", Role = "Admin", Department = "Support" },
+                new User { Id = 2, Name = "Dana Lee", Role = "Member", Department = "Engineering" }
+            };
+
+            ViewData["Users"] = sample;
+            return View();
+        }
+    }
+}

@@ -1,0 +1,143 @@
+@{
+  ViewData["Title"] = "Dashboard";
+  Layout = "_Layout";
+}
+
+<div class="content">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-5">
+    <div>
+      <h1 class="display-6 fw-bold mb-1">Dashboard</h1>
+      <p class="text-muted mb-0">Live overview of tickets, projects, and delivery health.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary">
+        <i class="bi bi-download"></i> Download Report
+      </button>
+      <a href="~/TicketsManager" class="btn btn-primary">
+        <i class="bi bi-ticket-perforated"></i> Manage Tickets
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card card-metric glass h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="avatar bg-primary-subtle text-primary">
+              <i class="bi bi-layers"></i>
+            </div>
+            <span class="badge text-bg-success">+12.5%</span>
+          </div>
+          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Total Tickets</div>
+          <div class="h3 fw-700 mb-0">1,284</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card card-metric h-100" style="background: linear-gradient(135deg, hsla(221, 83%, 53%, 0.1), transparent);">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="avatar bg-warning-subtle text-warning">
+              <i class="bi bi-lightning-charge"></i>
+            </div>
+            <span class="badge text-bg-warning">+4 pending</span>
+          </div>
+          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Open Tickets</div>
+          <div class="h3 fw-700 mb-0">45</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card card-metric glass h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="avatar bg-success-subtle text-success">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <span class="badge text-bg-success">-15m</span>
+          </div>
+          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Avg. Response</div>
+          <div class="h3 fw-700 mb-0">1h 42m</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card card-metric glass h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="avatar bg-info-subtle text-info">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <span class="badge text-bg-primary">Excellent</span>
+          </div>
+          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">SLA Compliance</div>
+          <div class="h3 fw-700 mb-0">96.5%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-8">
+      <div class="card glass h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Ticket Volume</span>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary">Week</button>
+            <button class="btn btn-primary">Month</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-placeholder">
+            <div class="text-center">
+              <i class="bi bi-graph-up-arrow h1 text-primary opacity-50 mb-3"></i>
+              <p class="mb-0">Interactive Ticket Intelligence</p>
+              <small class="text-muted">Real-time data visualization coming soon</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card glass-elevated h-100">
+        <div class="card-header">
+          <span>Recent Activity</span>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush" id="activityList">
+            <!-- Dynamic items would be injected here -->
+            <div class="list-group-item bg-transparent border-0 px-4 py-3">
+              <div class="d-flex gap-3">
+                <div class="avatar-sm bg-primary text-white rounded-circle flex-shrink-0" style="width:32px; height:32px; display:grid; place-items:center;">
+                  <i class="bi bi-plus-circle small"></i>
+                </div>
+                <div>
+                  <div class="small fw-600">New ticket #1024</div>
+                  <div class="text-muted smaller">"Server latency issues in EU-West"</div>
+                  <div class="smaller text-primary mt-1">2 minutes ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item bg-transparent border-0 px-4 py-3">
+              <div class="d-flex gap-3">
+                <div class="avatar-sm bg-success text-white rounded-circle flex-shrink-0" style="width:32px; height:32px; display:grid; place-items:center;">
+                  <i class="bi bi-check-circle small"></i>
+                </div>
+                <div>
+                  <div class="small fw-600">Ticket #982 Resolved</div>
+                  <div class="text-muted smaller">Attributed by Mohamed Hassan</div>
+                  <div class="smaller text-primary mt-1">15 minutes ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <button class="btn btn-outline-primary w-100 mt-2">View Full History</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

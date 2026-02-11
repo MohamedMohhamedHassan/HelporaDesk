@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ServiceCore.Models.Asset>
+@{
+    ViewData["Title"] = "Assets";
+}
+
+<h1>Assets</h1>
+
+<p>
+    <a class="btn btn-primary" href="/Assets/Create">Create Asset</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tag</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Assigned To</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Purchase Date</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var asset in Model)
+    {
+        <tr>
+            <td>@asset.Tag</td>
+            <td>@asset.Name</td>
+            <td>@asset.Type</td>
+            <td>@asset.AssignedTo</td>
+            <td>@asset.Status</td>
+            <td>@asset.Location</td>
+            <td>@asset.PurchaseDate?.ToString("yyyy-MM-dd")</td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" href="/Assets/Edit/@asset.Id">Edit</a>
+                <form method="post" asp-action="Delete" asp-route-id="@asset.Id" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
