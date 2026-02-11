@@ -1,0 +1,118 @@
+@model ServiceCore.Models.Solution
+@{
+    ViewData["Title"] = "Create Solution";
+    var topics = (List<ServiceCore.Models.SolutionTopic>)ViewBag.Topics;
+    var users = (List<ServiceCore.Models.User>)ViewBag.Users;
+}
+
+<div class="content">
+    <div class="mb-4">
+        <h1 class="h3 fw-bold mb-1">Create New Solution</h1>
+        <p class="text-muted small">Document solutions for recurring issues and problems</p>
+    </div>
+
+    <div class="card glass border-0 shadow-lg">
+        <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label class="form-label fw-700">Title <span class="text-danger">*</span></label>
+                    <input class="form-control form-control-lg bg-light border-0" 
+                           asp-for="Title" placeholder="Brief description of the issue/solution" required />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Content <span class="text-danger">*</span></label>
+                    <textarea class="form-control bg-light border-0" asp-for="Content" 
+                              rows="12" placeholder="Detailed solution steps..." required></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        Include problem description, troubleshooting steps, root cause, and final solution
+                    </small>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Topic <span class="text-danger">*</span></label>
+                        <select class="form-select bg-light border-0" asp-for="TopicId" required>
+                            <option value="">-- Select Topic --</option>
+                            @foreach (var topic in topics)
+                            {
+                                <option value="@topic.Id">@topic.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="TopicId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Solution Owner</label>
+                        <select class="form-select bg-light border-0" asp-for="OwnerId">
+                            <option value="">-- Unassigned --</option>
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.Id">@user.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Keywords</label>
+                    <input class="form-control bg-light border-0" asp-for="Keywords" 
+                           placeholder="printer, network, email, vpn..." />
+                    <small class="form-text text-muted">Comma-separated keywords to improve search</small>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Review Date</label>
+                        <input type="date" class="form-control bg-light border-0" asp-for="ReviewDate" />
+                        <small class="form-text text-muted">Schedule periodic review</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Expiry Date</label>
+                        <input type="date" class="form-control bg-light border-0" asp-for="ExpiryDate" />
+                        <small class="form-text text-muted">Optional expiration for outdated solutions</small>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Attachments</label>
+                    <input type="file" class="form-control bg-light border-0" name="attachments" 
+                           multiple accept="image/*,.pdf,.doc,.docx,.txt,.zip">
+                    <small class="form-text text-muted">
+                        Max 5 files, 10MB each. Screenshots, PDFs, configuration files, etc.
+                    </small>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancel</a>
+                    <button type="submit" name="status" value="Draft" class="btn btn-secondary px-4">
+                        <i class="bi bi-save"></i> Save as Draft
+                    </button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button type="submit" name="status" value="Approved" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle"></i> Save & Approve
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea[name="Content"]',
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
+            toolbar: 'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            menubar: false,
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            height: 400
+        });
+    </script>
+}

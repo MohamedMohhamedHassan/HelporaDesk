@@ -204,3 +204,4 @@ D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\ref\ServiceCore
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\9ji4qi5hkr-{0}-2kzm0h6okr-2kzm0h6okr.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\02npied7jw-{0}-7bm3gjmwob-7bm3gjmwob.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\z1njfikfbu-{0}-6g5ga7pubn-6g5ga7pubn.gz
+D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\ServiceCore.sourcelink.json

@@ -79,6 +79,11 @@
             <span>Team & Users</span>
           </a>
 
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Solutions" ? "active" : "")" href="~/Solutions" data-testid="nav-solutions">
+            <span class="nav-dot"></span>
+            <span>Solutions</span>
+          </a>
+
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")" href="~/Reports" data-testid="nav-reports">
             <span class="nav-dot"></span>
             <span>Analytics & Reports</span>
@@ -92,6 +97,14 @@
             <span class="nav-dot"></span>
             <span>System Metadata</span>
           </a>
+
+          @if (User.IsInRole("Admin"))
+          {
+            <a class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" && ViewContext.RouteData.Values["controller"]?.ToString() == "Solutions" ? "active" : "")" href="~/Solutions/Dashboard" data-testid="nav-solutions-dashboard">
+              <span class="nav-dot"></span>
+              <span>KB Analytics</span>
+            </a>
+          }
 
           <div class="nav-section" data-testid="nav-section-system">
             <div class="nav-section__label">System</div>

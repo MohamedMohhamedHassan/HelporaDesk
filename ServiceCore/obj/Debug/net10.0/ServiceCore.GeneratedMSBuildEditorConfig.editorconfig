@@ -50,6 +50,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUm9sZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/ManageTopics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlVG9waWNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/_CategoryTree.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0NhdGVnb3J5VHJlZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Approvals/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwcm92YWxzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -154,6 +162,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -188,6 +216,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/TicketsManager/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c01hbmFnZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Details.cshtml]

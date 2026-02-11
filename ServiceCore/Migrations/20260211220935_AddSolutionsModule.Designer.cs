@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceCore.Data;
 
@@ -11,9 +12,11 @@ using ServiceCore.Data;
 namespace ServiceCore.Migrations
 {
     [DbContext(typeof(ServiceCoreDbContext))]
-    partial class ServiceCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260211220935_AddSolutionsModule")]
+    partial class AddSolutionsModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -931,12 +934,7 @@ namespace ServiceCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("TicketCategories");
                 });
@@ -1403,16 +1401,6 @@ namespace ServiceCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ServiceCore.Models.TicketCategory", b =>
-                {
-                    b.HasOne("ServiceCore.Models.TicketCategory", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Parent");
-                });
-
             modelBuilder.Entity("ServiceCore.Models.TicketComment", b =>
                 {
                     b.HasOne("ServiceCore.Models.Ticket", "Ticket")
@@ -1472,11 +1460,6 @@ namespace ServiceCore.Migrations
                     b.Navigation("Attachments");
 
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("ServiceCore.Models.TicketCategory", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.User", b =>

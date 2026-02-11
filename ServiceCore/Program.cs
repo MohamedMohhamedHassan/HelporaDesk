@@ -19,8 +19,8 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
         options.SlidingExpiration = true;
     });
 builder.Services.AddAuthorization();
-// Email Service - Logs emails to email_log.txt file for testing
-builder.Services.AddSingleton<ServiceCore.Services.IEmailService, ServiceCore.Services.MockEmailService>();
+// Email Service - Gmail SMTP for real email delivery
+builder.Services.AddScoped<ServiceCore.Services.IEmailService, ServiceCore.Services.SmtpEmailService>();
 // Notification Service
 builder.Services.AddScoped<ServiceCore.Services.INotificationService, ServiceCore.Services.NotificationService>();
 

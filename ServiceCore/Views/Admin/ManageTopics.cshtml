@@ -1,0 +1,198 @@
+@model List<ServiceCore.Models.SolutionTopic>
+@{
+    ViewData["Title"] = "Manage Solution Topics";
+}
+
+<div class="content">
+    <div class="mb-5 d-flex justify-content-between align-items-end">
+        <div>
+            <h1 class="display-6 fw-bold mb-1">Solution Topics</h1>
+            <p class="text-muted mb-0">Organize knowledge base by categories</p>
+        </div>
+        <button class="btn btn-primary shadow-sm" onclick="showCreateModal()">
+            <i class="bi bi-plus-circle me-2"></i>New Topic
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card glass border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light text-muted smaller-1 fw-700">
+                                <tr>
+                                    <th class="ps-4">NAME</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>PARENT</th>
+                                    <th class="text-end pe-4">ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var topic in Model)
+                                {
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="fw-700">@topic.Name</div>
+                                        </td>
+                                        <td>
+                                            <div class="text-muted smaller-1">@topic.Description</div>
+                                        </td>
+                                        <td>
+                                            @if (topic.Parent != null)
+                                            {
+                                                <span class="badge bg-secondary-subtle text-secondary">
+                                                    @topic.Parent.Name
+                                                </span>
+                                            }
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <button class="btn btn-sm btn-outline-primary" 
+                                                    onclick='editTopic(@topic.Id, "@topic.Name", "@topic.Description", @(topic.ParentId?.ToString() ?? "null"))'>
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger ms-1" 
+                                                    onclick="deleteTopic(@topic.Id, '@topic.Name')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glass border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3">Quick Actions</h6>
+                    <a asp-controller="Solutions" asp-action="Index" class="btn btn-outline-primary w-100 mb-2">
+                        <i class="bi bi-book"></i> View Solutions
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-left"></i> Back to Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal fade" id="topicModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass border-0 shadow">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="modalTitle">Create Topic</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-700">Name <span class="text-danger">*</span></label>
+                    <input type="text" id="topicName" class="form-control bg-light border-0" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-700">Description</label>
+                    <textarea id="topicDescription" class="form-control bg-light border-0" rows="3"></textarea>
+                </div>
+                <div class="mb-0">
+                    <label class="form-label fw-700">Parent Topic</label>
+                    <select id="topicParent" class="form-select bg-light border-0">
+                        <option value="">-- None (Top Level) --</option>
+                        @foreach (var topic in Model)
+                        {
+                            <option value="@topic.Id">@topic.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveTopic()">Save Topic</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentTopicId = null;
+
+        function showCreateModal() {
+            currentTopicId = null;
+            document.getElementById('modalTitle').textContent = 'Create Topic';
+            document.getElementById('topicName').value = '';
+            document.getElementById('topicDescription').value = '';
+            document.getElementById('topicParent').value = '';
+            new bootstrap.Modal(document.getElementById('topicModal')).show();
+        }
+
+        function editTopic(id, name, description, parentId) {
+            currentTopicId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Topic';
+            document.getElementById('topicName').value = name;
+            document.getElementById('topicDescription').value = description || '';
+            document.getElementById('topicParent').value = parentId || '';
+            new bootstrap.Modal(document.getElementById('topicModal')).show();
+        }
+
+        function saveTopic() {
+            const name = document.getElementById('topicName').value.trim();
+            if (!name) {
+                alert('Please enter a topic name');
+                return;
+            }
+
+            const data = {
+                id: currentTopicId,
+                name: name,
+                description: document.getElementById('topicDescription').value || null,
+                parentId: document.getElementById('topicParent').value || null
+            };
+
+            fetch('/Admin/UpsertTopic', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + (result.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to save topic');
+            });
+        }
+
+        function deleteTopic(id, name) {
+            if (!confirm(`Delete topic "${name}"? This will fail if any solutions use this topic.`)) {
+                return;
+            }
+
+            fetch('/Admin/DeleteTopic', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + (result.message || 'Cannot delete topic'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete topic');
+            });
+        }
+    </script>
+}

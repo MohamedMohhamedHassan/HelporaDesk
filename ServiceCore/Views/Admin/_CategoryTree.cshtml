@@ -1,0 +1,28 @@
+@model List<ServiceCore.Models.TicketCategory>
+
+<ul class="ps-3 border-start">
+    @foreach (var cat in Model)
+    {
+        <li>
+            <div class="category-item d-flex justify-content-between align-items-center">
+                <span class="category-node fw-500">@cat.Name</span>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-link text-primary p-0 me-2" 
+                            onclick="editCategory(@cat.Id, '@cat.Name', @(cat.ParentId?.ToString() ?? "null"))">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <form asp-action="DeleteCategory" method="post" class="d-inline" onsubmit="return confirm('Delete this category? (Only works if no children or tickets exist)')">
+                        <input type="hidden" name="id" value="@cat.Id" />
+                        <button type="submit" class="btn btn-sm btn-link text-danger p-0">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @if (cat.Children != null && cat.Children.Any())
+            {
+                @await Html.PartialAsync("_CategoryTree", cat.Children.ToList())
+            }
+        </li>
+    }
+</ul>

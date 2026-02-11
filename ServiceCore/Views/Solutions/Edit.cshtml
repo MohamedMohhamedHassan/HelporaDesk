@@ -1,0 +1,103 @@
+@model ServiceCore.Models.Solution
+@{
+    ViewData["Title"] = "Edit Solution";
+    var topics = (List<ServiceCore.Models.SolutionTopic>)ViewBag.Topics;
+    var users = (List<ServiceCore.Models.User>)ViewBag.Users;
+}
+
+<div class="content">
+    <div class="mb-4">
+        <h1 class="h3 fw-bold mb-1">Edit Solution</h1>
+        <p class="text-muted small">Update solution details and content</p>
+    </div>
+
+    <div class="card glass border-0 shadow-lg">
+        <div class="card-body p-4">
+            <form method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedBy" />
+                <input type="hidden" asp-for="CreatedAt" />
+                <input type="hidden" asp-for="Views" />
+                <input type="hidden" asp-for="Status" />
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Title <span class="text-danger">*</span></label>
+                    <input class="form-control form-control-lg bg-light border-0" 
+                           asp-for="Title" required />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Content <span class="text-danger">*</span></label>
+                    <textarea class="form-control bg-light border-0" asp-for="Content" 
+                              rows="12" required></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Topic <span class="text-danger">*</span></label>
+                        <select class="form-select bg-light border-0" asp-for="TopicId" required>
+                            @foreach (var topic in topics)
+                            {
+                                <option value="@topic.Id">@topic.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="TopicId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Solution Owner</label>
+                        <select class="form-select bg-light border-0" asp-for="OwnerId">
+                            <option value="">-- Unassigned --</option>
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.Id">@user.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-700">Keywords</label>
+                    <input class="form-control bg-light border-0" asp-for="Keywords" />
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Review Date</label>
+                        <input type="date" class="form-control bg-light border-0" asp-for="ReviewDate" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">Expiry Date</label>
+                        <input type="date" class="form-control bg-light border-0" asp-for="ExpiryDate" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary px-4">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea[name="Content"]',
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
+            toolbar: 'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            menubar: false,
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            height: 400
+        });
+    </script>
+}

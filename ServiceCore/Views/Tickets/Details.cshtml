@@ -166,6 +166,58 @@
                     </small>
                 </div>
             </div>
+
+            <!-- Related Solutions -->
+            <div class="card mt-3 border-success">
+                <div class="card-header bg-success bg-opacity-10">
+                    <h6 class="mb-0 text-success">
+                        <i class="bi bi-lightbulb me-2"></i>Related Solutions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @{
+                        var relatedSolutions = ViewBag.RelatedSolutions as List<ServiceCore.Models.Solution>;
+                        
+                        if (relatedSolutions != null && relatedSolutions.Any())
+                        {
+                            <small class="text-muted d-block mb-3">Suggested solutions for this ticket</small>
+                            <div class="list-group list-group-flush">
+                                @foreach (var solution in relatedSolutions)
+                                {
+                                    <a href="/Solutions/Details/@solution.Id" class="list-group-item list-group-item-action border-0 px-0 py-2" target="_blank">
+                                        <div class="d-flex w-100 justify-content-between align-items-start">
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div class="mb-1 small fw-bold text-truncate">
+                                                    @solution.Title
+                                                </div>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-tag me-1"></i>@solution.Topic?.Name
+                                                </small>
+                                            </div>
+                                            <span class="badge bg-success bg-opacity-10 text-success small ms-2">
+                                                <i class="bi bi-eye"></i> @solution.Views
+                                            </span>
+                                        </div>
+                                    </a>
+                                }
+                            </div>
+                            <a href="/Solutions" class="btn btn-sm btn-outline-success w-100 mt-3">
+                                <i class="bi bi-search"></i> Browse All
+                            </a>
+                        }
+                        else
+                        {
+                            <p class="text-muted small mb-3">
+                                <i class="bi bi-info-circle me-1"></i>
+                                No related solutions found.
+                            </p>
+                            <a href="/Solutions/Create" class="btn btn-sm btn-outline-success w-100">
+                                <i class="bi bi-plus-circle"></i> Create Solution
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>

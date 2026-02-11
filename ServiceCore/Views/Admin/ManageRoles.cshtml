@@ -107,10 +107,18 @@
 @section Scripts {
     <script>
         function editRole(id, name, desc) {
-            $('#editRoleId').val(id);
-            $('#editRoleName').val(name);
-            $('#editRoleDescription').val(desc);
-            new bootstrap.Modal(document.getElementById('editRoleModal')).show();
+            try {
+                document.getElementById('editRoleId').value = id;
+                document.getElementById('editRoleName').value = name;
+                document.getElementById('editRoleDescription').value = desc;
+                
+                const modalEl = document.getElementById('editRoleModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl); 
+                modal.show();
+            } catch (e) {
+                console.error("Error opening edit modal:", e);
+                alert("Failed to open edit modal. Check console.");
+            }
         }
     </script>
 }

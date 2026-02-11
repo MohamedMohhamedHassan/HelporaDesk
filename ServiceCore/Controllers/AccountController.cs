@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceCore.Data;
 using ServiceCore.Models;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServiceCore.Controllers
 {
@@ -137,6 +138,76 @@ namespace ServiceCore.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> CompleteRegistration(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return NotFound();
+            }
+
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.InviteToken == token);
+            if (user == null)
+            {
+                return NotFound("Invalid or expired token.");
+            }
+
+            var model = new CompleteRegistrationViewModel
+            {
+                Token = token,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteRegistration(CompleteRegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.InviteToken == model.Token);
+            if (user == null)
+            {
+                return NotFound("Invalid or expired token.");
+            }
+
+            user.PasswordHash = ServiceCore.Models.User.HashPassword(model.Password);
+            user.Name = model.FullName;
+            user.PhoneNumber = model.PhoneNumber;
+            user.IsActive = true;
+            user.InviteToken = null; // Clear token so it can't be used again
+            // user.EmailConfirmed = true; // Property doesn't exist yet, rely on IsActive
+
+            _db.Users.Update(user);
+            await _db.SaveChangesAsync();
+
+            // Log the user in
+             var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role ?? "User")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

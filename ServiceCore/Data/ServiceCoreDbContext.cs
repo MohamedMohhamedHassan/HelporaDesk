@@ -38,6 +38,11 @@ namespace ServiceCore.Data
         public DbSet<Attachment> Attachments { get; set; } = null!;
         public DbSet<Notification> Notifications { get; set; } = null!;
 
+        // Solutions Module
+        public DbSet<Solution> Solutions { get; set; } = null!;
+        public DbSet<SolutionTopic> SolutionTopics { get; set; } = null!;
+        public DbSet<SolutionAttachment> SolutionAttachments { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Project Owner (One-to-Many)
@@ -116,6 +121,38 @@ namespace ServiceCore.Data
             modelBuilder.Entity<AssetMaintenance>()
                 .Property(m => m.Cost)
                 .HasPrecision(18, 2);
+
+            // Solution Relationships
+            modelBuilder.Entity<Solution>()
+                .HasOne(s => s.Topic)
+                .WithMany(t => t.Solutions)
+                .HasForeignKey(s => s.TopicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Solution>()
+                .HasOne(s => s.Owner)
+                .WithMany()
+                .HasForeignKey(s => s.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Solution>()
+                .HasOne(s => s.Creator)
+                .WithMany()
+                .HasForeignKey(s => s.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SolutionTopic>()
+                .HasOne(t => t.Parent)
+                .WithMany(t => t.Children)
+                .HasForeignKey(t => t.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // TicketCategory Hierarchical Relationship
+            modelBuilder.Entity<TicketCategory>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Children)
+                .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

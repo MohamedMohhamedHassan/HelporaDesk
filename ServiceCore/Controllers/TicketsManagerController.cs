@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ServiceCore.Controllers
 {
-    // [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrator,Manager")]
+    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
     public class TicketsManagerController : Controller
     {
         private readonly ServiceCoreDbContext _db;
@@ -275,8 +275,29 @@ namespace ServiceCore.Controllers
         {
             ViewBag.Statuses = _db.TicketStatuses.ToList();
             ViewBag.Priorities = _db.TicketPriorities.ToList();
-            ViewBag.Categories = _db.TicketCategories.ToList();
+            
+            // Get Hierarchical Categories for dropdown
+            var allCategories = _db.TicketCategories.Include(c => c.Children).ToList();
+            var flatCategories = new List<dynamic>();
+            foreach (var root in allCategories.Where(c => c.ParentId == null).OrderBy(c => c.Name))
+            {
+                FlattenCategories(root, flatCategories, 0);
+            }
+            ViewBag.Categories = flatCategories;
+
             ViewBag.Users = _db.Users.ToList(); // For assignment
+        }
+
+        private void FlattenCategories(TicketCategory category, List<dynamic> list, int level)
+        {
+            list.Add(new { Id = category.Id, Name = new string('\u00A0', level * 4) + (level > 0 ? "└─ " : "") + category.Name });
+            if (category.Children != null)
+            {
+                foreach (var child in category.Children.OrderBy(c => c.Name))
+                {
+                    FlattenCategories(child, list, level + 1);
+                }
+            }
         }
     }
 }
