@@ -84,6 +84,11 @@
             <span>Solutions</span>
           </a>
 
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contracts" ? "active" : "")" href="~/Contracts" data-testid="nav-contracts">
+            <span class="nav-dot"></span>
+            <span>Contracts</span>
+          </a>
+
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")" href="~/Reports" data-testid="nav-reports">
             <span class="nav-dot"></span>
             <span>Analytics & Reports</span>

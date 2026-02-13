@@ -88,16 +88,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: 'textarea[name="Content"]',
-            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
-            toolbar: 'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            menubar: false,
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            height: 400
-        });
-    </script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script src="~/js/tinymce-local-init.js"></script>
 }

@@ -1,0 +1,134 @@
+@model ServiceCore.Models.Contract
+@{
+    ViewData["Title"] = "New Contract";
+    var vendors = (List<ServiceCore.Models.Vendor>)ViewBag.Vendors;
+    var types = (List<ServiceCore.Models.ContractType>)ViewBag.ContractTypes;
+}
+
+<div class="content">
+    <div class="mb-5">
+        <h1 class="display-6 fw-bold mb-1">Create Contract</h1>
+        <p class="text-muted">Register a new agreement in the centralized repository.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <div class="card glass border-0 shadow-lg p-4 p-md-5">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                    <!-- Basic Info -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-12">
+                            <h5 class="fw-700 mb-0">General Information</h5>
+                            <hr class="mt-2 opacity-10" />
+                        </div>
+                        <div class="col-md-8">
+                            <label asp-for="Name" class="form-label fw-600 small">Contract Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Enterprise Cloud Subscription 2024" required />
+                            <span asp-validation-for="Name" class="text-danger smaller-2"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Number" class="form-label fw-600 small">Contract Number (Internal ID)</label>
+                            <input asp-for="Number" class="form-control" placeholder="REQ-00123" />
+                            <span asp-validation-for="Number" class="text-danger smaller-2"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="VendorId" class="form-label fw-600 small">Vendor / Partner</label>
+                            <select asp-for="VendorId" class="form-select" required>
+                                <option value="">-- Select Vendor --</option>
+                                @foreach (var v in vendors)
+                                {
+                                    <option value="@v.Id">@v.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ContractTypeId" class="form-label fw-600 small">Contract Type</label>
+                            <select asp-for="ContractTypeId" class="form-select" required>
+                                <option value="">-- Select Type --</option>
+                                @foreach (var t in types)
+                                {
+                                    <option value="@t.Id">@t.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dates & Value -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-12">
+                            <h5 class="fw-700 mb-0">Lifecycle & Financials</h5>
+                            <hr class="mt-2 opacity-10" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="StartDate" class="form-label fw-600 small">Start Date</label>
+                            <input asp-for="StartDate" class="form-control" type="date" required />
+                            <span asp-validation-for="StartDate" class="text-danger smaller-2"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="EndDate" class="form-label fw-600 small">End Date (Expiry)</label>
+                            <input asp-for="EndDate" class="form-control" type="date" required />
+                            <span asp-validation-for="EndDate" class="text-danger smaller-2"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="RenewalDate" class="form-label fw-600 small">Next Renewal Due</label>
+                            <input asp-for="RenewalDate" class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Value" class="form-label fw-600 small">Contract Value (Annual)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Value" class="form-control" type="number" step="0.01" required />
+                            </div>
+                            <span asp-validation-for="Value" class="text-danger smaller-2"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Currency" class="form-label fw-600 small">Currency</label>
+                            <select asp-for="Currency" class="form-select">
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-12">
+                            <h5 class="fw-700 mb-0">SLA & Terms</h5>
+                            <hr class="mt-2 opacity-10" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="SLADetails" class="form-label fw-600 small">SLA Details (Uptime, Response, etc.)</label>
+                            <textarea asp-for="SLADetails" class="form-control" rows="4" placeholder="99.9% uptime guaranteed..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PaymentTerms" class="form-label fw-600 small">Payment Terms / Schedule</label>
+                            <textarea asp-for="PaymentTerms" class="form-control" rows="4" placeholder="Quarterly payments on the 1st..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-end mt-5 border-top pt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-5">Create Contract</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-3 mt-4 mt-xl-0">
+            <div class="card glass border-0 shadow-sm p-4">
+                <h6 class="fw-700 mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>Guidelines</h6>
+                <div class="smaller-1 text-muted">
+                    <p>Contracts are created in <strong>Draft</strong> status and must be submitted for approval before becoming <strong>Active</strong>.</p>
+                    <ul class="ps-3">
+                        <li>Ensure dates are accurate for expiry alerts.</li>
+                        <li>Include annual value for budget tracking.</li>
+                        <li>Attachments can be added after creation.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

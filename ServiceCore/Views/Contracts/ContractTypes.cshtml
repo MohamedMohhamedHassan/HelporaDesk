@@ -1,0 +1,136 @@
+@model List<ServiceCore.Models.ContractType>
+@{
+    ViewData["Title"] = "Contract Types";
+}
+
+<div class="content">
+    <div class="mb-5 d-flex justify-content-between align-items-end">
+        <div>
+            <h1 class="display-6 fw-bold mb-1">Contract Types</h1>
+            <p class="text-muted mb-0">Define classifications for your agreements.</p>
+        </div>
+        <button class="btn btn-primary shadow-sm" onclick="openTypeModal()">
+            <i class="bi bi-plus-circle me-2"></i>New Type
+        </button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-md-8">
+            <div class="card glass border-0 shadow-lg overflow-hidden">
+                <div class="card-body p-0">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-muted smaller-1 fw-700">
+                            <tr>
+                                <th class="ps-4">TYPE NAME</th>
+                                <th>DESCRIPTION</th>
+                                <th class="text-center pe-4" style="width: 100px;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var type in Model)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-700 text-dark">@type.Name</td>
+                                    <td><span class="text-muted smaller-1">@type.Description</span></td>
+                                    <td class="text-center pe-4">
+                                        <button class="btn btn-sm btn-action" onclick="editType(@type.Id, '@Html.Raw(type.Name.Replace("'", "\\'"))', '@Html.Raw((type.Description ?? "").Replace("'", "\\'"))')">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card glass border-0 shadow-sm p-4">
+                <h6 class="fw-700 mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>About Contract Types</h6>
+                <p class="smaller-1 text-muted">Use types to categorize contracts for better reporting and lifecycle rules.</p>
+                <ul class="smaller-1 text-muted ps-3">
+                    <li><strong>SLA Agreements</strong>: Service level terms</li>
+                    <li><strong>Software License</strong>: Subscriptions/Seats</li>
+                    <li><strong>Maintenance</strong>: Periodic servicing</li>
+                    <li><strong>Lease</strong>: Equipment rentals</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Type Modal -->
+<div class="modal fade" id="typeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass shadow-lg border-0">
+            <div class="modal-header border-0 pb-0 px-4">
+                <h5 class="modal-title fw-700" id="typeModalTitle">Add New Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form asp-action="UpsertContractType" method="post">
+                    <input type="hidden" id="typeId" name="Id" />
+                    <div class="mb-3">
+                        <label class="form-label fw-600 small">Type Name</label>
+                        <input type="text" id="typeName" name="Name" class="form-control" required placeholder="e.g. Software License" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-600 small">Description</label>
+                        <textarea id="typeDesc" name="Description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Save Type</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalEl = document.getElementById('typeModal');
+            let typeModal = null;
+            if (modalEl && window.bootstrap) {
+                typeModal = new bootstrap.Modal(modalEl);
+            }
+
+            window.openTypeModal = function() {
+                if (!typeModal) return;
+                document.getElementById('typeId').value = '0';
+                document.getElementById('typeName').value = '';
+                document.getElementById('typeDesc').value = '';
+                document.getElementById('typeModalTitle').innerText = 'Add New Type';
+                typeModal.show();
+            };
+
+            window.editType = function(id, name, desc) {
+                if (!typeModal) return;
+                document.getElementById('typeId').value = id;
+                document.getElementById('typeName').value = name;
+                document.getElementById('typeDesc').value = desc || '';
+                document.getElementById('typeModalTitle').innerText = 'Edit Contract Type';
+                typeModal.show();
+            };
+        });
+    </script>
+}
+
+<style>
+    .btn-action {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.03);
+    }
+    .btn-action:hover {
+        background: var(--sc-primary);
+        color: white;
+    }
+</style>

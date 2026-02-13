@@ -44,6 +44,7 @@ namespace ServiceCore.Services
                     "Assets" => context.RouteData.Values["action"]?.ToString() == "Index" || context.RouteData.Values["action"]?.ToString() == "Details" ? "Assets_View" : "Assets_Manage",
                     "Approvals" => "Approvals_View", // Simple view-only or manage based on actions
                     "Admin" => action == "ManagePermissions" ? "Admin_Permissions" : "Admin_Metadata",
+                    "Contracts" => action == "Index" || action == "Details" ? "Contracts_View" : "Contracts_Manage",
                     _ => string.Empty
                 };
 

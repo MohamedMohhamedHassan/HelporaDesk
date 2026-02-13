@@ -43,6 +43,15 @@ namespace ServiceCore.Data
         public DbSet<SolutionTopic> SolutionTopics { get; set; } = null!;
         public DbSet<SolutionAttachment> SolutionAttachments { get; set; } = null!;
 
+        // Contract Management Module
+        public DbSet<Vendor> Vendors { get; set; } = null!;
+        public DbSet<ContractType> ContractTypes { get; set; } = null!;
+        public DbSet<Contract> Contracts { get; set; } = null!;
+        public DbSet<ContractAttachment> ContractAttachments { get; set; } = null!;
+        public DbSet<ContractApproval> ContractApprovals { get; set; } = null!;
+        public DbSet<ContractPayment> ContractPayments { get; set; } = null!;
+        public DbSet<ContractHistory> ContractHistories { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Project Owner (One-to-Many)
@@ -152,6 +161,53 @@ namespace ServiceCore.Data
                 .HasOne(c => c.Parent)
                 .WithMany(c => c.Children)
                 .HasForeignKey(c => c.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Contract Module Configuration
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.ContractType)
+                .WithMany(t => t.Contracts)
+                .HasForeignKey(c => c.ContractTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Vendor)
+                .WithMany(v => v.Contracts)
+                .HasForeignKey(c => c.VendorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contract>()
+                .Property(c => c.Value)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ContractPayment>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ContractApproval>()
+                .HasOne(a => a.Approver)
+                .WithMany()
+                .HasForeignKey(a => a.ApproverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ContractHistory>()
+                .HasOne(h => h.ChangedBy)
+                .WithMany()
+                .HasForeignKey(h => h.ChangedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Asset -> Contract Relationship
+            modelBuilder.Entity<ServiceCore.Models.Asset>()
+                .HasOne(a => a.Contract)
+                .WithMany()
+                .HasForeignKey(a => a.ContractId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Project -> Contract Relationship
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.Contract)
+                .WithMany()
+                .HasForeignKey(p => p.ContractId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

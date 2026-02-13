@@ -37,6 +37,9 @@ namespace ServiceCore.Models
         public int? TeamLeadId { get; set; }
         public User? TeamLead { get; set; }
 
+        public int? ContractId { get; set; }
+        public Contract? Contract { get; set; }
+
         public ICollection<User> TeamMembers { get; set; } = new List<User>();
 
         public ICollection<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();

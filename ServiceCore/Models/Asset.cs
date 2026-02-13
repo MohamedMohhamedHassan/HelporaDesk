@@ -57,6 +57,9 @@ namespace ServiceCore.Models
 
         public string? Notes { get; set; }
 
+        public int? ContractId { get; set; }
+        public Contract? Contract { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         
         // Navigation Properties
