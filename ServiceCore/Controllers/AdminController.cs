@@ -1,3 +1,5 @@
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +12,12 @@ namespace ServiceCore.Controllers
     public class AdminController : Controller
     {
         private readonly ServiceCoreDbContext _db;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AdminController(ServiceCoreDbContext db)
+        public AdminController(ServiceCoreDbContext db, IPasswordHasher<User> passwordHasher)
         {
             _db = db;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<IActionResult> Index()
@@ -112,23 +116,75 @@ namespace ServiceCore.Controllers
         // Role Management
         public async Task<IActionResult> ManageRoles()
         {
-            var roles = await _db.Roles.ToListAsync();
-            
-            // Seed defaults if empty
-            if (!roles.Any())
+            var desiredRoles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+
+            var existingRoleNames = await _db.Roles.Select(r => r.Name).ToListAsync();
+
+            var missing = desiredRoles.Except(existingRoleNames).ToList();
+
+            if (missing.Any())
             {
-                var defaults = new[] { 
-                    new Role { Name = "Admin", Description = "Full system access" },
-                    new Role { Name = "Agent", Description = "Manage tickets and assets" },
-                    new Role { Name = "Technical", Description = "Technical support and infrastructure" },
-                    new Role { Name = "Member", Description = "Organizational representative" },
-                    new Role { Name = "User", Description = "Standard requester access" }
+                var map = new System.Collections.Generic.Dictionary<string, string>
+                {
+                    { "Admin", "Full system access" },
+                    { "Agent", "Manage tickets and assets" },
+                    { "Technical", "Technical support and infrastructure" },
+                    { "Member", "Organizational representative" },
+                    { "User", "Standard requester access" }
                 };
-                _db.Roles.AddRange(defaults);
+
+                foreach (var name in missing)
+                {
+                    var desc = map.ContainsKey(name) ? map[name] : string.Empty;
+                    _db.Roles.Add(new Role { Name = name, Description = desc });
+                }
+
                 await _db.SaveChangesAsync();
-                roles = await _db.Roles.ToListAsync();
             }
 
+            // Seed Departments (added)
+            var departments = new[] { "IT", "Engineering", "Sales", "Marketing", "HR" };
+            foreach (var dept in departments)
+            {
+                if (!_db.Departments.Any(d => d.Name == dept))
+                {
+                    _db.Departments.Add(new Department { Name = dept });
+                }
+            }
+            await _db.SaveChangesAsync();
+
+            // Ensure two default admin users exist (use hashed passwords)
+            var adminsToEnsure = new[] {
+                new { Name = "Admin User", Email = "admin@servicecore.local", Department = "IT" },
+                new { Name = "Mohamed Hassan", Email = "m.hassan@gmail.com", Department = "Administration" }
+            };
+
+            bool addedAdmin = false;
+            foreach (var a in adminsToEnsure)
+            {
+                if (!await _db.Users.AnyAsync(u => u.Email == a.Email))
+                {
+                    var newUser = new User
+                    {
+                        Name = a.Name,
+                        Email = a.Email,
+                        Role = "Admin",
+                        Department = a.Department,
+                        IsActive = true
+                    };
+                    // Hash the default password 'admin' (do NOT store plain text)
+                    newUser.PasswordHash = _passwordHasher.HashPassword(newUser, "admin");
+                    _db.Users.Add(newUser);
+                    addedAdmin = true;
+                }
+            }
+
+            if (addedAdmin)
+            {
+                await _db.SaveChangesAsync();
+            }
+
+            var roles = await _db.Roles.ToListAsync();
             return View(roles);
         }
 
@@ -162,7 +218,7 @@ namespace ServiceCore.Controllers
             if (!roles.Any())
             {
                 // Ensure defaults exist
-                var defaults = new[] { 
+                var defaults = new[] {
                     new Role { Name = "Admin", Description = "Full system access" },
                     new Role { Name = "Agent", Description = "Manage tickets and assets" },
                     new Role { Name = "Technical", Description = "Technical support and infrastructure" },
@@ -177,8 +233,8 @@ namespace ServiceCore.Controllers
             selectedRole ??= roles.First();
 
             var permissions = await _db.RolePermissions.ToListAsync();
-            
-            var features = new[] { 
+
+            var features = new[] {
                 "Dashboard", "Tickets_View", "Tickets_Create", "Tickets_Edit", "Tickets_Delete", "Tickets_Manager",
                 "Projects_View", "Projects_Manage", "Tasks_View", "Tasks_Manage", "Kanban_Board",
                 "Users_View", "Users_Manage", "Reports_View", "Admin_Metadata", "Admin_Settings", "Admin_Permissions",
@@ -192,10 +248,10 @@ namespace ServiceCore.Controllers
             {
                 if (!permissions.Any(p => p.FeatureKey == feature && p.RoleName == selectedRole))
                 {
-                    _db.RolePermissions.Add(new RolePermission 
-                    { 
-                        FeatureKey = feature, 
-                        RoleName = selectedRole, 
+                    _db.RolePermissions.Add(new RolePermission
+                    {
+                        FeatureKey = feature,
+                        RoleName = selectedRole,
                         IsAllowed = (selectedRole == "Admin")
                     });
                     changed = true;
@@ -217,7 +273,7 @@ namespace ServiceCore.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateBulkPermissions(string role, [FromBody] Dictionary<string, bool> permissions)
         {
-            if (string.IsNullOrEmpty(role) || permissions == null) 
+            if (string.IsNullOrEmpty(role) || permissions == null)
                 return Json(new { success = false, message = "Invalid data" });
 
             var existingPerms = await _db.RolePermissions.Where(p => p.RoleName == role).ToListAsync();
@@ -231,11 +287,11 @@ namespace ServiceCore.Controllers
                 }
                 else
                 {
-                    _db.RolePermissions.Add(new RolePermission 
-                    { 
-                        RoleName = role, 
-                        FeatureKey = pair.Key, 
-                        IsAllowed = pair.Value 
+                    _db.RolePermissions.Add(new RolePermission
+                    {
+                        RoleName = role,
+                        FeatureKey = pair.Key,
+                        IsAllowed = pair.Value
                     });
                 }
             }
@@ -319,6 +375,55 @@ namespace ServiceCore.Controllers
             _db.SolutionTopics.Remove(topic);
             await _db.SaveChangesAsync();
             return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult Edit(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+                ViewBag.Departments = _db.Departments.Select(d => d.Name).ToList();
+                return View(user);
+            }
+
+            var existing = _db.Users.Find(user.Id);
+            if (existing == null) return NotFound();
+
+            // Update only editable fields
+            existing.Name = user.Name;
+            existing.Email = user.Email;
+            existing.Role = user.Role;
+            existing.Department = user.Department;
+            existing.PhoneNumber = user.PhoneNumber;
+            existing.IsActive = user.IsActive;
+
+            // Do NOT touch: PasswordHash, SecurityStamp, InvitationToken, etc.
+
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(int id, string newPassword)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null) return NotFound();
+
+            if (string.IsNullOrWhiteSpace(newPassword))
+            {
+                ModelState.AddModelError("", "Password cannot be empty");
+                return View(user);
+            }
+
+            // Use ASP.NET Core Identity hasher so stored hash is in Identity format (AQAAAA...)
+            user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
+
+            // Do not change SecurityStamp here unless you want to force sign-out for existing sessions.
+            _db.SaveChanges();
+
+            TempData["Success"] = $"Password for {user.Name} updated successfully.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

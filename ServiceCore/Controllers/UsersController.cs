@@ -45,9 +45,10 @@ namespace ServiceCore.Controllers
             return View(user);
         }
 
-        // GET: Users/Invite
-        public IActionResult Invite()
+        public async Task<IActionResult> Invite()
         {
+            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
             return View();
         }
 
@@ -56,6 +57,8 @@ namespace ServiceCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Invite(string email, string role, string department)
         {
+            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+
             if (string.IsNullOrEmpty(email))
             {
                 ModelState.AddModelError("Email", "Email is required");
@@ -86,20 +89,24 @@ namespace ServiceCore.Controllers
             // Send notification email (Mock)
             var inviteLink = Url.Action("CompleteRegistration", "Account", new { token }, Request.Scheme);
             await _emailService.SendEmailAsync(
-                email, 
-                "You're invited to ServiceCore!", 
+                email,
+                "You're invited to ServiceCore!",
                 $"Welcome! Click the link below to complete your registration:\n{inviteLink}");
 
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null) return NotFound();
-
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
+
+            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+
+            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
+
             return View(user);
         }
 
@@ -114,7 +121,17 @@ namespace ServiceCore.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    var existing = await _context.Users.FindAsync(user.Id);
+                    if (existing == null) return NotFound();
+
+                    existing.Name = user.Name;
+                    existing.Email = user.Email;
+                    existing.Role = user.Role;
+                    existing.Department = user.Department;
+                    existing.PhoneNumber = user.PhoneNumber;
+                    existing.IsActive = user.IsActive;
+
+                    // Preserve existing.PasswordHash, existing.SecurityStamp, existing.InviteToken, etc.
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,6 +141,11 @@ namespace ServiceCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // repopulate for the view when returning due to validation errors
+            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
+            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
+
             return View(user);
         }
     }

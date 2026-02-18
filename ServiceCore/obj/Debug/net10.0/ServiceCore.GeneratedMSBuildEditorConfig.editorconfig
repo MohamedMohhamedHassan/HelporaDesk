@@ -11,297 +11,297 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ServiceCore
 build_property.RootNamespace = ServiceCore
-build_property.ProjectDir = D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\
+build_property.ProjectDir = D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\ASU_IT_End\Projects\ServiceCore\ServiceCore
+build_property.MSBuildProjectDirectory = D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Account/AccessDenied.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Account/CompleteRegistration.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Account/CompleteRegistration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb21wbGV0ZVJlZ2lzdHJhdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Account/Login.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Account/Register.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/ManagePermissions.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Admin/ManagePermissions.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUGVybWlzc2lvbnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/ManageRoles.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Admin/ManageRoles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUm9sZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/ManageTopics.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Admin/ManageTopics.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlVG9waWNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Admin/_CategoryTree.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Admin/_CategoryTree.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0NhdGVnb3J5VHJlZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Approvals/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Approvals/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwcm92YWxzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Assets/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Assets/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Assets/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Assets/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Assets/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Assets/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Assets/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Assets/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/ContractTypes.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/ContractTypes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXENvbnRyYWN0VHlwZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Reports.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Reports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXFJlcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Contracts/Vendors.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Contracts/Vendors.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhY3RzXFZlbmRvcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Help/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Help/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Home/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Home/Privacy.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Kanban/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Kanban/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2FuYmFuXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Notifications/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Notifications/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/ProjectsManager/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/ProjectsManager/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNNYW5hZ2VyXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/ProjectsManager/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/ProjectsManager/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNNYW5hZ2VyXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/ProjectsManager/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/ProjectsManager/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNNYW5hZ2VyXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/ProjectsManager/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/ProjectsManager/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNNYW5hZ2VyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Projects/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Projects/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Projects/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Projects/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Projects/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Projects/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Projects/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Projects/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Reports/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Reports/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Settings/General.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Settings/General.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcR2VuZXJhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Settings/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Settings/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Settings/Integrations.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Settings/Integrations.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcSW50ZWdyYXRpb25zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Settings/Notifications.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Settings/Notifications.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcTm90aWZpY2F0aW9ucy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Shared/AccessDenied.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Shared/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFjY2Vzc0RlbmllZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Shared/Error.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Solutions/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Dashboard.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Solutions/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Solutions/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Solutions/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Solutions/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Solutions/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU29sdXRpb25zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tasks/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Delete.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tasks/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tasks/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tasks/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tasks/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tasks/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFza3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/TicketsManager/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/TicketsManager/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c01hbmFnZXJcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/TicketsManager/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/TicketsManager/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c01hbmFnZXJcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/TicketsManager/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/TicketsManager/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c01hbmFnZXJcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/TicketsManager/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/TicketsManager/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c01hbmFnZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tickets/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tickets/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tickets/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Tickets/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Tickets/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/UsersManager/ChangePassword.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/UsersManager/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNNYW5hZ2VyXENoYW5nZVBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/UsersManager/Create.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/UsersManager/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNNYW5hZ2VyXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/UsersManager/Details.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/UsersManager/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNNYW5hZ2VyXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/UsersManager/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/UsersManager/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNNYW5hZ2VyXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/UsersManager/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/UsersManager/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNNYW5hZ2VyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Users/Edit.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Users/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Users/Index.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Users/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Users/Invite.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Users/Invite.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW52aXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/_ViewImports.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/_ViewStart.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ASU_IT_End/Projects/ServiceCore/ServiceCore/Views/Shared/_Layout.cshtml]
+[D:/Diploma in IT & Enginerring-DITE/Final-Project/HelporaDesk/ServiceCore/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-5n1meynuy5

@@ -2325,23 +2325,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {},
+    "C:\\Users\\AL Lewaa Company\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\ServiceCore.csproj",
+      "projectUniqueName": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
       "projectName": "ServiceCore",
-      "projectPath": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\ServiceCore.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\obj\\",
+      "projectPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
+      "packagesPath": "C:\\Users\\AL Lewaa Company\\.nuget\\packages\\",
+      "outputPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AL Lewaa Company\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2413,7 +2413,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

@@ -1,175 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\ASU_IT_End\\Projects\\ServiceCore\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\data\\servicecoredbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\data\\servicecoredbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\migrations\\20260202000000_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\migrations\\20260202000000_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\usersmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\usersmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\migrations\\servicecoremodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\migrations\\servicecoremodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\settingsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\settingsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\settings\\general.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\settings\\general.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\models\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\models\\setting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\models\\ticket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\ticketsmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\ticketsmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\assetscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\assetscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\assets\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\assets\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\projectsmanager\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\projectsmanager\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\ticketsmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\ticketsmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\usersmanager\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\usersmanager\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\assets\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\assets\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\assets\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\assets\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\assets\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\assets\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\projectsmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\projectsmanagercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\ticketsmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\ticketsmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\ticketsmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\ticketsmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\projectsmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\projectsmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\projectsmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\projectsmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\projectsmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\projectsmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\usersmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\usersmanager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\usersmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\usersmanager\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\usersmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\usersmanager\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\migrations\\initialcreate_assets.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\migrations\\initialcreate_assets.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\migrations\\initialcreate_generated.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\migrations\\initialcreate_generated.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\migrations\\initialcreate.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\migrations\\initialcreate.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\reports\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\reports\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\controllers\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\controllers\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\settings\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\settings\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\settings\\notifications.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\settings\\notifications.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\settings\\integrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\settings\\integrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|d:\\asu_it_end\\projects\\servicecore\\servicecore\\models\\asset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15649E73-65BD-B9E7-CBC7-635486EF76D8}|ServiceCore\\ServiceCore.csproj|solutionrelative:servicecore\\models\\asset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "D:\\Diploma in IT \u0026 Enginerring-DITE\\Final-Project\\HelporaDesk\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -177,507 +9,161 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AgIAAPYUAAAAAAAAAAAuwAcVAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-02-04T08:44:11.667Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Settings\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Settings\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:08.215Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "SettingsController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\SettingsController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\SettingsController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\SettingsController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\SettingsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:08.117Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Reports\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Reports\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Reports\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Reports\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:08.012Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "ReportsController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\ReportsController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\ReportsController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\ReportsController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\ReportsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:07.898Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\appsettings.json",
-              "RelativeDocumentMoniker": "ServiceCore\\appsettings.json",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\appsettings.json",
-              "RelativeToolTip": "ServiceCore\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-03T19:32:40.41Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Program.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Program.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Program.cs",
-              "RelativeToolTip": "ServiceCore\\Program.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAEMAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:02.447Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "Notifications.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Notifications.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Settings\\Notifications.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Notifications.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Settings\\Notifications.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:08.332Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 157,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "Integrations.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Integrations.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Settings\\Integrations.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\Integrations.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Settings\\Integrations.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:08.45Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "InitialCreate.sql",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate.sql",
-              "RelativeDocumentMoniker": "ServiceCore\\Migrations\\InitialCreate.sql",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate.sql",
-              "RelativeToolTip": "ServiceCore\\Migrations\\InitialCreate.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-02-03T20:12:06.874Z"
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:08.57Z"
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Create.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\ProjectsManager\\Create.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Create.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\ProjectsManager\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:04.015Z"
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\ProjectsManager\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\ProjectsManager\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.938Z"
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "Asset.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Asset.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Models\\Asset.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Asset.cs",
-              "RelativeToolTip": "ServiceCore\\Models\\Asset.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:08.689Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Edit.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\TicketsManager\\Edit.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Edit.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\TicketsManager\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.815Z"
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Create.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\TicketsManager\\Create.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Create.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\TicketsManager\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.678Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ProjectsManagerController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\ProjectsManagerController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\ProjectsManagerController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\ProjectsManagerController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\ProjectsManagerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:03.575Z"
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "InitialCreate_Generated.sql",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate_Generated.sql",
-              "RelativeDocumentMoniker": "ServiceCore\\Migrations\\InitialCreate_Generated.sql",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate_Generated.sql",
-              "RelativeToolTip": "ServiceCore\\Migrations\\InitialCreate_Generated.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-02-03T20:12:06.136Z"
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "InitialCreate_Assets.sql",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate_Assets.sql",
-              "RelativeDocumentMoniker": "ServiceCore\\Migrations\\InitialCreate_Assets.sql",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\InitialCreate_Assets.sql",
-              "RelativeToolTip": "ServiceCore\\Migrations\\InitialCreate_Assets.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-02-03T20:12:04.846Z"
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Edit.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\UsersManager\\Edit.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Edit.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\UsersManager\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:04.581Z"
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Create.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\UsersManager\\Create.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Create.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\UsersManager\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:04.379Z"
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\UsersManager\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\UsersManager\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:04.183Z"
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Edit.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\ProjectsManager\\Edit.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Edit.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\ProjectsManager\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:04.083Z"
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Details.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Assets\\Details.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Details.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Assets\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.321Z"
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Details.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\UsersManager\\Details.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\UsersManager\\Details.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\UsersManager\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.217Z"
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\TicketsManager\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\TicketsManager\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\TicketsManager\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.089Z"
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Details.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\ProjectsManager\\Details.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\ProjectsManager\\Details.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\ProjectsManager\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:02.83Z"
+              "$type": "Bookmark",
+              "Name": "ST:138:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Index.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Assets\\Index.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Index.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Assets\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:02.733Z"
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Account\\Login.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Account\\Login.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Account\\Login.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Account\\Login.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:02.657Z"
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:02.557Z"
+              "$type": "Bookmark",
+              "Name": "ST:141:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AssetsController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\AssetsController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\AssetsController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\AssetsController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\AssetsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:02.318Z"
+              "$type": "Bookmark",
+              "Name": "ST:142:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TicketsManagerController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\TicketsManagerController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\TicketsManagerController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\TicketsManagerController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\TicketsManagerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:02.184Z"
+              "$type": "Bookmark",
+              "Name": "ST:147:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Ticket.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Ticket.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Models\\Ticket.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Ticket.cs",
-              "RelativeToolTip": "ServiceCore\\Models\\Ticket.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T20:12:02.031Z"
+              "$type": "Bookmark",
+              "Name": "ST:145:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UsersManagerController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\UsersManagerController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\UsersManagerController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\UsersManagerController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\UsersManagerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:31:45.125Z"
+              "$type": "Bookmark",
+              "Name": "ST:146:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Edit.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Assets\\Edit.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Edit.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Assets\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.491Z"
+              "$type": "Bookmark",
+              "Name": "ST:144:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Create.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Assets\\Create.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Assets\\Create.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Assets\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T20:12:03.423Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "20260202000000_InitialCreate.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\20260202000000_InitialCreate.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Migrations\\20260202000000_InitialCreate.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\20260202000000_InitialCreate.cs",
-              "RelativeToolTip": "ServiceCore\\Migrations\\20260202000000_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:31:34.637Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ServiceCoreModelSnapshot.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\ServiceCoreModelSnapshot.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Migrations\\ServiceCoreModelSnapshot.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Migrations\\ServiceCoreModelSnapshot.cs",
-              "RelativeToolTip": "ServiceCore\\Migrations\\ServiceCoreModelSnapshot.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:31:26.087Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "General.cshtml",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\General.cshtml",
-              "RelativeDocumentMoniker": "ServiceCore\\Views\\Settings\\General.cshtml",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Views\\Settings\\General.cshtml",
-              "RelativeToolTip": "ServiceCore\\Views\\Settings\\General.cshtml",
-              "ViewState": "AgIAADYAAAAAAAAAAAAgwEMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T19:15:20.398Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SettingsApiController.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\SettingsApiController.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Controllers\\SettingsApiController.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Controllers\\SettingsApiController.cs",
-              "RelativeToolTip": "ServiceCore\\Controllers\\SettingsApiController.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAuwAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:12:22.985Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ServiceCoreDbContext.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Data\\ServiceCoreDbContext.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Data\\ServiceCoreDbContext.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Data\\ServiceCoreDbContext.cs",
-              "RelativeToolTip": "ServiceCore\\Data\\ServiceCoreDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:12:16.746Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Setting.cs",
-              "DocumentMoniker": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Setting.cs",
-              "RelativeDocumentMoniker": "ServiceCore\\Models\\Setting.cs",
-              "ToolTip": "D:\\ASU_IT_End\\Projects\\ServiceCore\\ServiceCore\\Models\\Setting.cs",
-              "RelativeToolTip": "ServiceCore\\Models\\Setting.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T19:12:12.482Z"
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             }
           ]
         }

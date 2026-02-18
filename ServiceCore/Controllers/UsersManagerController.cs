@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using ServiceCore.Data;
 using ServiceCore.Models;
 
@@ -9,10 +10,12 @@ namespace ServiceCore.Controllers
     public class UsersManagerController : Controller
     {
         private readonly ServiceCoreDbContext _db;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UsersManagerController(ServiceCoreDbContext db)
+        public UsersManagerController(ServiceCoreDbContext db, IPasswordHasher<User> passwordHasher)
         {
             _db = db;
+            _passwordHasher = passwordHasher;
         }
 
         public IActionResult Index()
@@ -41,7 +44,7 @@ namespace ServiceCore.Controllers
 
             if (!string.IsNullOrWhiteSpace(initialPassword))
             {
-                user.PasswordHash = ServiceCore.Models.User.HashPassword(initialPassword);
+                user.PasswordHash = _passwordHasher.HashPassword(user, initialPassword);
             }
 
             _db.Users.Add(user);
@@ -54,10 +57,10 @@ namespace ServiceCore.Controllers
         {
             var user = _db.Users.FirstOrDefault(u => u.Id == id);
             if (user == null) return NotFound();
-            
+
             ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
             ViewBag.Departments = _db.Departments.Select(d => d.Name).ToList();
-            
+
             return View(user);
         }
 
@@ -70,8 +73,18 @@ namespace ServiceCore.Controllers
                 ViewBag.Departments = _db.Departments.Select(d => d.Name).ToList();
                 return View(user);
             }
-            _db.Users.Update(user);
+
+            // Replace direct Update to avoid overwriting sensitive fields (password, tokens, etc.)
+            var existing = _db.Users.Find(user.Id);
+            if (existing == null) return NotFound();
+            existing.Name = user.Name;
+            existing.Email = user.Email;
+            existing.Role = user.Role;
+            existing.Department = user.Department;
+            existing.PhoneNumber = user.PhoneNumber;
+            existing.IsActive = user.IsActive;
             _db.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -95,10 +108,10 @@ namespace ServiceCore.Controllers
                 return View(user);
             }
 
-            user.PasswordHash = ServiceCore.Models.User.HashPassword(newPassword);
+            user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
             _db.Users.Update(user);
             _db.SaveChanges();
-            
+
             TempData["Success"] = $"Password for {user.Name} updated successfully.";
             return RedirectToAction(nameof(Index));
         }

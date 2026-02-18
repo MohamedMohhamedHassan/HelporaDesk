@@ -10,9 +10,15 @@
             <h1 class="h3 mb-1 fw-bold">Team & Users</h1>
             <p class="text-secondary small mb-0">Manage system access and team roles.</p>
         </div>
-        <a asp-action="Invite" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
-            <i class="bi bi-person-plus"></i> Invite User
-        </a>
+        <div class="d-flex">
+            <a asp-action="Invite" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
+                <i class="bi bi-person-plus"></i> Invite User
+            </a>
+            <a asp-controller="UsersManager" asp-action="Index"
+                   class="btn btn-outline-dark d-flex align-items-center gap-2 shadow-sm ms-2">
+                <i class="bi bi-gear-fill"></i> Full User Manager
+            </a>
+        </div>
     </div>
 
     <div class="card glass border-0 shadow-sm bg-brand-blue">
@@ -28,12 +34,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-600" style="width:36px;height:36px;">
-                                            @item.Name?.Substring(0,1)
+                                        <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-600"
+                                             style="width:36px;height:36px;">
+                                            @item.Name?.Substring(0, 1)
                                         </div>
                                         <div>
                                             <div class="fw-700">@item.Name</div>
@@ -45,10 +53,12 @@
                                 <td>@item.Department</td>
                                 <td class="pe-4 text-end">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-action" title="Edit User">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-action"
+                                               title="Edit User">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a asp-controller="UsersManager" asp-action="ChangePassword" asp-route-id="@item.Id" class="btn btn-sm btn-action" title="Change Password">
+                                        <a asp-controller="UsersManager" asp-action="ChangePassword" asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-action" title="Change Password">
                                             <i class="bi bi-key"></i>
                                         </a>
                                     </div>

@@ -12,30 +12,30 @@
             <div class="card-body p-4">
                 <form asp-action="Invite">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    
+
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" name="email" class="form-control" required placeholder="colleague@example.com" />
+                        <input type="email" name="email" class="form-control" required
+                               placeholder="colleague@example.com" />
                     </div>
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
                         <select name="role" class="form-select">
-                            <option value="Team Member">Team Member</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Viewer">Viewer</option>
+                            @foreach (var role in (string[])ViewBag.Roles)
+                            {
+                                <option value="@role">@role</option>
+                            }
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="department" class="form-label">Department</label>
                         <select name="department" class="form-select">
-                            <option value="IT">IT</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Sales">Sales</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="HR">HR</option>
+                            @foreach (var dept in (List<string>)ViewBag.Departments)
+                            {
+                                <option value="@dept">@dept</option>
+                            }
                         </select>
                     </div>
 
@@ -50,5 +50,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

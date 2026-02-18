@@ -5,16 +5,19 @@ using ServiceCore.Data;
 using ServiceCore.Models;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ServiceCore.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ServiceCoreDbContext _db;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AccountController(ServiceCoreDbContext db)
+        public AccountController(ServiceCoreDbContext db, IPasswordHasher<User> passwordHasher)
         {
             _db = db;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpGet]
@@ -57,10 +60,12 @@ namespace ServiceCore.Controllers
             {
                 Name = name,
                 Email = email,
-                PasswordHash = ServiceCore.Models.User.HashPassword(password),
                 Role = "User",
                 IsActive = true
             };
+
+            // Hash using ASP.NET Core Identity hasher
+            user.PasswordHash = _passwordHasher.HashPassword(user, password);
 
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
@@ -85,12 +90,47 @@ namespace ServiceCore.Controllers
                 return View();
             }
 
-            var user = _db.Users.FirstOrDefault(u => u.Email == email && u.IsActive);
+            // Retrieve user by email
+            var user = _db.Users.FirstOrDefault(u => u.Email == email);
 
-            if (user == null || !user.VerifyPassword(password))
+            if (user == null || !user.IsActive)
             {
                 ViewBag.Error = "Invalid email or password.";
                 return View();
+            }
+
+            // Verify using ASP.NET Core Identity hasher first
+            var verifyResult = PasswordVerificationResult.Failed;
+            if (!string.IsNullOrEmpty(user.PasswordHash))
+            {
+                verifyResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            }
+
+            // Support legacy SHA256 hashed passwords (User.VerifyPassword) and re-hash
+            if (verifyResult == PasswordVerificationResult.Failed)
+            {
+                if (user.VerifyPassword(password))
+                {
+                    user.PasswordHash = _passwordHasher.HashPassword(user, password);
+                    _db.Users.Update(user);
+                    await _db.SaveChangesAsync();
+                    verifyResult = PasswordVerificationResult.Success;
+                }
+            }
+
+            // Allow login on Success or SuccessRehashNeeded
+            if (verifyResult != PasswordVerificationResult.Success && verifyResult != PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+
+            // If rehash recommended, update stored hash
+            if (verifyResult == PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                user.PasswordHash = _passwordHasher.HashPassword(user, password);
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
             }
 
             // Update last login
@@ -176,7 +216,8 @@ namespace ServiceCore.Controllers
                 return NotFound("Invalid or expired token.");
             }
 
-            user.PasswordHash = ServiceCore.Models.User.HashPassword(model.Password);
+            // Hash password using IPasswordHasher to ensure a secure, standard hash
+            user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
             user.Name = model.FullName;
             user.PhoneNumber = model.PhoneNumber;
             user.IsActive = true;
@@ -187,7 +228,7 @@ namespace ServiceCore.Controllers
             await _db.SaveChangesAsync();
 
             // Log the user in
-             var claims = new List<Claim>
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
