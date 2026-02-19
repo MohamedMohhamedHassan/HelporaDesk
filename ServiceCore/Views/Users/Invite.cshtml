@@ -21,21 +21,22 @@
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
                         <select name="role" class="form-select">
-                            <option value="Team Member">Team Member</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Viewer">Viewer</option>
+                            @if(ViewBag.Roles != null) {
+                                foreach(var r in (List<string>)ViewBag.Roles) {
+                                    <option value="@r">@r</option>
+                                }
+                            }
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="department" class="form-label">Department</label>
                         <select name="department" class="form-select">
-                            <option value="IT">IT</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Sales">Sales</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="HR">HR</option>
+                            @if(ViewBag.Departments != null) {
+                                foreach(var d in (List<string>)ViewBag.Departments) {
+                                    <option value="@d">@d</option>
+                                }
+                            }
                         </select>
                     </div>
 

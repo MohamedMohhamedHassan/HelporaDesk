@@ -21,9 +21,11 @@
                     <i class="bi bi-tags me-2"></i>Contract Types
                 </a>
             }
+            <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Contracts_Manage">
             <a asp-action="Create" class="btn btn-primary shadow-sm">
                 <i class="bi bi-plus-circle me-2"></i>New Contract
             </a>
+            </secure-content>
         </div>
     </div>
 
@@ -119,9 +121,11 @@
                                         <a asp-action="Details" asp-route-id="@contract.Id" class="btn btn-sm btn-action" title="View Details">
                                             <i class="bi bi-eye"></i>
                                         </a>
+                                        <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Contracts_Manage">
                                         <a asp-action="Edit" asp-route-id="@contract.Id" class="btn btn-sm btn-action" title="Edit Contract">
                                             <i class="bi bi-pencil"></i>
                                         </a>
+                                        </secure-content>
                                     </div>
                                 </td>
                             </tr>

@@ -48,6 +48,7 @@ namespace ServiceCore.Controllers
         // GET: Users/Invite
         public IActionResult Invite()
         {
+            PopulateDropdowns();
             return View();
         }
 
@@ -59,6 +60,7 @@ namespace ServiceCore.Controllers
             if (string.IsNullOrEmpty(email))
             {
                 ModelState.AddModelError("Email", "Email is required");
+                PopulateDropdowns(role, department);
                 return View();
             }
 
@@ -66,6 +68,7 @@ namespace ServiceCore.Controllers
             if (existingUser)
             {
                 ModelState.AddModelError("Email", "User with this email already exists");
+                PopulateDropdowns(role, department);
                 return View();
             }
 
@@ -100,6 +103,8 @@ namespace ServiceCore.Controllers
 
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
+            
+            PopulateDropdowns(user.Role, user.Department);
             return View(user);
         }
 
@@ -124,7 +129,13 @@ namespace ServiceCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropdowns(user.Role, user.Department);
             return View(user);
+        }
+        private void PopulateDropdowns(string? selectedRole = null, string? selectedDept = null)
+        {
+            ViewBag.Roles = _context.Roles.Select(r => r.Name).ToList();
+            ViewBag.Departments = _context.Departments.Select(d => d.Name).ToList();
         }
     }
 }

@@ -178,14 +178,7 @@ namespace ServiceCore.Controllers
 
             var permissions = await _db.RolePermissions.ToListAsync();
             
-            var features = new[] { 
-                "Dashboard", "Tickets_View", "Tickets_Create", "Tickets_Edit", "Tickets_Delete", "Tickets_Manager",
-                "Projects_View", "Projects_Manage", "Tasks_View", "Tasks_Manage", "Kanban_Board",
-                "Users_View", "Users_Manage", "Reports_View", "Admin_Metadata", "Admin_Settings", "Admin_Permissions",
-                "Assets_View", "Assets_Manage", "Approvals_View", "Approvals_Manage",
-                "Solutions_View", "Solutions_Create", "Solutions_Manage", "Solutions_Topics",
-                "Contracts_View", "Contracts_Create", "Contracts_Manage", "Contracts_Approvals", "Vendors_Manage"
-            };
+            var features = ServiceCore.Constants.Permissions.All;
 
             bool changed = false;
             foreach (var feature in features)

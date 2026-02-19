@@ -22,7 +22,11 @@ builder.Services.AddAuthorization();
 // Email Service - Gmail SMTP for real email delivery
 builder.Services.AddScoped<ServiceCore.Services.IEmailService, ServiceCore.Services.SmtpEmailService>();
 // Notification Service
+// Notification Service
 builder.Services.AddScoped<ServiceCore.Services.INotificationService, ServiceCore.Services.NotificationService>();
+// Permission Service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ServiceCore.Services.IPermissionService, ServiceCore.Services.PermissionService>();
 
 // Configure EF Core with SQL Server. Update connection string in appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -161,6 +165,9 @@ using (var scope = app.Services.CreateScope())
 
                 // Seed Asset Categories
                 await AssetSeed.SeedAsync(db);
+                
+                // Seed Permissions
+                await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
             }
 
             // Debug Logs

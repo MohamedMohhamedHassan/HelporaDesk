@@ -44,56 +44,77 @@
             <span>Dashboard</span>
           </a>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Tickets_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tickets" || ViewContext.RouteData.Values["controller"]?.ToString() == "TicketsManager" ? "active" : "")" href="~/TicketsManager" data-testid="nav-tickets">
             <span class="nav-dot"></span>
             <span>Tickets</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")" href="~/Projects" data-testid="nav-projects">
             <span class="nav-dot"></span>
             <span>Projects</span>
-          </a>
+            </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tasks" ? "active" : "")" href="~/Tasks" data-testid="nav-tasks">
             <span class="nav-dot"></span>
             <span>Tasks</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Kanban_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Kanban" ? "active" : "")" href="~/Kanban" data-testid="nav-kanban">
             <span class="nav-dot"></span>
             <span>Kanban Board</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="Approvals_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Approvals" ? "active" : "")" href="~/Approvals" data-testid="nav-approvals">
             <span class="nav-dot"></span>
             <span>Approvals Center</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Assets_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Assets" ? "active" : "")" href="~/Assets" data-testid="nav-assets">
             <span class="nav-dot"></span>
             <span>Asset Management</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Users_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" || ViewContext.RouteData.Values["controller"]?.ToString() == "UsersManager" ? "active" : "")" href="~/Users" data-testid="nav-users">
             <span class="nav-dot"></span>
             <span>Team & Users</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Solutions_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Solutions" ? "active" : "")" href="~/Solutions" data-testid="nav-solutions">
             <span class="nav-dot"></span>
             <span>Solutions</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Contracts_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contracts" ? "active" : "")" href="~/Contracts" data-testid="nav-contracts">
             <span class="nav-dot"></span>
             <span>Contracts</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="Reports_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")" href="~/Reports" data-testid="nav-reports">
             <span class="nav-dot"></span>
             <span>Analytics & Reports</span>
           </a>
+          </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Admin_Access">
           <div class="nav-section mt-4 mb-2">
             <span class="nav-section__label">Administration</span>
           </div>
@@ -102,6 +123,7 @@
             <span class="nav-dot"></span>
             <span>System Metadata</span>
           </a>
+          </secure-content>
 
           @if (User.IsInRole("Admin"))
           {

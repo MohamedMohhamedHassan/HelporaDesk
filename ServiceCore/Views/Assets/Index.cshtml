@@ -14,9 +14,11 @@
             <p class="text-muted mb-0">Track, monitor, and manage company assets with full visibility.</p>
         </div>
         <div class="d-flex gap-2">
+            <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Assets_Manage">
             <a href="/Assets/Create" class="btn btn-primary shadow-sm">
                 <i class="bi bi-plus-lg me-2"></i>Register New Asset
             </a>
+            </secure-content>
         </div>
     </div>
 
@@ -107,10 +109,12 @@
                                 <td class="text-end pe-4">
                                     <div class="btn-group">
                                         <a class="btn btn-sm btn-action" href="/Assets/Details/@asset.Id" title="Details"><i class="bi bi-eye"></i></a>
+                                        <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Assets_Manage">
                                         <a class="btn btn-sm btn-action" href="/Assets/Edit/@asset.Id" title="Edit"><i class="bi bi-pencil"></i></a>
-                                        <form method="post" asp-action="Delete" asp-route-id="@asset.Id" onsubmit="return confirm('Archive this asset?')">
+                                        <form method="post" asp-action="Delete" asp-route-id="@asset.Id" onsubmit="return confirm('Archive this asset?')" style="display:inline;">
                                             <button type="submit" class="btn btn-sm btn-action text-danger"><i class="bi bi-trash"></i></button>
                                         </form>
+                                        </secure-content>
                                     </div>
                                 </td>
                             </tr>
