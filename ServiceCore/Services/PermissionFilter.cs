@@ -57,22 +57,42 @@ namespace ServiceCore.Services
         {
             return controller switch
             {
-                "Home" => "Dashboard", // Allow everyone?
-                "Tickets" => action == "Index" || action == "Details" ? Permissions.Tickets_View : 
+                "Home" => Permissions.Dashboard_View,
+                "Tickets" => action == "Index" ? string.Empty :
+                             action == "Details" ? Permissions.Tickets_View : 
                              action == "Create" ? Permissions.Tickets_Create :
                              action == "Edit" ? Permissions.Tickets_Edit :
                              action == "Delete" ? Permissions.Tickets_Delete : Permissions.Tickets_Manage,
                 "TicketsManager" => Permissions.Tickets_Manage,
                 "Projects" => action == "Index" ? Permissions.Projects_View : Permissions.Projects_Manage,
                 "Kanban" => Permissions.Kanban_View,
-                "Users" => Permissions.Users_View,
+                "Users" => action == "Index" || action == "Details" ? Permissions.Users_View : 
+                           action == "Create" || action == "Register" ? Permissions.Users_Create :
+                           action == "Edit" ? Permissions.Users_Edit :
+                           action == "Delete" ? Permissions.Users_Delete : Permissions.Users_Manage,
                 "UsersManager" => Permissions.Users_Manage,
-                "Reports" => "Reports_View", // Needs constant
-                "Assets" => action == "Index" || action == "Details" ? Permissions.Assets_View : Permissions.Assets_Manage,
-                "Approvals" => "Approvals_View",
+                "Reports" => Permissions.Reports_View,
+                "Assets" => action == "Index" || action == "Details" ? Permissions.Assets_View : 
+                            action == "Create" ? Permissions.Assets_Create :
+                            action == "Edit" ? Permissions.Assets_Edit :
+                            action == "Delete" ? Permissions.Assets_Delete : Permissions.Assets_Manage,
+                "Approvals" => Permissions.Approvals_View,
                 "Admin" => action == "ManagePermissions" ? Permissions.Admin_Permissions : Permissions.Admin_Settings,
-                "Contracts" => action == "Index" || action == "Details" ? Permissions.Contracts_View : Permissions.Contracts_Manage,
-                "Solutions" => action == "Index" || action == "Details" ? Permissions.Solutions_View : Permissions.Solutions_Manage,
+                "Contracts" => action == "Index" || action == "Details" ? Permissions.Contracts_View : 
+                               action == "Create" ? Permissions.Contracts_Create :
+                               action == "Edit" ? Permissions.Contracts_Edit :
+                               action == "Delete" ? Permissions.Contracts_Delete : Permissions.Contracts_Manage,
+                "Solutions" => action == "Index" || action == "Details" ? Permissions.Solutions_View : 
+                               action == "Create" ? Permissions.Solutions_Create :
+                               action == "Edit" ? Permissions.Solutions_Edit :
+                               action == "Delete" ? Permissions.Solutions_Delete : Permissions.Solutions_Manage,
+                "Help" => Permissions.Help_Usage,
+                "Tasks" => action == "Index" || action == "Details" ? Permissions.Tasks_View : 
+                           action == "Create" ? Permissions.Tasks_Create :
+                           action == "Edit" ? Permissions.Tasks_Edit :
+                           action == "Delete" ? Permissions.Tasks_Delete : Permissions.Tasks_Manage,
+                "ProjectsManager" => Permissions.Projects_Manage,
+                "Settings" => Permissions.Admin_Settings,
                 _ => string.Empty
             };
         }

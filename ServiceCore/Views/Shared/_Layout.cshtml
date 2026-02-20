@@ -29,6 +29,8 @@
     <a class="visually-hidden-focusable" href="#app">Skip to content</a>
 
     <div class="app-shell" id="app" data-testid="app-shell">
+      @if (User.Identity?.IsAuthenticated == true)
+      {
       <aside class="sidebar" data-testid="nav-sidebar">
         <div class="sidebar__brand" data-testid="brand-sidebar">
           <img src="~/favicon.png" class="brand__logo" alt="ServiceCore" />
@@ -39,17 +41,17 @@
         </div>
 
         <nav class="sidebar__nav" aria-label="Primary" data-testid="nav-primary">
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Dashboard_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="~/" data-testid="nav-dashboard">
             <span class="nav-dot"></span>
             <span>Dashboard</span>
           </a>
+          </secure-content>
 
-          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Tickets_View">
-          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tickets" || ViewContext.RouteData.Values["controller"]?.ToString() == "TicketsManager" ? "active" : "")" href="~/TicketsManager" data-testid="nav-tickets">
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tickets" || ViewContext.RouteData.Values["controller"]?.ToString() == "TicketsManager" ? "active" : "")" href="~/Tickets" data-testid="nav-tickets">
             <span class="nav-dot"></span>
             <span>Tickets</span>
           </a>
-          </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")" href="~/Projects" data-testid="nav-projects">
@@ -140,11 +142,6 @@
               <span class="nav-dot"></span>
               <span>Help & Support</span>
             </a>
-
-            <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")" href="~/Account/Login" data-testid="nav-login">
-              <span class="nav-dot"></span>
-              <span>Login</span>
-            </a>
           </div>
         </nav>
 
@@ -166,12 +163,6 @@
                 <i class="bi bi-moon-stars"></i>
             </button>
 
-            <a href="/TicketsManager/Create" class="btn btn-primary btn-sm">
-                <i class="bi bi-plus-lg"></i> New Ticket
-            </a>
-            <button class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-kanban"></i> Board
-            </button>
             
             <div class="dropdown me-3">
                 <a href="#" class="btn btn-light btn-sm position-relative p-2" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -197,7 +188,7 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="d-flex align-items-center gap-3">
-                    <a href="/TicketsManager?filter=my" class="profile text-decoration-none" title="My Assigned Tickets">
+                    <a href="/Tickets?filter=my" class="profile text-decoration-none" title="My Assigned Tickets">
                       <div class="avatar">
                           @(User.Identity.Name?.Substring(0, Math.Min(2, User.Identity.Name.Length)).ToUpper() ?? "U")
                       </div>
@@ -376,6 +367,13 @@
           <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastHost" data-testid="toast-host"></div>
         </main>
       </div>
+      }
+      else
+      {
+         <main class="content-login" style="display:flex; justify-content:center; align-items:center; min-height:100vh;">
+            @RenderBody()
+         </main>
+      }
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
