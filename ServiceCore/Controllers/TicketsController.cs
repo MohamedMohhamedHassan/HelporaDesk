@@ -21,13 +21,9 @@ namespace ServiceCore.Controllers
 
         public IActionResult Index(string filter = "")
         {
-            // Redirect Admins to the Manager view
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "TicketsManager");
-            }
-
-            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.TryParse(userIdString, out int id) ? id : 0;
+            var isAdmin = User.IsInRole("Admin");
 
             var query = _db.Tickets
                 .Include(t => t.Status)
@@ -35,13 +31,15 @@ namespace ServiceCore.Controllers
                 .Include(t => t.Category)
                 .Include(t => t.Requester)
                 .Include(t => t.Assigned)
-                .Where(t => t.RequesterId == userId || t.AssignedId == userId) // Strict filter for non-admins
                 .AsQueryable();
 
-            if (filter == "my")
+            if (!isAdmin || filter == "my")
             {
-                 // Filter is already applied by default, but we keep the block if additional logic is needed
-                 ViewData["Title"] = "My Tickets";
+                query = query.Where(t => t.RequesterId == userId || t.AssignedId == userId); // Filter for self
+                if (filter == "my")
+                {
+                    ViewData["Title"] = "My Tickets";
+                }
             }
 
             var tickets = query

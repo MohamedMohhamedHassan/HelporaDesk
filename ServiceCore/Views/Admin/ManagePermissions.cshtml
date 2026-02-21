@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Role Permissions";
     var roles = (List<string>)ViewBag.Roles;
-    var features = (string[])ViewBag.Features;
+    var features = (List<string>)ViewBag.Features;
     var selectedRole = (string)ViewBag.SelectedRole;
 }
 

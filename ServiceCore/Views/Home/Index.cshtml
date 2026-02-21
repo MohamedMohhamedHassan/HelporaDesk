@@ -1,6 +1,8 @@
+@model List<ServiceCore.Models.Ticket>
 @{
   ViewData["Title"] = "Dashboard";
   Layout = "_Layout";
+  var longTimeTickets = (List<ServiceCore.Models.Ticket>)ViewBag.LongTimeTickets;
 }
 
 <div class="content">
@@ -19,7 +21,8 @@
     </div>
   </div>
 
-  <div class="row g-4 mb-5">
+  <!-- Main Metrics -->
+  <div class="row g-4 mb-4">
     <div class="col-12 col-md-6 col-xl-3">
       <div class="card card-metric glass h-100">
         <div class="card-body">
@@ -27,10 +30,10 @@
             <div class="avatar bg-primary-subtle text-primary">
               <i class="bi bi-layers"></i>
             </div>
-            <span class="badge text-bg-success">+12.5%</span>
+            <span class="badge text-bg-success">Live</span>
           </div>
           <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Total Tickets</div>
-          <div class="h3 fw-700 mb-0">1,284</div>
+          <div class="h3 fw-700 mb-0">@ViewBag.TotalTickets</div>
         </div>
       </div>
     </div>
@@ -41,24 +44,10 @@
             <div class="avatar bg-warning-subtle text-warning">
               <i class="bi bi-lightning-charge"></i>
             </div>
-            <span class="badge text-bg-warning">+4 pending</span>
+            <span class="badge text-bg-warning">Pending</span>
           </div>
           <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Open Tickets</div>
-          <div class="h3 fw-700 mb-0">45</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-xl-3">
-      <div class="card card-metric glass h-100">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <div class="avatar bg-success-subtle text-success">
-              <i class="bi bi-clock-history"></i>
-            </div>
-            <span class="badge text-bg-success">-15m</span>
-          </div>
-          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Avg. Response</div>
-          <div class="h3 fw-700 mb-0">1h 42m</div>
+          <div class="h3 fw-700 mb-0">@ViewBag.OpenTickets</div>
         </div>
       </div>
     </div>
@@ -69,10 +58,80 @@
             <div class="avatar bg-info-subtle text-info">
               <i class="bi bi-shield-check"></i>
             </div>
-            <span class="badge text-bg-primary">Excellent</span>
+            <span class="badge text-bg-primary">Analysis</span>
           </div>
           <div class="text-muted small fw-600 text-uppercase letter-spacing-1">SLA Compliance</div>
-          <div class="h3 fw-700 mb-0">96.5%</div>
+          <div class="h3 fw-700 mb-0">@ViewBag.SlaCompliance.ToString("0.0")%</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card card-metric glass h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="avatar bg-danger-subtle text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <span class="badge text-bg-danger">Stale</span>
+          </div>
+          <div class="text-muted small fw-600 text-uppercase letter-spacing-1">Long Time Tickets</div>
+          <div class="h3 fw-700 mb-0">@longTimeTickets?.Count</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Analysis -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card glass border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-sm bg-primary text-white rounded p-2">
+            <i class="bi bi-briefcase"></i>
+          </div>
+          <div>
+            <div class="small text-muted">Total Projects</div>
+            <div class="fw-bold fs-5">@ViewBag.TotalProjects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card glass border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-sm bg-success text-white rounded p-2">
+            <i class="bi bi-play-circle"></i>
+          </div>
+          <div>
+            <div class="small text-muted">Active Projects</div>
+            <div class="fw-bold fs-5">@ViewBag.ActiveProjects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card glass border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-sm bg-info text-white rounded p-2">
+            <i class="bi bi-check2-square"></i>
+          </div>
+          <div>
+            <div class="small text-muted">Total Tasks</div>
+            <div class="fw-bold fs-5">@ViewBag.TotalTasks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card glass border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-sm bg-danger text-white rounded p-2">
+            <i class="bi bi-calendar-x"></i>
+          </div>
+          <div>
+            <div class="small text-muted">Overdue Tasks</div>
+            <div class="fw-bold fs-5">@ViewBag.OverdueTasks</div>
+          </div>
         </div>
       </div>
     </div>
@@ -80,21 +139,51 @@
 
   <div class="row g-4">
     <div class="col-12 col-lg-8">
+      <!-- Long Time Tickets List -->
       <div class="card glass h-100">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Ticket Volume</span>
-          <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-secondary">Week</button>
-            <button class="btn btn-primary">Month</button>
-          </div>
+          <span class="fw-bold"><i class="bi bi-clock-history me-2"></i>Long Time Tickets (Older than 7 days)</span>
+          <span class="badge bg-danger rounded-pill">Critical Focus</span>
         </div>
-        <div class="card-body">
-          <div class="chart-placeholder">
-            <div class="text-center">
-              <i class="bi bi-graph-up-arrow h1 text-primary opacity-50 mb-3"></i>
-              <p class="mb-0">Interactive Ticket Intelligence</p>
-              <small class="text-muted">Real-time data visualization coming soon</small>
-            </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="bg-light smaller-1 text-muted">
+                <tr>
+                  <th class="ps-4">Ticket</th>
+                  <th>Created</th>
+                  <th>Status</th>
+                  <th class="pe-4 text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (longTimeTickets != null && longTimeTickets.Any())
+                {
+                  foreach (var ticket in longTimeTickets)
+                  {
+                    <tr>
+                      <td class="ps-4">
+                        <div class="fw-600">#@ticket.Id - @ticket.Subject</div>
+                        <div class="smaller text-muted">@ticket.Category?.Name</div>
+                      </td>
+                      <td>@ticket.CreatedAt.ToString("MMM dd, yyyy")</td>
+                      <td>
+                        <span class="badge @(ticket.Priority?.Name == "High" ? "bg-danger" : "bg-warning")">@ticket.Status?.Name</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <a href="~/TicketsManager/Details/@ticket.Id" class="btn btn-sm btn-outline-primary">Review</a>
+                      </td>
+                    </tr>
+                  }
+                }
+                else
+                {
+                  <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">No stale tickets found. Great job!</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -103,39 +192,41 @@
     <div class="col-12 col-lg-4">
       <div class="card glass-elevated h-100">
         <div class="card-header">
-          <span>Recent Activity</span>
+          <span class="fw-bold">Resources & Projects Analysis</span>
         </div>
-        <div class="card-body p-0">
-          <div class="list-group list-group-flush" id="activityList">
-            <!-- Dynamic items would be injected here -->
-            <div class="list-group-item bg-transparent border-0 px-4 py-3">
-              <div class="d-flex gap-3">
-                <div class="avatar-sm bg-primary text-white rounded-circle flex-shrink-0" style="width:32px; height:32px; display:grid; place-items:center;">
-                  <i class="bi bi-plus-circle small"></i>
+        <div class="card-body">
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="smaller fw-bold">Task Completion Rate</span>
+                    <span class="smaller text-primary">@(ViewBag.TotalTasks > 0 ? (100 - (double)ViewBag.OverdueTasks / ViewBag.TotalTasks * 100).ToString("0") : "100")%</span>
                 </div>
-                <div>
-                  <div class="small fw-600">New ticket #1024</div>
-                  <div class="text-muted smaller">"Server latency issues in EU-West"</div>
-                  <div class="smaller text-primary mt-1">2 minutes ago</div>
+                <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-primary" style="width: @(ViewBag.TotalTasks > 0 ? (100 - (double)ViewBag.OverdueTasks / ViewBag.TotalTasks * 100) : 100)%"></div>
                 </div>
-              </div>
             </div>
-            <div class="list-group-item bg-transparent border-0 px-4 py-3">
-              <div class="d-flex gap-3">
-                <div class="avatar-sm bg-success text-white rounded-circle flex-shrink-0" style="width:32px; height:32px; display:grid; place-items:center;">
-                  <i class="bi bi-check-circle small"></i>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="smaller fw-bold">Project Health</span>
+                    <span class="smaller text-success">Positive</span>
                 </div>
-                <div>
-                  <div class="small fw-600">Ticket #982 Resolved</div>
-                  <div class="text-muted smaller">Attributed by Mohamed Hassan</div>
-                  <div class="smaller text-primary mt-1">15 minutes ago</div>
+                <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-success" style="width: 85%"></div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="p-4 pt-0">
-            <button class="btn btn-outline-primary w-100 mt-2">View Full History</button>
-          </div>
+
+            <div class="mt-4">
+                <div class="alert alert-info border-0 glass smaller-1">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>System Hint:</strong> Found @ViewBag.OverdueTasks overdue tasks in @ViewBag.ActiveProjects active projects. Review project timelines to improve delivery compliance.
+                </div>
+            </div>
+            
+            <div class="d-grid mt-3">
+                <a href="~/Projects" class="btn btn-primary btn-sm rounded-pill shadow-sm">
+                    Open Projects Dashboard
+                </a>
+            </div>
         </div>
       </div>
     </div>

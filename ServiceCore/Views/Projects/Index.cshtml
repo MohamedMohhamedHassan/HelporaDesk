@@ -27,10 +27,14 @@
                                     <span class="dots">•••</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                    <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_Edit">
                                     <li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a></li>
+                                    </secure-content>
                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Dashboard</a></li>
                                     <li><hr class="dropdown-divider"></li>
+                                    <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_Manage">
                                     <li><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a></li>
+                                    </secure-content>
                                 </ul>
                             </div>
                         </div>

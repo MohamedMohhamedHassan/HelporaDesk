@@ -20,11 +20,20 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 // Email Service - Gmail SMTP for real email delivery
 builder.Services.AddScoped<ServiceCore.Services.IEmailService, ServiceCore.Services.SmtpEmailService>();
 // Notification Service
+// Notification Service
 builder.Services.AddScoped<ServiceCore.Services.INotificationService, ServiceCore.Services.NotificationService>();
+// Permission Service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ServiceCore.Services.IPermissionService, ServiceCore.Services.PermissionService>();
 
 // Register a password hasher for hashing user passwords when Identity isn't fully used
 builder.Services.AddScoped<IPasswordHasher<ServiceCore.Models.User>, PasswordHasher<ServiceCore.Models.User>>();
@@ -61,7 +70,7 @@ using (var scope = app.Services.CreateScope())
     {
         db.Database.EnsureCreated();
 
-        // Seed Default Admin User if none exists
+        // 1. Seed Default Admin User
         if (!db.Users.Any(u => u.Email == "admin@servicecore.local"))
         {
             var adminUser = new ServiceCore.Models.User
@@ -72,14 +81,17 @@ using (var scope = app.Services.CreateScope())
                 Department = "IT",
                 IsActive = true
             };
+
+            // Use the configured password hasher
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "admin");
+
             db.Users.Add(adminUser);
         }
 
-        // Seed Requested Admin User: m.hassan@gmail.com
+        // 2. Seed Requested Admin User: m.hassan@gmail.com
         if (!db.Users.Any(u => u.Email == "m.hassan@gmail.com"))
         {
-            var moUser = new ServiceCore.Models.User
+            var hassanAdmin = new ServiceCore.Models.User
             {
                 Name = "Mohamed Hassan",
                 Email = "m.hassan@gmail.com",
@@ -87,23 +99,26 @@ using (var scope = app.Services.CreateScope())
                 Department = "Administration",
                 IsActive = true
             };
-            moUser.PasswordHash = passwordHasher.HashPassword(moUser, "admin");
-            db.Users.Add(moUser);
+
+            // Use the configured password hasher
+            hassanAdmin.PasswordHash = passwordHasher.HashPassword(hassanAdmin, "admin");
+
+            db.Users.Add(hassanAdmin);
         }
         db.SaveChanges();
 
-        // FORCE seed Departments (added)
+        // 3. Seed Departments (Your contribution)
         var departments = new[] { "IT", "Engineering", "Sales", "Marketing", "HR" };
         foreach (var dept in departments)
         {
             if (!db.Departments.Any(d => d.Name == dept))
             {
-                db.Departments.Add(new Department { Name = dept });
+                db.Departments.Add(new ServiceCore.Models.Department { Name = dept });
             }
         }
         db.SaveChanges();
 
-        // Seed Categories
+        // 4. Seed Categories
         var categories = new[] { "Hardware", "Software", "Network", "Access Request" };
         foreach (var cat in categories)
         {
@@ -112,7 +127,7 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // Seed Priorities
+        // 5. Seed Priorities
         var priorities = new[] { "Low", "Medium", "High", "Critical" };
         foreach (var prio in priorities)
         {
@@ -121,7 +136,7 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // Seed Statuses
+        // 6. Seed Statuses
         var statuses = new[] { "Open", "In Progress", "Resolved", "Closed" };
         foreach (var stat in statuses)
         {
@@ -130,10 +145,10 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // Seed Test Tickets if count is low
+        // 7. Seed Test Tickets & Permissions
         if (db.Tickets.Count() < 3)
         {
-            var adminUser = db.Users.First();
+            var firstAdmin = db.Users.First();
             var statusOpen = db.TicketStatuses.First(s => s.Name == "Open");
             var statusResolved = db.TicketStatuses.First(s => s.Name == "Resolved");
             var priorityHigh = db.TicketPriorities.First(p => p.Name == "High");
@@ -147,9 +162,9 @@ using (var scope = app.Services.CreateScope())
                     Subject = "Network Outage - Building A",
                     Description = "Total loss of connectivity in the main lobby.",
                     StatusId = statusOpen.Id,
-                    PriorityId = db.TicketPriorities.First(p => p.Name == "Critical").Id,
+                    PriorityId = priorityHigh.Id,
                     CategoryId = categoryNetwork.Id,
-                    RequesterId = adminUser.Id,
+                    RequesterId = firstAdmin.Id,
                     CreatedAt = DateTime.Now.AddHours(-1)
                 },
                 new ServiceCore.Models.Ticket
@@ -159,7 +174,7 @@ using (var scope = app.Services.CreateScope())
                     StatusId = statusOpen.Id,
                     PriorityId = priorityMedium.Id,
                     CategoryId = categorySoftware.Id,
-                    RequesterId = adminUser.Id,
+                    RequesterId = firstAdmin.Id,
                     CreatedAt = DateTime.Now.AddHours(-12)
                 },
                 new ServiceCore.Models.Ticket
@@ -169,7 +184,7 @@ using (var scope = app.Services.CreateScope())
                     StatusId = statusResolved.Id,
                     PriorityId = priorityMedium.Id,
                     CategoryId = db.TicketCategories.First(c => c.Name == "Hardware").Id,
-                    RequesterId = adminUser.Id,
+                    RequesterId = firstAdmin.Id,
                     CreatedAt = DateTime.Now.AddDays(-1)
                 }
             );
@@ -178,7 +193,7 @@ using (var scope = app.Services.CreateScope())
             {
                 Title = "Database Seeded",
                 Message = "System base data has been successfully initialized.",
-                UserId = adminUser.Id,
+                UserId = firstAdmin.Id,
                 CreatedAt = DateTime.Now
             });
 
@@ -186,6 +201,9 @@ using (var scope = app.Services.CreateScope())
 
             // Seed Asset Categories
             await AssetSeed.SeedAsync(db);
+
+            // Seed Permissions
+            await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
         }
 
         // Debug Logs

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ServiceCore.Controllers
 {
-    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")] -- Removed in favor of granular PermissionFilter
     public class TicketsManagerController : Controller
     {
         private readonly ServiceCoreDbContext _db;

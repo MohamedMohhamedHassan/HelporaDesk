@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceCore.Data;
 using ServiceCore.Models;
+using System;
 
 namespace ServiceCore.Controllers
 {
@@ -11,11 +13,13 @@ namespace ServiceCore.Controllers
     {
         private readonly ServiceCoreDbContext _context;
         private readonly ServiceCore.Services.IEmailService _emailService;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UsersController(ServiceCoreDbContext context, ServiceCore.Services.IEmailService emailService)
+        public UsersController(ServiceCoreDbContext context, ServiceCore.Services.IEmailService emailService, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
             _emailService = emailService;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<IActionResult> Index()
@@ -36,10 +40,14 @@ namespace ServiceCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                // In a real app, we would send an email here.
-                // For now, just create the user shell.
+                // Create a user shell. Hash a temporary password so we never store plain text.
+                user.IsActive = true;
+                var tempPassword = GenerateTemporaryPassword();
+                user.PasswordHash = _passwordHasher.HashPassword(user, tempPassword);
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                // In a real app we'd email the temp password or invite link.
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -47,8 +55,7 @@ namespace ServiceCore.Controllers
 
         public async Task<IActionResult> Invite()
         {
-            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
-            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
+            await PopulateDropdowns();
             return View();
         }
 
@@ -57,11 +64,10 @@ namespace ServiceCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Invite(string email, string role, string department)
         {
-            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
-
             if (string.IsNullOrEmpty(email))
             {
                 ModelState.AddModelError("Email", "Email is required");
+                await PopulateDropdowns(role, department);
                 return View();
             }
 
@@ -69,6 +75,7 @@ namespace ServiceCore.Controllers
             if (existingUser)
             {
                 ModelState.AddModelError("Email", "User with this email already exists");
+                await PopulateDropdowns(role, department);
                 return View();
             }
 
@@ -82,6 +89,8 @@ namespace ServiceCore.Controllers
                 InviteToken = token,
                 IsActive = false // Not active until registration complete
             };
+
+            // No password yet for invited users; they'll set it on completion.
 
             _context.Add(newUser);
             await _context.SaveChangesAsync();
@@ -98,15 +107,14 @@ namespace ServiceCore.Controllers
 
         // GET: Users/Edit/5
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
+            if (id == null) return NotFound();
+
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
-            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
-
-            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
-
+            await PopulateDropdowns(user.Role, user.Department);
             return View(user);
         }
 
@@ -143,10 +151,23 @@ namespace ServiceCore.Controllers
             }
 
             // repopulate for the view when returning due to validation errors
-            ViewBag.Roles = new[] { "Admin", "Agent", "Technical", "Member", "User" };
-            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
-
+            await PopulateDropdowns(user.Role, user.Department);
             return View(user);
+        }
+
+        private async Task PopulateDropdowns(string? selectedRole = null, string? selectedDept = null)
+        {
+            ViewBag.Roles = await _context.Roles.Select(r => r.Name).ToListAsync();
+            ViewBag.Departments = await _context.Departments.Select(d => d.Name).ToListAsync();
+            ViewBag.SelectedRole = selectedRole;
+            ViewBag.SelectedDepartment = selectedDept;
+        }
+
+        // Helper method added to fix compile error
+        private string GenerateTemporaryPassword()
+        {
+            // Simple robust temp password for now
+            return Guid.NewGuid().ToString("N").Substring(0, 8) + "Temp!1";
         }
     }
 }
