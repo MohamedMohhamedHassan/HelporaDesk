@@ -71,14 +71,25 @@
 
                     <h6 class="fw-bold mb-3">Attachments</h6>
                     <div class="mb-3">
-                        @foreach (var file in Model.Attachments)
-                        {
-                            <div class="d-flex align-items-center gap-2 mb-2 p-2 border rounded bg-light">
-                                <i class="bi bi-file-earmark-text text-primary"></i>
-                                <a href="@file.FilePath" target="_blank" class="text-decoration-none text-dark small fw-medium">@file.FileName</a>
-                                <span class="text-muted small ms-auto">@file.UploadedAt.ToShortDateString()</span>
-                            </div>
-                        }
+                                        @{ var currentUserId = 0; int.TryParse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value, out currentUserId); }
+                                        @foreach (var file in Model.Attachments)
+                                        {
+                                            <div class="d-flex align-items-center gap-2 mb-2 p-2 border rounded bg-light">
+                                                <i class="bi bi-file-earmark-text text-primary"></i>
+                                                <a href="@file.FilePath" target="_blank" class="text-decoration-none text-dark small fw-medium">@file.FileName</a>
+                                                <span class="text-muted small ms-auto">@file.UploadedAt.ToShortDateString()</span>
+                                                @if (file.UserId == currentUserId || User.IsInRole("Admin"))
+                                                {
+                                                    <form asp-action="DeleteAttachment" method="post" class="ms-2">
+                                                        <input type="hidden" name="attachmentId" value="@file.Id" />
+                                                        <input type="hidden" name="taskId" value="@Model.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete attachment">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+                                            </div>
+                                        }
                         @if(!Model.Attachments.Any()) {
                              <div class="text-muted small mb-2">No files attached.</div>
                         }

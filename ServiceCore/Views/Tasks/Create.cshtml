@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "New Task";
-    // Usually these SelectLists should come from the Controller via ViewBag/ViewModel, 
+    // Usually these SelectLists should come from the Controller via ViewBag/ViewModel,
     // but for inline simplicity we'll create them or assume ViewBag populated.
     // Ideally we update Controller to pass these.
 }
@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        
+
                         <div class="mb-3">
                             <label asp-for="Title" class="form-label">Task Title</label>
                             <input asp-for="Title" class="form-control" />
@@ -52,9 +52,18 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label asp-for="ProjectId" class="form-label">Project ID (Temporary Input)</label>
-                                <!-- In real app, render a select list or hidden field if coming from project -->
-                                <input asp-for="ProjectId" class="form-control" />
+                                @if (Model.ProjectId != 0)
+                                {
+                                    <label class="form-label">Project</label>
+                                    <input type="hidden" asp-for="ProjectId" />
+                                    <input class="form-control"
+                                           value="@(ViewBag.ProjectName ?? "Project #" + Model.ProjectId)" readonly />
+                                }
+                                else
+                                {
+                                    <label asp-for="ProjectId" class="form-label">Project ID (Temporary Input)</label>
+                                    <input asp-for="ProjectId" class="form-control" />
+                                }
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label asp-for="DueDate" class="form-label">Due Date</label>
@@ -68,7 +77,8 @@
                                 @foreach (var user in (List<ServiceCore.Models.User>)ViewData["AvailableAssignees"])
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="assigneeIds" value="@user.Id" id="assignee_@user.Id">
+                                        <input class="form-check-input" type="checkbox" name="assigneeIds" value="@user.Id"
+                                               id="assignee_@user.Id">
                                         <label class="form-check-label" for="assignee_@user.Id">
                                             @user.Name (@user.Role)
                                         </label>

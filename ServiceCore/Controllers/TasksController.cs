@@ -59,21 +59,55 @@ namespace ServiceCore.Controllers
         {
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", projectId);
             ViewData["AssigneeId"] = new SelectList(_context.Users, "Id", "Name");
-            
+
             // Get team members for the project if specified
             if (projectId.HasValue)
             {
-               var project = _context.Projects.Include(p => p.TeamMembers).FirstOrDefault(p => p.Id == projectId);
-               ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == projectId), "Id", "Title");
-               ViewData["AvailableAssignees"] = project?.TeamMembers.ToList() ?? _context.Users.ToList();
+                var project = _context.Projects.Include(p => p.TeamMembers).FirstOrDefault(p => p.Id == projectId);
+                ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == projectId), "Id", "Title");
+                ViewData["AvailableAssignees"] = project?.TeamMembers.ToList() ?? _context.Users.ToList();
+                ViewBag.ProjectName = project?.Name;
             }
             else
             {
-               ViewData["MilestoneId"] = new SelectList(_context.Milestones, "Id", "Title");
-               ViewData["AvailableAssignees"] = _context.Users.ToList();
+                ViewData["MilestoneId"] = new SelectList(_context.Milestones, "Id", "Title");
+                ViewData["AvailableAssignees"] = _context.Users.ToList();
             }
-            
+
             return View(new ProjectTask { ProjectId = projectId.GetValueOrDefault() });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAttachment(int attachmentId, int taskId)
+        {
+            var attachment = await _context.Attachments.FindAsync(attachmentId);
+            if (attachment == null) return NotFound();
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
+            var isAdmin = User.IsInRole("Admin");
+
+            if (attachment.UserId != userId && !isAdmin)
+            {
+                return Forbid();
+            }
+
+            // delete file from disk if exists
+            try
+            {
+                var fileName = Path.GetFileName(attachment.FilePath ?? string.Empty);
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    var phys = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+                    if (System.IO.File.Exists(phys)) System.IO.File.Delete(phys);
+                }
+            }
+            catch { }
+
+            _context.Attachments.Remove(attachment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = taskId });
         }
 
         // POST: Tasks/Create
@@ -85,7 +119,7 @@ namespace ServiceCore.Controllers
             {
                 _context.Add(task);
                 await _context.SaveChangesAsync();
-                
+
                 // Add assignees
                 if (assigneeIds != null && assigneeIds.Length > 0)
                 {
@@ -96,7 +130,7 @@ namespace ServiceCore.Controllers
                     }
                     await _context.SaveChangesAsync();
                 }
-                
+
                 return RedirectToAction(nameof(Index), new { projectId = task.ProjectId });
             }
             return View(task);
@@ -111,16 +145,16 @@ namespace ServiceCore.Controllers
                 .Include(t => t.Assignees)
                 .FirstOrDefaultAsync(t => t.Id == id);
             if (task == null) return NotFound();
-            
+
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", task.ProjectId);
             ViewData["AssigneeId"] = new SelectList(_context.Users, "Id", "Name", task.AssigneeId);
             ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == task.ProjectId), "Id", "Title", task.MilestoneId);
-            
+
             // Get available assignees from project team
             var project = await _context.Projects.Include(p => p.TeamMembers).FirstOrDefaultAsync(p => p.Id == task.ProjectId);
             ViewData["AvailableAssignees"] = project?.TeamMembers.ToList() ?? _context.Users.ToList();
             ViewData["SelectedAssignees"] = task.Assignees.Select(a => a.Id).ToArray();
-            
+
             return View(task);
         }
 
@@ -139,9 +173,9 @@ namespace ServiceCore.Controllers
                     var existingTask = await _context.ProjectTasks
                         .Include(t => t.Assignees)
                         .FirstOrDefaultAsync(t => t.Id == id);
-                    
+
                     if (existingTask == null) return NotFound();
-                    
+
                     // Update scalar properties
                     existingTask.Title = task.Title;
                     existingTask.Description = task.Description;
@@ -151,7 +185,7 @@ namespace ServiceCore.Controllers
                     existingTask.ProjectId = task.ProjectId;
                     existingTask.AssigneeId = task.AssigneeId;
                     existingTask.MilestoneId = task.MilestoneId;
-                    
+
                     // Update assignees
                     existingTask.Assignees.Clear();
                     if (assigneeIds != null && assigneeIds.Length > 0)
@@ -162,7 +196,7 @@ namespace ServiceCore.Controllers
                             existingTask.Assignees.Add(assignee);
                         }
                     }
-                    
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

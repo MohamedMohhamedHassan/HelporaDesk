@@ -1,0 +1,8 @@
+Id,Subject,Status,Priority,Requester,Assigned,CreatedAt,UpdatedAt
+9,"co",Resolved,High,"Mohamed Hassan","mohamed fathi khalifa",2026-02-22T22:02:48.7567039,2026-02-22T22:27:31.5312281
+8,"fcccccccccccccccccccccccccc",In Progress,Medium,"Mohamed Hassan","mohamed fathi khalifa",2026-02-22T17:16:17.0956003,2026-02-22T17:16:49.3637009
+7,"fcccccccccccccccccccccccccc",In Progress,Low,"Mohamed Hassan","Mohamed Mo",2026-02-22T14:06:19.1768608,2026-02-22T17:11:30.0926193
+6,"divece camara",Open,Critical,"Mohamed Hassan","Mohamed Mo",2026-02-22T13:19:40.9642241,2026-02-22T17:10:57.9086646
+4,"fix head of camera",Resolved,Critical,"Mohamed Hassan","Mohamed Mo",2026-02-18T16:55:25.8285469,2026-02-22T17:09:52.8751192
+1,"Network Outage - Building A",Open,Critical,"Admin User","",2026-02-18T14:21:51.5488486,2026-02-22T13:18:30.4429206
+2,"Software License Request",Open,Medium,"Admin User","",2026-02-18T03:21:51.5490645,2026-02-18T03:21:51.5490645

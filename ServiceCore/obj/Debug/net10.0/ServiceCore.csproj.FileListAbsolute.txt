@@ -229,3 +229,4 @@ D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\obj\De
 D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\obj\Debug\net10.0\ServiceCore.pdb
 D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\obj\Debug\net10.0\ServiceCore.genruntimeconfig.cache
 D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\obj\Debug\net10.0\ref\ServiceCore.dll
+D:\Diploma in IT & Enginerring-DITE\Final-Project\HelporaDesk\ServiceCore\obj\Debug\net10.0\compressed\pkxl23wbpj-{0}-lsbanb981w-lsbanb981w.gz

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceCore.Data;
 using ServiceCore.Models;
+using System.Security.Claims;
 
 namespace ServiceCore.Controllers
 {
@@ -19,14 +20,25 @@ namespace ServiceCore.Controllers
         public async Task<IActionResult> Index(int? projectId)
         {
             var tasksQuery = _context.ProjectTasks
-                .Include(t => t.Project)
+                .Include(t => t.Project).ThenInclude(p => p.TeamMembers)
                 .Include(t => t.Assignee)
                 .AsQueryable();
+
+            // Role-based visibility
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
+            var role = User.FindFirstValue(ClaimTypes.Role) ?? string.Empty;
 
             if (projectId.HasValue)
             {
                 tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId.Value);
                 ViewData["ProjectId"] = projectId.Value;
+            }
+
+            if (!string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                // Non-admins see tasks assigned to them OR tasks in projects where they are owner/teamlead/member
+                tasksQuery = tasksQuery.Where(t => t.AssigneeId == userId ||
+                    (t.Project != null && (t.Project.OwnerId == userId || t.Project.TeamLeadId == userId || t.Project.TeamMembers.Any(tm => tm.Id == userId))));
             }
 
             var tasks = await tasksQuery.ToListAsync();

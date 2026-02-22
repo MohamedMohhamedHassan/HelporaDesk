@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj": {}
+    "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj": {}
   },
   "projects": {
-    "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj": {
+    "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
+        "projectUniqueName": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
         "projectName": "ServiceCore",
-        "projectPath": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
+        "projectPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
         "packagesPath": "C:\\Users\\AL Lewaa Company\\.nuget\\packages\\",
-        "outputPath": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\obj\\",
+        "outputPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

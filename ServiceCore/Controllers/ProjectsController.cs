@@ -21,10 +21,21 @@ namespace ServiceCore.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            var projects = await _context.Projects
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
+            var role = User.FindFirstValue(ClaimTypes.Role) ?? string.Empty;
+
+            var query = _context.Projects
                 .Include(p => p.Owner)
                 .Include(p => p.Tasks)
-                .ToListAsync();
+                .Include(p => p.TeamMembers)
+                .AsQueryable();
+
+            if (role != "Admin")
+            {
+                query = query.Where(p => p.OwnerId == userId || p.TeamLeadId == userId || p.TeamMembers.Any(tm => tm.Id == userId));
+            }
+
+            var projects = await query.ToListAsync();
             return View(projects);
         }
 
@@ -63,7 +74,7 @@ namespace ServiceCore.Controllers
             {
                 _context.Add(project);
                 await _context.SaveChangesAsync(); // Save project first to generate ID
-                
+
                 // Add team members
                 if (teamMemberIds != null && teamMemberIds.Length > 0)
                 {
@@ -74,7 +85,7 @@ namespace ServiceCore.Controllers
                     }
                     await _context.SaveChangesAsync();
                 }
-                
+
                 // Log activity
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
                 _context.ActivityLogs.Add(new ActivityLog
@@ -126,9 +137,9 @@ namespace ServiceCore.Controllers
                     var existingProject = await _context.Projects
                         .Include(p => p.TeamMembers)
                         .FirstOrDefaultAsync(p => p.Id == id);
-                    
+
                     if (existingProject == null) return NotFound();
-                    
+
                     // Update scalar properties
                     existingProject.Name = project.Name;
                     existingProject.Description = project.Description;
@@ -138,7 +149,7 @@ namespace ServiceCore.Controllers
                     existingProject.EndDate = project.EndDate;
                     existingProject.OwnerId = project.OwnerId;
                     existingProject.TeamLeadId = project.TeamLeadId;
-                    
+
                     // Update team members
                     existingProject.TeamMembers.Clear();
                     if (teamMemberIds != null && teamMemberIds.Length > 0)
@@ -149,7 +160,7 @@ namespace ServiceCore.Controllers
                             existingProject.TeamMembers.Add(member);
                         }
                     }
-                    
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
