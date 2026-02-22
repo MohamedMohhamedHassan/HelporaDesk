@@ -10,11 +10,13 @@
       <div class="text-muted" data-testid="text-tickets-subtitle">Manage and track all support requests.</div>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary btn-sm" data-testid="button-export-tickets">Export</button>
+      <a asp-action="ExportCsv" asp-route-search="@(ViewData["Search"] ?? "")"
+         asp-route-timeFilter="@(ViewData["TimeFilter"] ?? "")" class="btn btn-outline-secondary btn-sm"
+         data-testid="button-export-tickets">Export</a>
       <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Tickets_Create">
-      <a asp-action="Create" class="btn btn-primary btn-sm" data-testid="button-new-ticket-2">
-        <i class="bi bi-plus-circle"></i> New Ticket
-      </a>
+        <a asp-action="Create" class="btn btn-primary btn-sm" data-testid="button-new-ticket-2">
+          <i class="bi bi-plus-circle"></i> New Ticket
+        </a>
       </secure-content>
     </div>
   </div>
@@ -22,17 +24,30 @@
   <div class="card shadow-sm" data-testid="card-tickets-table">
     <div class="card-body">
       <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
-        <div class="input-group" style="max-width: 420px">
-          <span class="input-group-text">Search</span>
-          <input class="form-control" id="ticketSearch" type="search" placeholder="Search tickets..." data-testid="input-ticket-search" />
-        </div>
+        <form asp-action="Index" method="get" class="d-flex" style="max-width:420px">
+          <div class="input-group">
+            <span class="input-group-text">Search</span>
+            <input name="search" value="@ViewData["Search"]" class="form-control" id="ticketSearch" type="search"
+                   placeholder="Search tickets..." data-testid="input-ticket-search" />
+          </div>
+        </form>
         <div class="d-flex gap-2 align-items-center">
-          <button class="btn btn-outline-secondary btn-sm" id="ticketFilterBtn" data-testid="button-ticket-filter">Filter</button>
-          <select class="form-select form-select-sm" id="ticketRange" style="width: 170px" data-testid="select-ticket-range">
-            <option value="30" selected>Last 30 days</option>
-            <option value="7">Last 7 days</option>
-            <option value="all">All time</option>
-          </select>
+          @{
+            var searchValue = (ViewData["Search"] ?? "").ToString(); var tf = (ViewData["TimeFilter"] ??
+            "30").ToString();
+            var timeItems = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>() {
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem("Last 30 days","30", tf=="30"),
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem("Last 7 days","7", tf=="7"),
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem("Today","1", tf=="1" || tf=="today"),
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem("All time","all", tf=="all")
+             };
+          }
+          <form asp-action="Index" method="get" class="d-flex align-items-center">
+            <input type="hidden" name="search" value="@searchValue" />
+            <select name="timeFilter" asp-items="timeItems" class="form-select form-select-sm" style="width:170px"
+                    data-testid="select-ticket-range"></select>
+            <button type="submit" class="btn btn-outline-secondary btn-sm ms-2">Apply</button>
+          </form>
         </div>
       </div>
 
@@ -53,33 +68,47 @@
           <tbody id="ticketsTbody">
             @if (ViewData["Tickets"] is List<ServiceCore.Models.Ticket> tickets)
             {
-                foreach (var t in tickets)
-                {
-                    <tr>
-                        <td>#@t.Id</td>
-                        <td>@t.Subject</td>
-                        <td><span class="badge bg-secondary">@t.Status?.Name</span></td>
-                        <td>@t.Priority?.Name</td>
-                        <td>@t.Requester?.Name</td>
-                        <td>@t.Assigned?.Name</td>
-                        <td class="text-end">@(t.UpdatedAt?.ToString("g") ?? t.CreatedAt.ToString("g"))</td>
-                        <td class="text-end">
-                            <a href="/Tickets/Details/@t.Id" class="btn btn-sm btn-primary">
-                                <i class="bi bi-chat-dots"></i> View & Chat
-                            </a>
-                        </td>
-                    </tr>
-                }
+              foreach (var t in tickets)
+              {
+                <tr>
+                  <td>#@t.Id</td>
+                  <td>@t.Subject</td>
+                  <td><span class="badge bg-secondary">@t.Status?.Name</span></td>
+                  <td>@t.Priority?.Name</td>
+                  <td>@t.Requester?.Name</td>
+                  <td>@t.Assigned?.Name</td>
+                  <td class="text-end">@(t.UpdatedAt?.ToString("g") ?? t.CreatedAt.ToString("g"))</td>
+                  <td class="text-end">
+                    <a href="/Tickets/Details/@t.Id" class="btn btn-sm btn-primary">
+                      <i class="bi bi-chat-dots"></i> View & Chat
+                    </a>
+                  </td>
+                </tr>
+              }
             }
           </tbody>
         </table>
       </div>
 
       <div class="d-flex align-items-center justify-content-between">
-        <div class="text-muted small" id="ticketsMeta" data-testid="text-tickets-meta"></div>
+        @{
+          var total = (ViewData["TotalCount"] as int?) ?? 0;
+          var page = (ViewData["Page"] as int?) ?? 1;
+          var pageSize = (ViewData["PageSize"] as int?) ?? 20;
+          var totalPages = (ViewData["TotalPages"] as int?) ?? 1;
+          var search = (ViewData["Search"] ?? "").ToString();
+          var timeFilter = (ViewData["TimeFilter"] ?? "").ToString();
+          var prevPage = Math.Max(1, page - 1);
+          var nextPage = Math.Min(totalPages, page + 1);
+        }
+        <div class="text-muted small" id="ticketsMeta" data-testid="text-tickets-meta">
+          Showing page @(page) of @(totalPages) — @(total) results
+        </div>
         <div class="d-flex gap-2">
-          <button class="btn btn-outline-secondary btn-sm" id="ticketsPrev" data-testid="button-tickets-prev" disabled>Previous</button>
-          <button class="btn btn-outline-secondary btn-sm" id="ticketsNext" data-testid="button-tickets-next">Next</button>
+          <a asp-action="Index" asp-route-page="@prevPage" asp-route-search="@search" asp-route-timeFilter="@timeFilter"
+             class="btn btn-outline-secondary btn-sm" aria-disabled="@(page <= 1)">Previous</a>
+          <a asp-action="Index" asp-route-page="@nextPage" asp-route-search="@search" asp-route-timeFilter="@timeFilter"
+             class="btn btn-outline-secondary btn-sm" aria-disabled="@(page >= totalPages)">Next</a>
         </div>
       </div>
     </div>

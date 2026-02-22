@@ -3,6 +3,8 @@
     ViewData["Title"] = "Create Solution";
     var topics = (List<ServiceCore.Models.SolutionTopic>)ViewBag.Topics;
     var users = (List<ServiceCore.Models.User>)ViewBag.Users;
+    var topicSelect = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(topics, "Id", "Name", Model?.TopicId);
+    var userSelect = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(users, "Id", "Name", Model?.OwnerId);
 }
 
 <div class="content">
@@ -34,23 +36,15 @@
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label class="form-label fw-700">Topic <span class="text-danger">*</span></label>
-                        <select class="form-select bg-light border-0" asp-for="TopicId" required>
+                        <select class="form-select bg-light border-0" asp-for="TopicId" asp-items="topicSelect" required>
                             <option value="">-- Select Topic --</option>
-                            @foreach (var topic in topics)
-                            {
-                                <option value="@topic.Id">@topic.Name</option>
-                            }
                         </select>
                         <span asp-validation-for="TopicId" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-700">Solution Owner</label>
-                        <select class="form-select bg-light border-0" asp-for="OwnerId">
+                        <select class="form-select bg-light border-0" asp-for="OwnerId" asp-items="userSelect">
                             <option value="">-- Unassigned --</option>
-                            @foreach (var user in users)
-                            {
-                                <option value="@user.Id">@user.Name</option>
-                            }
                         </select>
                     </div>
                 </div>

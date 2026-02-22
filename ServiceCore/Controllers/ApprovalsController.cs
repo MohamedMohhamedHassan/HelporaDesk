@@ -44,7 +44,7 @@ namespace ServiceCore.Controllers
             if (approval == null) return NotFound();
 
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
-            
+
             approval.Status = status;
             approval.Comments = comments;
             approval.ActedAt = DateTime.UtcNow;
@@ -90,7 +90,8 @@ namespace ServiceCore.Controllers
             _db.Approvals.Add(request);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            TempData["Success"] = "Approval request submitted.";
+            return RedirectToAction("Details", "Tickets", new { id = relatedId });
         }
     }
 }

@@ -5,6 +5,8 @@ using ServiceCore.Models;
 using ServiceCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Text;
 
 namespace ServiceCore.Controllers
 {
@@ -19,11 +21,11 @@ namespace ServiceCore.Controllers
             _notificationService = notificationService;
         }
 
-        public IActionResult Index(string filter = "")
+        public IActionResult Index(string filter = "", string search = "", string timeFilter = "30", int page = 1, int pageSize = 20)
         {
-            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var userId = int.TryParse(userIdString, out int id) ? id : 0;
-            var isAdmin = User.IsInRole("Admin");
+            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
 
             var query = _db.Tickets
                 .Include(t => t.Status)
@@ -33,22 +35,144 @@ namespace ServiceCore.Controllers
                 .Include(t => t.Assigned)
                 .AsQueryable();
 
-            if (!isAdmin || filter == "my")
+            // Visibility rules
+            if (role == "User" || role == "Member")
             {
-                query = query.Where(t => t.RequesterId == userId || t.AssignedId == userId); // Filter for self
-                if (filter == "my")
+                query = query.Where(t => t.RequesterId == userId);
+            }
+            else if (role == "Agent" || role == "Technical")
+            {
+                query = query.Where(t => t.RequesterId == userId || t.AssignedId == userId || t.AssignedId == null);
+            }
+
+            // Apply time filter
+            if (!string.IsNullOrEmpty(timeFilter) && timeFilter.ToLower() != "all")
+            {
+                DateTime cutoff = DateTime.MinValue;
+                switch (timeFilter.ToLower())
                 {
-                    ViewData["Title"] = "My Tickets";
+                    case "30":
+                        cutoff = DateTime.Now.AddDays(-30);
+                        break;
+                    case "7":
+                        cutoff = DateTime.Now.AddDays(-7);
+                        break;
+                    case "today":
+                    case "1":
+                        cutoff = DateTime.Today;
+                        break;
+                }
+
+                if (cutoff > DateTime.MinValue)
+                {
+                    query = query.Where(t => t.CreatedAt >= cutoff);
                 }
             }
 
+            // Apply search
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var s = search.Trim();
+                query = query.Where(t => (t.Subject != null && t.Subject.Contains(s)) ||
+                                         (t.Description != null && t.Description.Contains(s)) ||
+                                         (t.Requester != null && t.Requester.Name != null && t.Requester.Name.Contains(s)) ||
+                                         (t.Assigned != null && t.Assigned.Name != null && t.Assigned.Name.Contains(s)));
+            }
+
+            var total = query.Count();
+
             var tickets = query
                 .OrderByDescending(t => t.UpdatedAt ?? t.CreatedAt)
+                .Skip((Math.Max(1, page) - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
 
             ViewData["Tickets"] = tickets;
             ViewData["Filter"] = filter;
+            ViewData["Search"] = search;
+            ViewData["TimeFilter"] = timeFilter;
+            ViewData["Page"] = Math.Max(1, page);
+            ViewData["PageSize"] = pageSize;
+            ViewData["TotalPages"] = (int)Math.Ceiling(total / (double)pageSize);
+            ViewData["TotalCount"] = total;
+
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult ExportCsv(string filter = "", string search = "", string timeFilter = "")
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.TryParse(userIdString, out int id) ? id : 0;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+
+            var query = _db.Tickets
+                .Include(t => t.Status)
+                .Include(t => t.Priority)
+                .Include(t => t.Category)
+                .Include(t => t.Requester)
+                .Include(t => t.Assigned)
+                .AsQueryable();
+
+            if (role == "User" || role == "Member")
+            {
+                query = query.Where(t => t.RequesterId == userId);
+            }
+            else if (role == "Agent" || role == "Technical")
+            {
+                query = query.Where(t => t.RequesterId == userId || t.AssignedId == userId || t.AssignedId == null);
+            }
+
+            if (!string.IsNullOrEmpty(timeFilter) && timeFilter.ToLower() != "all")
+            {
+                DateTime cutoff = DateTime.MinValue;
+                switch (timeFilter.ToLower())
+                {
+                    case "30":
+                        cutoff = DateTime.Now.AddDays(-30);
+                        break;
+                    case "7":
+                        cutoff = DateTime.Now.AddDays(-7);
+                        break;
+                    case "today":
+                    case "1":
+                        cutoff = DateTime.Today;
+                        break;
+                }
+
+                if (cutoff > DateTime.MinValue)
+                {
+                    query = query.Where(t => t.CreatedAt >= cutoff);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var s = search.Trim();
+                query = query.Where(t => (t.Subject != null && t.Subject.Contains(s)) ||
+                                         (t.Description != null && t.Description.Contains(s)) ||
+                                         (t.Requester != null && t.Requester.Name != null && t.Requester.Name.Contains(s)) ||
+                                         (t.Assigned != null && t.Assigned.Name != null && t.Assigned.Name.Contains(s)));
+            }
+
+            var list = query.OrderByDescending(t => t.UpdatedAt ?? t.CreatedAt).ToList();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Id,Subject,Status,Priority,Requester,Assigned,CreatedAt,UpdatedAt");
+            foreach (var t in list)
+            {
+                var subject = (t.Subject ?? "").Replace("\"", "\"\"");
+                var status = t.Status?.Name ?? "";
+                var priority = t.Priority?.Name ?? "";
+                var requester = t.Requester?.Name ?? "";
+                var assigned = t.Assigned?.Name ?? "";
+                var created = t.CreatedAt.ToString("o");
+                var updated = (t.UpdatedAt ?? t.CreatedAt).ToString("o");
+                sb.AppendLine($"{t.Id},\"{subject}\",{status},{priority},\"{requester}\",\"{assigned}\",{created},{updated}");
+            }
+
+            var bytes = Encoding.UTF8.GetBytes(sb.ToString());
+            return File(bytes, "text/csv", $"tickets_{DateTime.Now:yyyyMMddHHmm}.csv");
         }
 
         [HttpGet]
@@ -69,11 +193,11 @@ namespace ServiceCore.Controllers
             // Get related solutions based on category and keywords
             var categoryName = ticket.Category?.Name?.ToLower() ?? "";
             var keywords = (ticket.Subject + " " + ticket.Description)?.ToLower() ?? "";
-            
+
             var relatedSolutions = _db.Solutions
                 .Include(s => s.Topic)
                 .Where(s => s.Status == "Published")
-                .Where(s => 
+                .Where(s =>
                     (s.Topic != null && categoryName.Contains(s.Topic.Name.ToLower())) ||
                     (s.Title != null && keywords.Contains(s.Title.ToLower())) ||
                     (s.Keywords != null && keywords.Contains(s.Keywords.ToLower())))
@@ -94,7 +218,7 @@ namespace ServiceCore.Controllers
 
             ViewBag.Statuses = _db.TicketStatuses.ToList();
             ViewBag.Priorities = _db.TicketPriorities.ToList();
-            
+
             // Hierarchical Categories
             var allCategories = _db.TicketCategories.Include(c => c.Children).ToList();
             var flatCategories = new List<dynamic>();
@@ -103,7 +227,7 @@ namespace ServiceCore.Controllers
                 FlattenCategories(root, flatCategories, 0);
             }
             ViewBag.Categories = flatCategories;
-            
+
             ViewBag.Users = _db.Users.ToList();
 
             return View(ticket);
@@ -122,7 +246,7 @@ namespace ServiceCore.Controllers
             {
                 ViewBag.Statuses = _db.TicketStatuses.ToList();
                 ViewBag.Priorities = _db.TicketPriorities.ToList();
-                
+
                 // Hierarchical Categories
                 var allCategories = _db.TicketCategories.Include(c => c.Children).ToList();
                 var flatCategories = new List<dynamic>();
@@ -131,7 +255,7 @@ namespace ServiceCore.Controllers
                     FlattenCategories(root, flatCategories, 0);
                 }
                 ViewBag.Categories = flatCategories;
-                
+
                 ViewBag.Users = _db.Users.ToList();
                 return View(ticket);
             }
@@ -201,11 +325,11 @@ namespace ServiceCore.Controllers
             };
 
             _db.TicketComments.Add(comment);
-            
+
             // Update ticket timestamp
             ticket.UpdatedAt = DateTime.Now;
             _db.Tickets.Update(ticket);
-            
+
             _db.SaveChanges();
 
             await _notificationService.NotifyNewCommentAsync(ticket.Id, comment.Id);
@@ -235,7 +359,7 @@ namespace ServiceCore.Controllers
                 FlattenCategories(root, flatCategories, 0);
             }
             ViewBag.Categories = flatCategories;
-            
+
             ViewBag.Priorities = _db.TicketPriorities.ToList();
             return View();
         }
@@ -260,7 +384,7 @@ namespace ServiceCore.Controllers
                     FlattenCategories(root, flatCategories, 0);
                 }
                 ViewBag.Categories = flatCategories;
-                
+
                 ViewBag.Priorities = _db.TicketPriorities.ToList();
                 return View(ticket);
             }
@@ -273,7 +397,7 @@ namespace ServiceCore.Controllers
 
             ticket.RequesterId = userId;
             ticket.CreatedAt = DateTime.Now;
-            
+
             // Default Status to "Open" or "New"
             var openStatus = _db.TicketStatuses.FirstOrDefault(s => s.Name == "Open" || s.Name == "New");
             ticket.StatusId = openStatus?.Id ?? 1; // Fallback to 1 if not found

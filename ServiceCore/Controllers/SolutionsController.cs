@@ -129,11 +129,20 @@ namespace ServiceCore.Controllers
 
         // GET: Solutions/Create
         [Authorize]
-        public IActionResult Create()
+        public IActionResult Create(int? ticketId, string? title)
         {
             ViewBag.Topics = _db.SolutionTopics.ToList();
             ViewBag.Users = _db.Users.ToList();
-            return View();
+
+            var model = new Solution();
+            if (!string.IsNullOrEmpty(title))
+            {
+                model.Title = title;
+            }
+
+            // expose ticketId for the view if needed
+            ViewBag.RelatedTicketId = ticketId;
+            return View(model);
         }
 
         // POST: Solutions/Create
@@ -160,7 +169,7 @@ namespace ServiceCore.Controllers
 
             solution.CreatedBy = userId;
             solution.CreatedAt = DateTime.Now;
-            
+
             if (!string.IsNullOrEmpty(status))
             {
                 solution.Status = status;

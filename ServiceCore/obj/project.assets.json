@@ -2331,11 +2331,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
+      "projectUniqueName": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
       "projectName": "ServiceCore",
-      "projectPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
+      "projectPath": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\ServiceCore.csproj",
       "packagesPath": "C:\\Users\\AL Lewaa Company\\.nuget\\packages\\",
-      "outputPath": "D:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\obj\\",
+      "outputPath": "d:\\Diploma in IT & Enginerring-DITE\\Final-Project\\HelporaDesk\\ServiceCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
