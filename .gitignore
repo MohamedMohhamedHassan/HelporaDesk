@@ -1,0 +1,12 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+out/
+.vscode/
+*.log
+email_log.txt
+wwwroot/lib/
