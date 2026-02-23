@@ -349,6 +349,37 @@ namespace ServiceCore.Controllers
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            var ticket = await _db.Tickets.FindAsync(id);
+            if (ticket == null) return NotFound();
+
+            var newStatus = await _db.TicketStatuses.FirstOrDefaultAsync(s => s.Name == status);
+            if (newStatus == null) return BadRequest("Invalid status.");
+
+            var oldStatusId = ticket.StatusId;
+            ticket.StatusId = newStatus.Id;
+            ticket.UpdatedAt = DateTime.Now;
+
+            // Handle ResolutionDate if status is Closed
+            if (status == "Closed")
+            {
+                ticket.ResolutionDate = DateTime.Now;
+            }
+            else if (oldStatusId != newStatus.Id)
+            {
+                ticket.ResolutionDate = null;
+            }
+
+            _db.Tickets.Update(ticket);
+            await _db.SaveChangesAsync();
+
+            await _notificationService.NotifyTicketUpdateAsync(ticket.Id, $"Ticket #{ticket.Id} status updated to {status} by a manager.");
+
+            return RedirectToAction(nameof(Details), new { id = ticket.Id });
+        }
+
         private void PopulateDropdowns()
         {
             ViewBag.Statuses = _db.TicketStatuses.ToList();

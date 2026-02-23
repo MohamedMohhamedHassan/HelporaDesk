@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<ServiceCore.Services.PermissionFilter>();
 });
+
 // Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -20,15 +21,16 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
     });
+
 builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
 });
+
 // Email Service - Gmail SMTP for real email delivery
 builder.Services.AddScoped<ServiceCore.Services.IEmailService, ServiceCore.Services.SmtpEmailService>();
-// Notification Service
 // Notification Service
 builder.Services.AddScoped<ServiceCore.Services.INotificationService, ServiceCore.Services.NotificationService>();
 // Permission Service
@@ -107,18 +109,7 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // 3. Seed Departments (Your contribution)
-        var departments = new[] { "IT", "Engineering", "Sales", "Marketing", "HR" };
-        foreach (var dept in departments)
-        {
-            if (!db.Departments.Any(d => d.Name == dept))
-            {
-                db.Departments.Add(new ServiceCore.Models.Department { Name = dept });
-            }
-        }
-        db.SaveChanges();
-
-        // 4. Seed Categories
+        // Seed Categories
         var categories = new[] { "Hardware", "Software", "Network", "Access Request" };
         foreach (var cat in categories)
         {
@@ -127,7 +118,7 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // 5. Seed Priorities
+        // Seed Priorities
         var priorities = new[] { "Low", "Medium", "High", "Critical" };
         foreach (var prio in priorities)
         {
@@ -136,7 +127,7 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // 6. Seed Statuses
+        // Seed Statuses
         var statuses = new[] { "Open", "In Progress", "Resolved", "Closed" };
         foreach (var stat in statuses)
         {
@@ -145,10 +136,10 @@ using (var scope = app.Services.CreateScope())
         }
         db.SaveChanges();
 
-        // 7. Seed Test Tickets & Permissions
+        // Seed Test Tickets if count is low
         if (db.Tickets.Count() < 3)
         {
-            var firstAdmin = db.Users.First();
+            var adminUser = db.Users.First();
             var statusOpen = db.TicketStatuses.First(s => s.Name == "Open");
             var statusResolved = db.TicketStatuses.First(s => s.Name == "Resolved");
             var priorityHigh = db.TicketPriorities.First(p => p.Name == "High");
@@ -162,9 +153,9 @@ using (var scope = app.Services.CreateScope())
                     Subject = "Network Outage - Building A",
                     Description = "Total loss of connectivity in the main lobby.",
                     StatusId = statusOpen.Id,
-                    PriorityId = priorityHigh.Id,
+                    PriorityId = db.TicketPriorities.First(p => p.Name == "Critical").Id,
                     CategoryId = categoryNetwork.Id,
-                    RequesterId = firstAdmin.Id,
+                    RequesterId = adminUser.Id,
                     CreatedAt = DateTime.Now.AddHours(-1)
                 },
                 new ServiceCore.Models.Ticket
@@ -174,7 +165,7 @@ using (var scope = app.Services.CreateScope())
                     StatusId = statusOpen.Id,
                     PriorityId = priorityMedium.Id,
                     CategoryId = categorySoftware.Id,
-                    RequesterId = firstAdmin.Id,
+                    RequesterId = adminUser.Id,
                     CreatedAt = DateTime.Now.AddHours(-12)
                 },
                 new ServiceCore.Models.Ticket
@@ -184,7 +175,7 @@ using (var scope = app.Services.CreateScope())
                     StatusId = statusResolved.Id,
                     PriorityId = priorityMedium.Id,
                     CategoryId = db.TicketCategories.First(c => c.Name == "Hardware").Id,
-                    RequesterId = firstAdmin.Id,
+                    RequesterId = adminUser.Id,
                     CreatedAt = DateTime.Now.AddDays(-1)
                 }
             );
@@ -193,18 +184,32 @@ using (var scope = app.Services.CreateScope())
             {
                 Title = "Database Seeded",
                 Message = "System base data has been successfully initialized.",
-                UserId = firstAdmin.Id,
+                UserId = adminUser.Id,
                 CreatedAt = DateTime.Now
             });
 
             db.SaveChanges();
-
-            // Seed Asset Categories
-            await AssetSeed.SeedAsync(db);
-
-            // Seed Permissions
-            await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
         }
+
+        // --- Seed Mandatory Data (Idempotent) ---
+
+        // Seed Asset Categories
+        await AssetSeed.SeedAsync(db);
+
+        // Seed Permissions
+        await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
+
+        // Seed Solution Topics
+         ServiceCore.Data.SolutionSeed.SeedAsync(db);
+
+        // Seed Departments (Combined from both branches)
+        var depts = new[] { "IT", "HR", "Finance", "Sales", "Marketing", "Operations", "Legal", "Engineering" };
+        foreach (var d in depts)
+        {
+            if (!db.Departments.Any(dept => dept.Name == d))
+                db.Departments.Add(new ServiceCore.Models.Department { Name = d });
+        }
+        await db.SaveChangesAsync();
 
         // Debug Logs
         Console.WriteLine($"[DEBUG] Database State:");
@@ -227,6 +232,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
