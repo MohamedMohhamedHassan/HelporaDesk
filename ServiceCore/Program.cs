@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceCore.Data;
+using ServiceCore.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -167,13 +168,27 @@ using (var scope = app.Services.CreateScope())
                 });
 
                 db.SaveChanges();
-
-                // Seed Asset Categories
-                await AssetSeed.SeedAsync(db);
-                
-                // Seed Permissions
-                await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
             }
+
+            // --- Seed Mandatory Data (Idempotent) ---
+            
+            // Seed Asset Categories
+            await AssetSeed.SeedAsync(db);
+            
+            // Seed Permissions
+            await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
+
+            // Seed Solution Topics
+            await ServiceCore.Data.SolutionSeed.SeedAsync(db);
+
+            // Seed Departments
+            var depts = new[] { "IT", "HR", "Finance", "Sales", "Marketing", "Operations", "Legal" };
+            foreach (var d in depts)
+            {
+                if (!db.Departments.Any(dept => dept.Name == d))
+                    db.Departments.Add(new ServiceCore.Models.Department { Name = d });
+            }
+            await db.SaveChangesAsync();
 
             // Debug Logs
             Console.WriteLine($"[DEBUG] Database State:");

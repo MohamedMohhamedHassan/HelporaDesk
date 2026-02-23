@@ -203,7 +203,6 @@ D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\ServiceCore.gen
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\ref\ServiceCore.dll
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\02npied7jw-{0}-7bm3gjmwob-7bm3gjmwob.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\ServiceCore.sourcelink.json
-D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\9tmjt1nkf8-{0}-2m9t95c5h0-2m9t95c5h0.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\plxgur9f4m-{0}-zylbr7z5gu-zylbr7z5gu.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\bsl7xd6tnu-{0}-pu5apig5nc-pu5apig5nc.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\kvsf1lln8c-{0}-rr182jsz3f-rr182jsz3f.gz
@@ -229,3 +228,4 @@ D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\ht3i
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\kzkdypdkdf-{0}-y8165s7z1t-y8165s7z1t.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\z1njfikfbu-{0}-zelycqhnfh-zelycqhnfh.gz
 D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\9ji4qi5hkr-{0}-mr177ixngi-mr177ixngi.gz
+D:\ASU_IT_End\Projects\ServiceCore\ServiceCore\obj\Debug\net10.0\compressed\9tmjt1nkf8-{0}-anc1t4r2h0-anc1t4r2h0.gz

@@ -9,6 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
         menubar: false,
         skin: 'oxide-dark',
         content_css: 'dark',
-        height: 400
+        height: 400,
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save();
+            });
+        }
     });
 });
