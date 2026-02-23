@@ -39,76 +39,76 @@
         <nav class="sidebar__nav" aria-label="Primary" data-testid="nav-primary">
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Dashboard_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="~/" data-testid="nav-dashboard">
-            <span class="nav-dot"></span>
+            <i class="bi bi-speedometer2 fs-5 me-2"></i>
             <span>Dashboard</span>
           </a>
           </secure-content>
 
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tickets" || ViewContext.RouteData.Values["controller"]?.ToString() == "TicketsManager" ? "active" : "")" href="~/Tickets" data-testid="nav-tickets">
-            <span class="nav-dot"></span>
+            <i class="bi bi-ticket-perforated fs-5 me-2"></i>
             <span>Tickets</span>
           </a>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")" href="~/Projects" data-testid="nav-projects">
-            <span class="nav-dot"></span>
+            <i class="bi bi-briefcase fs-5 me-2"></i>
             <span>Projects</span>
             </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Projects_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Tasks" ? "active" : "")" href="~/Tasks" data-testid="nav-tasks">
-            <span class="nav-dot"></span>
+            <i class="bi bi-check2-square fs-5 me-2"></i>
             <span>Tasks</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Kanban_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Kanban" ? "active" : "")" href="~/Kanban" data-testid="nav-kanban">
-            <span class="nav-dot"></span>
+            <i class="bi bi-kanban fs-5 me-2"></i>
             <span>Kanban Board</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="Approvals_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Approvals" ? "active" : "")" href="~/Approvals" data-testid="nav-approvals">
-            <span class="nav-dot"></span>
+            <i class="bi bi-ui-checks fs-5 me-2"></i>
             <span>Approvals Center</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Assets_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Assets" ? "active" : "")" href="~/Assets" data-testid="nav-assets">
-            <span class="nav-dot"></span>
+            <i class="bi bi-pc-display fs-5 me-2"></i>
             <span>Asset Management</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Users_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" || ViewContext.RouteData.Values["controller"]?.ToString() == "UsersManager" ? "active" : "")" href="~/Users" data-testid="nav-users">
-            <span class="nav-dot"></span>
-            <span>Team & Users</span>
+            <i class="bi bi-people fs-5 me-2"></i>
+            <span>Team &amp; Users</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Solutions_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Solutions" ? "active" : "")" href="~/Solutions" data-testid="nav-solutions">
-            <span class="nav-dot"></span>
+            <i class="bi bi-journal-text fs-5 me-2"></i>
             <span>Solutions</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Contracts_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contracts" ? "active" : "")" href="~/Contracts" data-testid="nav-contracts">
-            <span class="nav-dot"></span>
+            <i class="bi bi-file-earmark-ruled fs-5 me-2"></i>
             <span>Contracts</span>
           </a>
           </secure-content>
 
           <secure-content asp-authorize="Reports_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")" href="~/Reports" data-testid="nav-reports">
-            <span class="nav-dot"></span>
-            <span>Analytics & Reports</span>
+            <i class="bi bi-bar-chart fs-5 me-2"></i>
+            <span>Analytics &amp; Reports</span>
           </a>
           </secure-content>
 
@@ -118,7 +118,7 @@
           </div>
 
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")" href="~/Admin" data-testid="nav-admin">
-            <span class="nav-dot"></span>
+            <i class="bi bi-gear fs-5 me-2"></i>
             <span>System Metadata</span>
           </a>
           </secure-content>
@@ -126,7 +126,7 @@
           @if (User.IsInRole("Admin"))
           {
             <a class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" && ViewContext.RouteData.Values["controller"]?.ToString() == "Solutions" ? "active" : "")" href="~/Solutions/Dashboard" data-testid="nav-solutions-dashboard">
-              <span class="nav-dot"></span>
+              <i class="bi bi-graph-up fs-5 me-2"></i>
               <span>KB Analytics</span>
             </a>
           }
@@ -135,8 +135,8 @@
             <div class="nav-section__label">System</div>
 
             <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Help" ? "active" : "")" href="~/Help" data-testid="nav-help">
-              <span class="nav-dot"></span>
-              <span>Help & Support</span>
+              <i class="bi bi-question-circle fs-5 me-2"></i>
+              <span>Help &amp; Support</span>
             </a>
           </div>
         </nav>
