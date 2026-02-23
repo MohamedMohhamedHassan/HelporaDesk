@@ -18,15 +18,15 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="mb-4">
                     <label class="form-label fw-700">Title <span class="text-danger">*</span></label>
-                    <input class="form-control form-control-lg bg-light border-0" 
-                           asp-for="Title" placeholder="Brief description of the issue/solution" required />
+                    <input class="form-control form-control-lg bg-light border-0" asp-for="Title"
+                           placeholder="Brief description of the issue/solution" required />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-700">Content <span class="text-danger">*</span></label>
-                    <textarea class="form-control bg-light border-0" asp-for="Content" 
-                              rows="12" placeholder="Detailed solution steps..." required></textarea>
+                    <textarea class="form-control bg-light border-0" asp-for="Content" rows="12"
+                              placeholder="Detailed solution steps..." required></textarea>
                     <span asp-validation-for="Content" class="text-danger"></span>
                     <small class="form-text text-muted">
                         Include problem description, troubleshooting steps, root cause, and final solution
@@ -36,7 +36,7 @@
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label class="form-label fw-700">Topic <span class="text-danger">*</span></label>
-                        <select class="form-select bg-light border-0" asp-for="TopicId" asp-items="topicSelect" required>
+                        <select class="form-select bg-light border-0" asp-for="TopicId" asp-items="topicSelect">
                             <option value="">-- Select Topic --</option>
                         </select>
                         <span asp-validation-for="TopicId" class="text-danger"></span>
@@ -51,7 +51,7 @@
 
                 <div class="mb-4">
                     <label class="form-label fw-700">Keywords</label>
-                    <input class="form-control bg-light border-0" asp-for="Keywords" 
+                    <input class="form-control bg-light border-0" asp-for="Keywords"
                            placeholder="printer, network, email, vpn..." />
                     <small class="form-text text-muted">Comma-separated keywords to improve search</small>
                 </div>
@@ -71,8 +71,8 @@
 
                 <div class="mb-4">
                     <label class="form-label fw-700">Attachments</label>
-                    <input type="file" class="form-control bg-light border-0" name="attachments" 
-                           multiple accept="image/*,.pdf,.doc,.docx,.txt,.zip">
+                    <input type="file" class="form-control bg-light border-0" name="attachments" multiple
+                           accept="image/*,.pdf,.doc,.docx,.txt,.zip">
                     <small class="form-text text-muted">
                         Max 5 files, 10MB each. Screenshots, PDFs, configuration files, etc.
                     </small>
@@ -96,7 +96,9 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script src="~/lib/tinymce/tinymce.min.js"></script>
     <script src="~/js/tinymce-local-init.js"></script>
 }

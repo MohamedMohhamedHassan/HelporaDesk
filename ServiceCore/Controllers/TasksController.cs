@@ -57,14 +57,15 @@ namespace ServiceCore.Controllers
         // GET: Tasks/Create
         public IActionResult Create(int? projectId)
         {
+            // Always provide a full projects SelectList so user can choose a project
             ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", projectId);
             ViewData["AssigneeId"] = new SelectList(_context.Users, "Id", "Name");
 
-            // Get team members for the project if specified
+            // Get milestones and available assignees safely when projectId provided
             if (projectId.HasValue)
             {
-                var project = _context.Projects.Include(p => p.TeamMembers).FirstOrDefault(p => p.Id == projectId);
-                ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == projectId), "Id", "Title");
+                var project = _context.Projects.Include(p => p.TeamMembers).FirstOrDefault(p => p.Id == projectId.Value);
+                ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == projectId.Value), "Id", "Title");
                 ViewData["AvailableAssignees"] = project?.TeamMembers.ToList() ?? _context.Users.ToList();
                 ViewBag.ProjectName = project?.Name;
             }
@@ -113,26 +114,24 @@ namespace ServiceCore.Controllers
         // POST: Tasks/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,Status,Priority,DueDate,ProjectId,AssigneeId,MilestoneId")] ProjectTask task, int[] assigneeIds)
+        public async Task<IActionResult> Create([Bind("Title,Description,Status,Priority,DueDate,ProjectId,AssigneeId,MilestoneId")] ProjectTask task)
         {
             if (ModelState.IsValid)
             {
+                // Ensure AssigneeId (single assignee) is used as primary assignee
                 _context.Add(task);
                 await _context.SaveChangesAsync();
 
-                // Add assignees
-                if (assigneeIds != null && assigneeIds.Length > 0)
-                {
-                    var assignees = await _context.Users.Where(u => assigneeIds.Contains(u.Id)).ToListAsync();
-                    foreach (var assignee in assignees)
-                    {
-                        task.Assignees.Add(assignee);
-                    }
-                    await _context.SaveChangesAsync();
-                }
-
                 return RedirectToAction(nameof(Index), new { projectId = task.ProjectId });
             }
+
+            // Re-populate selects for redisplay
+            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", task.ProjectId);
+            ViewData["AssigneeId"] = new SelectList(_context.Users, "Id", "Name", task.AssigneeId);
+            ViewData["MilestoneId"] = new SelectList(_context.Milestones.Where(m => m.ProjectId == task.ProjectId), "Id", "Title", task.MilestoneId);
+            var project = _context.Projects.Include(p => p.TeamMembers).FirstOrDefault(p => p.Id == task.ProjectId);
+            ViewData["AvailableAssignees"] = project?.TeamMembers.ToList() ?? _context.Users.ToList();
+
             return View(task);
         }
 
