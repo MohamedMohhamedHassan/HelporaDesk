@@ -200,7 +200,7 @@ using (var scope = app.Services.CreateScope())
         await ServiceCore.Data.PermissionSeeder.SeedAsync(db);
 
         // Seed Solution Topics
-         ServiceCore.Data.SolutionSeed.SeedAsync(db);
+        await ServiceCore.Data.SolutionSeed.SeedAsync(db);
 
         // Seed Departments (Combined from both branches)
         var depts = new[] { "IT", "HR", "Finance", "Sales", "Marketing", "Operations", "Legal", "Engineering" };
