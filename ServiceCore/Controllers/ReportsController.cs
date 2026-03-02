@@ -96,7 +96,29 @@ namespace ServiceCore.Controllers
                     .ToListAsync()
             };
 
-            // 7. System Health Score (Modern Metric)
+            // 7. Problem Stats
+            var problemStats = new
+            {
+                Total = await _context.Problems.CountAsync(),
+                Open = await _context.Problems.CountAsync(p => p.Status != "Closed" && p.Status != "Resolved"),
+                Resolved = await _context.Problems.CountAsync(p => p.Status == "Closed" || p.Status == "Resolved"),
+                KnownErrors = await _context.Problems.CountAsync(p => p.Status == "Known Error"),
+                WithRCA = await _context.Problems.CountAsync(p => !string.IsNullOrEmpty(p.RootCause))
+            };
+
+            // 8. Change Stats
+            var changeStats = new
+            {
+                Total = await _context.ChangeRequests.CountAsync(),
+                ByStatus = await _context.ChangeRequests.GroupBy(c => c.Status).Select(g => new { Name = g.Key, Count = g.Count() }).ToListAsync(),
+                ByRisk = await _context.ChangeRequests.GroupBy(c => c.RiskLevel).Select(g => new { Name = g.Key, Count = g.Count() }).ToListAsync(),
+                EmergencyCount = await _context.ChangeRequests.CountAsync(c => c.Type == "Emergency"),
+                ImplementationSuccessRate = await _context.ChangeRequests.CountAsync() > 0 
+                    ? (double)await _context.ChangeRequests.CountAsync(c => c.Status == "Closed") / await _context.ChangeRequests.CountAsync() * 100 
+                    : 100
+            };
+
+            // 9. System Health Score (Modern Metric)
             // Logic: 
             // - Tickets: 100 - (OpenTickets * 2) [max 40%]
             // - Projects: (DoneTasks / TotalTasks * 100) [max 30%]
@@ -119,6 +141,8 @@ namespace ServiceCore.Controllers
             ViewBag.AssetStats = assetStats;
             ViewBag.ContractStats = contractStats;
             ViewBag.SolutionStats = solutionStats;
+            ViewBag.ProblemStats = problemStats;
+            ViewBag.ChangeStats = changeStats;
             ViewBag.HealthScore = healthScore;
             ViewBag.UserWorkload = userWorkload;
             ViewBag.Velocity = velocity;
@@ -131,7 +155,9 @@ namespace ServiceCore.Controllers
             bool includeProjects = true, 
             bool includeAssets = true, 
             bool includeContracts = true,
-            bool includeSolutions = true)
+            bool includeSolutions = true,
+            bool includeProblems = true,
+            bool includeChanges = true)
         {
             var csv = new StringBuilder();
             var now = DateTime.Now;
@@ -193,6 +219,28 @@ namespace ServiceCore.Controllers
                 csv.AppendLine("Title,Topic,Status,Views,Created At");
                 foreach (var s in solutions)
                     csv.AppendLine($"\"{s.Title.Replace("\"", "'")}\",{s.Topic?.Name},{s.Status},{s.Views},\"{s.CreatedAt:yyyy-MM-dd}\"");
+                csv.AppendLine();
+            }
+
+            // Problems Section
+            if (includeProblems)
+            {
+                var problems = await _context.Problems.ToListAsync();
+                csv.AppendLine("--- PROBLEMS ---");
+                csv.AppendLine("ID,Title,Status,Priority,Created At,Root Cause Identified");
+                foreach (var p in problems)
+                    csv.AppendLine($"{p.Id},\"{p.Title.Replace("\"", "'")}\",{p.Status},{p.Priority},\"{p.CreatedAt:yyyy-MM-dd}\",\"{(!string.IsNullOrEmpty(p.RootCause) ? "Yes" : "No")}\"");
+                csv.AppendLine();
+            }
+
+            // Changes Section
+            if (includeChanges)
+            {
+                var changes = await _context.ChangeRequests.Include(c => c.RequestedBy).ToListAsync();
+                csv.AppendLine("--- CHANGES ---");
+                csv.AppendLine("ID,Title,Status,Type,Risk,Requested By,Planned Start,Planned End");
+                foreach (var c in changes)
+                    csv.AppendLine($"{c.Id},\"{c.Title.Replace("\"", "'")}\",{c.Status},{c.Type},{c.RiskLevel},{c.RequestedBy?.Name},\"{c.PlannedStartDate:yyyy-MM-dd}\",\"{c.PlannedEndDate:yyyy-MM-dd}\"");
             }
 
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csv.ToString());

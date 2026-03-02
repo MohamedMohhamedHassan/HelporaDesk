@@ -97,6 +97,8 @@ namespace ServiceCore.Controllers
                 .Include(a => a.User)
                 .Include(a => a.Assignments.OrderByDescending(asg => asg.AssignedDate)).ThenInclude(asg => asg.User)
                 .Include(a => a.Maintenances.OrderByDescending(m => m.MaintenanceDate))
+                .Include(a => a.Tickets.OrderByDescending(t => t.CreatedAt)).ThenInclude(t => t.Status)
+                .Include(a => a.Problems.OrderByDescending(p => p.CreatedAt))
                 .FirstOrDefaultAsync(a => a.Id == id);
             
             if (asset == null) return NotFound();

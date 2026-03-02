@@ -14,16 +14,18 @@ namespace ServiceCore.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // Ticket Metrics
             var totalTickets = _db.Tickets.Count();
             var openTickets = _db.Tickets.Count(t => t.Status.Name != "Closed" && t.Status.Name != "Resolved");
             
-            // SLA Compliance calculation (Tickets resolved/closed before due date)
-            var closedTickets = _db.Tickets.Where(t => t.Status.Name == "Closed" || t.Status.Name == "Resolved");
-            var compliantTickets = closedTickets.Count(t => t.ResolutionDate <= t.DueDate);
-            double slaCompliance = closedTickets.Any() ? (double)compliantTickets / closedTickets.Count() * 100 : 100;
+            // Live SLA Compliance calculation
+            var totalSlaTickets = _db.Tickets.Count(t => t.DueDate != null);
+            var compliantClosed = _db.Tickets.Count(t => (t.Status.Name == "Closed" || t.Status.Name == "Resolved") && t.ResolutionDate <= t.DueDate);
+            var compliantOpen = _db.Tickets.Count(t => (t.Status.Name != "Closed" && t.Status.Name != "Resolved") && DateTime.Now <= t.DueDate);
+            
+            double slaCompliance = totalSlaTickets > 0 ? (double)(compliantClosed + compliantOpen) / totalSlaTickets * 100 : 100;
 
             // Long Time (Stale) Tickets - Open tickets older than 7 days
             var staleThreshold = DateTime.Now.AddDays(-7);
@@ -42,6 +44,19 @@ namespace ServiceCore.Controllers
             var totalTasks = _db.ProjectTasks.Count();
             var overdueTasks = _db.ProjectTasks.Count(t => t.Status != "Completed" && t.DueDate < DateTime.Now);
 
+            // Problem Metrics
+            var activeProblems = _db.Problems.Count(p => p.Status != "Closed" && p.Status != "Resolved");
+            var knownErrors = _db.Problems.Count(p => p.Status == "Known Error");
+
+            // Change Metrics
+            var activeChanges = _db.ChangeRequests.Count(c => c.Status != "Closed" && c.Status != "Rejected");
+            var emergencyChanges = _db.ChangeRequests.Count(c => c.Type == "Emergency" && (c.Status != "Closed" && c.Status != "Rejected"));
+
+            // Assets, Contracts, Solutions Metrics
+            var totalAssets = await _db.Assets.CountAsync();
+            var activeContracts = await _db.Contracts.CountAsync(c => c.Status == "Active");
+            var publishedSolutions = await _db.Solutions.CountAsync(s => s.Status == "Published");
+
             // Passing to View
             ViewBag.TotalTickets = totalTickets;
             ViewBag.OpenTickets = openTickets;
@@ -51,6 +66,13 @@ namespace ServiceCore.Controllers
             ViewBag.ActiveProjects = activeProjects;
             ViewBag.TotalTasks = totalTasks;
             ViewBag.OverdueTasks = overdueTasks;
+            ViewBag.ActiveProblems = activeProblems;
+            ViewBag.KnownErrors = knownErrors;
+            ViewBag.ActiveChanges = activeChanges;
+            ViewBag.EmergencyChanges = emergencyChanges;
+            ViewBag.TotalAssets = totalAssets;
+            ViewBag.ActiveContracts = activeContracts;
+            ViewBag.PublishedSolutions = publishedSolutions;
 
             return View();
         }
@@ -58,6 +80,25 @@ namespace ServiceCore.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetLiveMetrics()
+        {
+            var totalTickets = _db.Tickets.Count();
+            var openTickets = _db.Tickets.Count(t => t.Status.Name != "Closed" && t.Status.Name != "Resolved");
+            
+            var totalSlaTickets = _db.Tickets.Count(t => t.DueDate != null);
+            var compliantClosed = _db.Tickets.Count(t => (t.Status.Name == "Closed" || t.Status.Name == "Resolved") && t.ResolutionDate <= t.DueDate);
+            var compliantOpen = _db.Tickets.Count(t => (t.Status.Name != "Closed" && t.Status.Name != "Resolved") && DateTime.Now <= t.DueDate);
+            
+            double slaCompliance = totalSlaTickets > 0 ? (double)(compliantClosed + compliantOpen) / totalSlaTickets * 100 : 100;
+
+            return Json(new {
+                totalTickets = totalTickets,
+                openTickets = openTickets,
+                slaCompliance = slaCompliance.ToString("0.0")
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

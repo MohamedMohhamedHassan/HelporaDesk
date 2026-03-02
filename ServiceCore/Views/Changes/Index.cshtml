@@ -1,0 +1,191 @@
+@model IEnumerable<ServiceCore.Models.ChangeRequest>
+@{
+    ViewData["Title"] = "Change Management";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-0 fw-bold">Change Management</h1>
+            <p class="text-muted small mb-0">Control, approve, and monitor infrastructure changes with minimal risk.</p>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-brand-blue shadow-sm">
+            <i class="bi bi-plus-lg me-2"></i>New Change Request
+        </a>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-md-3">
+            <div class="card glass shadow-sm border-0 p-3 h-100">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-file-earmark-diff fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="h4 mb-0 fw-bold">@Model.Count()</div>
+                        <div class="small text-muted fw-600">Total Requests</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card glass shadow-sm border-0 p-3 h-100">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-hourglass-split fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="h4 mb-0 fw-bold">@Model.Count(c => c.Status == "Submitted" || c.Status == "Under Assessment")</div>
+                        <div class="small text-muted fw-600">Pending Review</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card glass shadow-sm border-0 p-3 h-100">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-exclamation-octagon fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="h4 mb-0 fw-bold">@Model.Count(c => c.Type == "Emergency")</div>
+                        <div class="small text-muted fw-600">Emergency Changes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card glass shadow-sm border-0 p-3 h-100">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-calendar-check fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="h4 mb-0 fw-bold">@Model.Count(c => c.Status == "Scheduled")</div>
+                        <div class="small text-muted fw-600">Scheduled</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter & Table Card -->
+    <div class="card glass-elevated border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-3 border-0">
+            <form method="get" class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Search title or description..." value="@ViewBag.Search">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <select name="status" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Statuses</option>
+                        <option value="Draft" selected="@(ViewBag.Status == "Draft")">Draft</option>
+                        <option value="Submitted" selected="@(ViewBag.Status == "Submitted")">Submitted</option>
+                        <option value="Under Assessment" selected="@(ViewBag.Status == "Under Assessment")">Under Assessment</option>
+                        <option value="Approved" selected="@(ViewBag.Status == "Approved")">Approved</option>
+                        <option value="Scheduled" selected="@(ViewBag.Status == "Scheduled")">Scheduled</option>
+                        <option value="In Progress" selected="@(ViewBag.Status == "In Progress")">In Progress</option>
+                        <option value="Implemented" selected="@(ViewBag.Status == "Implemented")">Implemented</option>
+                        <option value="Closed" selected="@(ViewBag.Status == "Closed")">Closed</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <select name="type" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Types</option>
+                        <option value="Standard" selected="@(ViewBag.Type == "Standard")">Standard</option>
+                        <option value="Normal" selected="@(ViewBag.Type == "Normal")">Normal</option>
+                        <option value="Emergency" selected="@(ViewBag.Type == "Emergency")">Emergency</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Title & Type</th>
+                            <th>Status</th>
+                            <th>Risk / Priority</th>
+                            <th>Requested By</th>
+                            <th>Target Date</th>
+                            <th class="pe-4 text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var change in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-muted small">#CR-@change.Id.ToString("D4")</td>
+                                <td>
+                                    <div class="fw-bold text-dark">@change.Title</div>
+                                    <span class="badge bg-light text-dark border smaller px-2">@change.Type</span>
+                                </td>
+                                <td>
+                                    @{
+                                        var statusClass = change.Status switch
+                                        {
+                                            "Draft" => "bg-secondary",
+                                            "Submitted" => "bg-primary",
+                                            "Under Assessment" => "bg-warning",
+                                            "Approved" => "bg-success",
+                                            "Scheduled" => "bg-info",
+                                            "In Progress" => "bg-brand-blue",
+                                            "Implemented" => "bg-success",
+                                            "Closed" => "bg-dark",
+                                            "Rejected" => "bg-danger",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @statusClass bg-opacity-10 text-@statusClass.Replace("bg-", "") border border-@statusClass.Replace("bg-", "") border-opacity-25 px-2">
+                                        @change.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column gap-1">
+                                        <span class="smaller fw-600 @(change.RiskLevel == "High" || change.RiskLevel == "Critical" ? "text-danger" : "text-muted")">
+                                            <i class="bi bi-shield-fill-exclamation me-1"></i>Risk: @change.RiskLevel
+                                        </span>
+                                        <span class="smaller fw-600 text-muted">
+                                            <i class="bi bi-flag-fill me-1"></i>Prio: @change.Priority
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="avatar avatar-xs bg-light text-dark smaller fw-bold">
+                                            @(change.RequestedBy?.Name?.Substring(0, 1) ?? "U")
+                                        </div>
+                                        <span class="small fw-500">@(change.RequestedBy?.Name ?? "Unknown")</span>
+                                    </div>
+                                </td>
+                                <td class="small">
+                                    @(change.PlannedStartDate?.ToString("MMM dd, yyyy") ?? "Not Set")
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <a href="@Url.Action("Details", new { id = change.Id })" class="btn btn-sm btn-outline-primary px-3 shadow-none">
+                                        Manage
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted">
+                                    <i class="bi bi-file-earmark-x fs-1 opacity-25 d-block mb-3"></i>
+                                    No change requests found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -63,6 +63,20 @@
           </a>
           </secure-content>
 
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Problems_View">
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Problems" ? "active" : "")" href="~/Problems" data-testid="nav-problems">
+            <i class="bi bi-shield-exclamation fs-5 me-2"></i>
+            <span>Problems</span>
+          </a>
+          </secure-content>
+
+          <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Changes_View">
+          <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Changes" ? "active" : "")" href="~/Changes" data-testid="nav-changes">
+            <i class="bi bi-file-earmark-diff fs-5 me-2"></i>
+            <span>Changes</span>
+          </a>
+          </secure-content>
+
           <secure-content asp-authorize="@ServiceCore.Constants.Permissions.Kanban_View">
           <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Kanban" ? "active" : "")" href="~/Kanban" data-testid="nav-kanban">
             <i class="bi bi-kanban fs-5 me-2"></i>
@@ -184,8 +198,8 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="d-flex align-items-center gap-3">
-                    <a href="/Tickets?filter=my" class="profile text-decoration-none" title="My Assigned Tickets">
-                      <div class="avatar">
+                    <a asp-controller="Profile" asp-action="Index" class="profile text-decoration-none" title="My Profile">
+                      <div class="avatar shadow-sm border border-2 border-white">
                           @(User.Identity.Name?.Substring(0, Math.Min(2, User.Identity.Name.Length)).ToUpper() ?? "U")
                       </div>
                       <div class="profile__meta">

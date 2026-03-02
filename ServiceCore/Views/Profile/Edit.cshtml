@@ -1,0 +1,76 @@
+@model ServiceCore.Models.User
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white p-4 text-center">
+                <div class="mb-3">
+                    <div class="avatar-lg bg-white text-primary rounded-circle d-inline-flex align-items-center justify-content-center fs-2 fw-bold shadow-sm" style="width: 80px; height: 80px;">
+                        @(Model.Name?.Substring(0, Math.Min(2, Model.Name.Length)).ToUpper() ?? "U")
+                    </div>
+                </div>
+                <h3 class="fw-bold mb-0">Update Profile</h3>
+                <p class="opacity-75 small">Manage your personal information</p>
+            </div>
+            <div class="card-body p-4 p-lg-5">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-4"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Email" />
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label small fw-bold text-uppercase text-muted">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0"><i class="bi bi-person text-primary"></i></span>
+                            <input asp-for="Name" class="form-control bg-light border-0" placeholder="Enter your full name" required />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label small fw-bold text-uppercase text-muted">Phone Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0"><i class="bi bi-telephone text-primary"></i></span>
+                            <input asp-for="PhoneNumber" class="form-control bg-light border-0" placeholder="Enter your contact number" />
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Department" class="form-label small fw-bold text-uppercase text-muted">Department</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0"><i class="bi bi-building text-primary"></i></span>
+                            <select asp-for="Department" class="form-select bg-light border-0">
+                                <option value="">— Select Department —</option>
+                                @foreach (var dept in (ViewBag.Departments as List<string> ?? new List<string>()))
+                                {
+                                    if (Model.Department == dept)
+                                    {
+                                        <option value="@dept" selected>@dept</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@dept">@dept</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <span asp-validation-for="Department" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold py-3"><i class="bi bi-save me-2"></i>Save Changes</button>
+                        <a asp-action="Index" class="btn btn-link text-muted text-decoration-none">Cancel and Return</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

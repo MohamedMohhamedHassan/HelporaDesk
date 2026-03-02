@@ -24,7 +24,10 @@ namespace ServiceCore.Models
         public int CategoryId { get; set; }
         public TicketCategory? Category { get; set; }
 
-        public int RequesterId { get; set; }
+        public int? AssetId { get; set; }
+        public Asset? Asset { get; set; }
+
+        public int? RequesterId { get; set; }
         public User? Requester { get; set; }
 
         public int? AssignedId { get; set; }
@@ -44,6 +47,9 @@ namespace ServiceCore.Models
 
         public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
         public ICollection<TicketAttachment> Attachments { get; set; } = new List<TicketAttachment>();
+
+        public ICollection<TicketLink> LinkedFrom { get; set; } = new List<TicketLink>();
+        public ICollection<TicketLink> LinkedTo { get; set; } = new List<TicketLink>();
 
         public void CalculateDueDate(string priorityName)
         {

@@ -1,159 +1,289 @@
 @{
-  ViewData["Title"] = "Help";
-  Layout = "_Layout";
+    ViewData["Title"] = "AI Help & Support";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="text-center mb-4">
-                <div class="avatar bg-primary-subtle text-primary mb-3 mx-auto" style="width: 64px; height: 64px; font-size: 2rem;">
-                    <i class="bi bi-robot"></i>
-                </div>
-                <h1 class="h3 fw-bold">How can we help you?</h1>
-                <p class="text-muted">Ask me anything about the system, and I'll find the answer for you.</p>
-            </div>
+<div class="help-chat-page d-flex flex-column" style="height: calc(100vh - 70px);">
 
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
-                    <div id="chat-history" class="p-4" style="height: 400px; overflow-y: auto; background-color: #f8f9fa;">
-                        <div class="d-flex mb-3">
-                            <div class="avatar bg-primary-subtle text-primary me-2 flex-shrink-0" style="width: 32px; height: 32px; font-size: 0.9rem;">
-                                <i class="bi bi-robot"></i>
-                            </div>
-                            <div class="bg-white p-3 rounded shadow-sm border" style="max-width: 80%;">
-                                <p class="mb-0">Hi there! I'm your ServiceCore assistant. You can ask me about creating tickets, managing projects, or any other feature!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-3 border-top bg-white">
-                        <form id="chat-form" class="d-flex gap-2">
-                            <input type="text" id="chat-input" class="form-control" placeholder="Type your question..." autocomplete="off">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-send"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+    <!-- Header -->
+    <div class="px-4 py-3 border-bottom bg-white d-flex align-items-center gap-3 shadow-sm">
+        <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
+             style="width:44px;height:44px;font-size:20px;">
+            <i class="bi bi-robot"></i>
+        </div>
+        <div>
+            <div class="fw-bold fs-6 mb-0">HelporaAI</div>
+            <div class="small text-success d-flex align-items-center gap-1">
+                <i class="bi bi-circle-fill" style="font-size:8px;"></i> IT Support Specialist
             </div>
+        </div>
+        <div class="ms-auto">
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="clearChat()" title="Clear conversation">
+                <i class="bi bi-trash3 me-1"></i> Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="flex-grow-1 overflow-auto px-3 py-4" id="chatMessages" style="background: #f5f7fa;">
+
+        <!-- Welcome Message -->
+        <div class="d-flex gap-3 mb-4" id="welcomeMsg">
+            <div class="bot-avatar flex-shrink-0">
+                <i class="bi bi-robot"></i>
+            </div>
+            <div class="bot-bubble">
+                <p class="mb-2">👋 Hello! I'm <strong>HelporaAI</strong>, your IT support assistant.</p>
+                <p class="mb-2">I can help you with:</p>
+                <ul class="mb-2 ps-3">
+                    <li>Hardware & software troubleshooting</li>
+                    <li>Networking & cybersecurity</li>
+                    <li>System administration & Active Directory</li>
+                    <li>Cloud platforms (Azure, AWS)</li>
+                    <li>IT best practices & ITIL</li>
+                </ul>
+                <p class="mb-0 text-muted small">Ask me any technical IT question to get started.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Input Area -->
+    <div class="px-4 py-3 bg-white border-top">
+        <div class="d-flex gap-2 align-items-end">
+            <div class="flex-grow-1 position-relative">
+                <textarea id="chatInput" class="form-control rounded-3 pe-5"
+                          rows="1" placeholder="Ask a technical IT question..."
+                          style="resize:none; max-height:150px; overflow-y:auto; line-height:1.5;"
+                          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+            </div>
+            <button id="sendBtn" class="btn btn-primary rounded-3 px-3 py-2 flex-shrink-0"
+                    onclick="sendMessage()" style="height:42px; width:42px;">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </div>
+        <div class="text-muted small mt-2 text-center">
+            <i class="bi bi-shield-check me-1"></i>Restricted to technical IT questions only · Powered by GPT-4o mini
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-        const chatHistory = document.getElementById('chat-history');
+<style>
+    .help-chat-page { font-family: 'Inter', 'Segoe UI', sans-serif; }
 
-        function appendMessage(role, text, isHtml = false) {
-            const isBot = role === 'bot';
-            const align = isBot ? '' : 'justify-content-end';
-            const bg = isBot ? 'bg-white border' : 'bg-primary text-white';
-            const avatar = isBot ? 
-                `<div class="avatar bg-primary-subtle text-primary me-2 flex-shrink-0" style="width: 32px; height: 32px; font-size: 0.9rem;"><i class="bi bi-robot"></i></div>` : '';
+    .bot-avatar {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: linear-gradient(135deg, #0d6efd, #6610f2);
+        color: white; display: flex; align-items: center;
+        justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
 
-            const html = `
-                <div class="d-flex mb-3 ${align} message-fade-in">
-                    ${avatar}
-                    <div class="${bg} p-3 rounded-4 shadow-sm" style="max-width: 85%; border-radius: ${isBot ? '0 15px 15px 15px' : '15px 15px 0 15px'} !important;">
-                        ${isHtml ? text : `<p class="mb-0">${text}</p>`}
-                    </div>
-                </div>
-            `;
-            
-            chatHistory.insertAdjacentHTML('beforeend', html);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
+    .bot-bubble {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 0 16px 16px 16px;
+        padding: 14px 16px;
+        max-width: 75%;
+        font-size: 14.5px;
+        line-height: 1.6;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
 
-        chatForm.addEventListener('submit', async (e) => {
+    .user-bubble {
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+        border-radius: 16px 0 16px 16px;
+        padding: 12px 16px;
+        max-width: 75%;
+        font-size: 14.5px;
+        line-height: 1.6;
+        margin-left: auto;
+    }
+
+    .typing-dot {
+        display: inline-block; width: 8px; height: 8px;
+        background: #adb5bd; border-radius: 50%; margin: 0 2px;
+        animation: bounce 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @@keyframes bounce {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-6px); }
+    }
+
+    .bot-bubble pre {
+        background: #1e1e2e; color: #cdd6f4;
+        border-radius: 8px; padding: 14px;
+        font-size: 13px; overflow-x: auto;
+        margin: 10px 0; position: relative;
+    }
+
+    .bot-bubble code:not(pre code) {
+        background: #f0f1f3; color: #e83e8c;
+        padding: 2px 6px; border-radius: 4px;
+        font-size: 13px;
+    }
+
+    .copy-btn {
+        position: absolute; top: 8px; right: 8px;
+        background: rgba(255,255,255,0.15); color: #cdd6f4;
+        border: none; border-radius: 4px; padding: 3px 8px;
+        font-size: 11px; cursor: pointer; transition: all 0.2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.3); }
+</style>
+
+<script>
+    let history = [];
+
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 150) + 'px';
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            const query = chatInput.value.trim();
-            if (!query) return;
+            sendMessage();
+        }
+    }
 
-            // User Message
-            appendMessage('user', query);
-            chatInput.value = '';
+    function clearChat() {
+        history = [];
+        const container = document.getElementById('chatMessages');
+        container.innerHTML = '';
+        container.appendChild(document.getElementById('welcomeMsg') || createWelcome());
+    }
 
-            // Loading / Typing...
-            const loadingId = 'loading-' + Date.now();
-            const loadingHtml = `
-                <div class="d-flex mb-3 message-fade-in" id="${loadingId}">
-                    <div class="avatar bg-primary-subtle text-primary me-2 flex-shrink-0" style="width: 32px; height: 32px; font-size: 0.9rem;"><i class="bi bi-robot"></i></div>
-                    <div class="bg-white p-3 border shadow-sm" style="border-radius: 0 15px 15px 15px; width: 60px;">
-                        <div class="typing-dots">
-                            <span></span><span></span><span></span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            chatHistory.insertAdjacentHTML('beforeend', loadingHtml);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
+    function scrollToBottom() {
+        const c = document.getElementById('chatMessages');
+        c.scrollTop = c.scrollHeight;
+    }
 
-            try {
-                const res = await fetch(`/Help/Chat?query=${encodeURIComponent(query)}`);
-                const data = await res.json();
-                
-                document.getElementById(loadingId).remove();
+    function appendUserMessage(text) {
+        const container = document.getElementById('chatMessages');
+        const wrap = document.createElement('div');
+        wrap.className = 'd-flex justify-content-end mb-3';
+        wrap.innerHTML = `<div class="user-bubble">${escapeHtml(text)}</div>`;
+        container.appendChild(wrap);
+        scrollToBottom();
+    }
 
-                if (data.success) {
-                    // Start with the main bot response text
-                    let content = `<p class="mb-0">${data.botResponse || "I found what you were looking for."}</p>`;
-                    
-                    // If there are specific results (Solutions)
-                    if (data.results && data.results.length > 0) {
-                        content += '<div class="mt-3 border-top pt-2"><ul class="list-unstyled mb-0">';
-                        data.results.forEach(item => {
-                            content += `
-                                <li class="mb-2">
-                                    <a href="/Solutions/Details/${item.id}" class="text-decoration-none fw-bold small text-primary" target="_blank">
-                                        <i class="bi bi-journal-text me-1"></i> ${item.title}
-                                    </a>
-                                    <p class="small text-muted mb-0 text-truncate">${item.preview}</p>
-                                </li>`;
-                        });
-                        content += '</ul></div>';
-                    }
-                    
-                    appendMessage('bot', content, true);
-                } else {
-                    appendMessage('bot', data.message || "I'm sorry, I couldn't process that request.");
-                }
+    function showTyping() {
+        const container = document.getElementById('chatMessages');
+        const wrap = document.createElement('div');
+        wrap.className = 'd-flex gap-3 mb-3';
+        wrap.id = 'typingIndicator';
+        wrap.innerHTML = `
+            <div class="bot-avatar"><i class="bi bi-robot"></i></div>
+            <div class="bot-bubble d-flex align-items-center gap-1 py-3 px-3">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>`;
+        container.appendChild(wrap);
+        scrollToBottom();
+    }
 
-            } catch (err) {
-                if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-                appendMessage('bot', "Sorry, I encountered an error while searching.");
-                console.error(err);
-            }
+    function hideTyping() {
+        const el = document.getElementById('typingIndicator');
+        if (el) el.remove();
+    }
+
+    function appendBotMessage(text) {
+        const container = document.getElementById('chatMessages');
+        const wrap = document.createElement('div');
+        wrap.className = 'd-flex gap-3 mb-3';
+        wrap.innerHTML = `
+            <div class="bot-avatar flex-shrink-0"><i class="bi bi-robot"></i></div>
+            <div class="bot-bubble">${renderMarkdown(text)}</div>`;
+        container.appendChild(wrap);
+
+        // Add copy buttons to code blocks
+        wrap.querySelectorAll('pre').forEach(pre => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'Copy';
+            btn.onclick = () => {
+                navigator.clipboard.writeText(pre.querySelector('code')?.textContent || pre.textContent);
+                btn.textContent = '✓ Copied';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            };
+            pre.style.position = 'relative';
+            pre.appendChild(btn);
         });
-    </script>
-    <style>
-        .message-fade-in {
-            animation: fadeIn 0.3s ease-in-out;
+
+        scrollToBottom();
+    }
+
+    function escapeHtml(text) {
+        return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+
+    function renderMarkdown(text) {
+        // Code blocks
+        text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+            `<pre><code class="language-${lang}">${escapeHtml(code.trim())}</code></pre>`);
+        // Inline code
+        text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+        // Bold
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Italic
+        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        // Numbered lists
+        text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+        text = text.replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
+        // Bullet lists
+        text = text.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+        text = text.replace(/(<li>.*<\/li>\n?)+/g, m => m.includes('<ol>') ? m : `<ul>${m}</ul>`);
+        // Line breaks
+        text = text.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+        return text;
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        input.value = '';
+        input.style.height = 'auto';
+        document.getElementById('sendBtn').disabled = true;
+
+        appendUserMessage(message);
+        showTyping();
+
+        try {
+            const response = await fetch('/Help/Chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || '' },
+                body: JSON.stringify({ message, history })
+            });
+
+            const data = await response.json();
+            hideTyping();
+
+            const reply = data.reply || 'Sorry, I could not get a response.';
+            appendBotMessage(reply);
+
+            // Update conversation history
+            history.push({ role: 'user', content: message });
+            history.push({ role: 'assistant', content: reply });
+
+            // Keep last 20 messages to avoid token overflow
+            if (history.length > 40) history = history.slice(-40);
+
+        } catch (err) {
+            hideTyping();
+            appendBotMessage('❌ Network error. Please try again.');
         }
-        @@keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-            align-items: center;
-            height: 10px;
-        }
-        .typing-dots span {
-            width: 6px;
-            height: 6px;
-            background-color: var(--bs-primary);
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out both;
-        }
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @@keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
-    </style>
+
+        document.getElementById('sendBtn').disabled = false;
+        input.focus();
+    }
+</script>
+
+@section Scripts {
+    @Html.AntiForgeryToken()
 }

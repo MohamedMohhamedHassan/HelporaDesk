@@ -67,6 +67,88 @@
   text-decoration-color: hsla(0, 0%, 100%, 0.3) !important;
 }
 
+/* Bootstrap Dark Mode Overrides */
+[data-theme='dark'] .bg-white,
+[data-theme='dark'] .bg-light,
+[data-theme='dark'] .card-header.bg-white,
+[data-theme='dark'] .card-header.bg-light {
+  background-color: var(--sc-surface) !important;
+  color: var(--sc-text) !important;
+}
+
+[data-theme='dark'] .text-dark {
+  color: var(--sc-text) !important;
+}
+
+[data-theme='dark'] .text-muted,
+[data-theme='dark'] .text-secondary {
+  color: var(--sc-text-muted) !important;
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .btn-light {
+  background-color: var(--sc-surface-elevated);
+  border-color: var(--sc-border);
+  color: var(--sc-text);
+}
+
+[data-theme='dark'] .btn-light:hover {
+  background-color: var(--sc-primary-glass);
+  color: var(--sc-primary);
+}
+
+[data-theme='dark'] .table {
+  --bs-table-color: var(--sc-text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--sc-border);
+  --bs-table-striped-color: var(--sc-text);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+  --bs-table-hover-color: var(--sc-text);
+  --bs-table-hover-bg: var(--sc-primary-glass);
+}
+
+[data-theme='dark'] .table thead.bg-light,
+[data-theme='dark'] .table thead.bg-white {
+  background-color: var(--sc-surface-elevated) !important;
+}
+
+[data-theme='dark'] .list-group-item {
+  background-color: transparent;
+  border-color: var(--sc-border-light);
+  color: var(--sc-text);
+}
+
+[data-theme='dark'] .modal-content {
+  background-color: var(--sc-surface);
+  border-color: var(--sc-border);
+  color: var(--sc-text);
+}
+
+[data-theme='dark'] .modal-header,
+[data-theme='dark'] .modal-footer {
+  border-color: var(--sc-border-light);
+}
+
+[data-theme='dark'] .dropdown-menu {
+  background-color: var(--sc-surface-elevated);
+  border: 1px solid var(--sc-border);
+  color: var(--sc-text);
+}
+
+[data-theme='dark'] .dropdown-item {
+  color: var(--sc-text);
+}
+
+[data-theme='dark'] .dropdown-item:hover {
+  background-color: var(--sc-primary-glass);
+  color: var(--sc-primary);
+}
+
+[data-theme='dark'] .breadcrumb-item.active {
+  color: var(--sc-text-muted) !important;
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;

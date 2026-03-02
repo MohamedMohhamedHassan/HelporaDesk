@@ -1,0 +1,439 @@
+@model ServiceCore.Models.Problem
+@{
+    ViewData["Title"] = $"Problem: {Model.Title}";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2">Problem Record</span>
+                <span class="text-muted fw-600">PROB-@Model.Id.ToString("D4")</span>
+            </div>
+            <h1 class="h3 mb-1 fw-bold">@Model.Title</h1>
+            <p class="text-muted mb-0"><i class="bi bi-clock me-1"></i>Opened on @Model.CreatedAt.ToString("MMM dd, yyyy HH:mm") by @Model.Creator?.Name</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-outline-secondary px-4">
+                <i class="bi bi-pencil me-2"></i>Edit
+            </a>
+            <button class="btn btn-brand-blue px-4" data-bs-toggle="modal" data-bs-target="#modalUpdateStatus">
+                <i class="bi bi-gear-wide-connected me-2"></i>Investigation & Status
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Main Column: Analysis & RCA -->
+        <div class="col-12 col-xl-8">
+            <!-- Problem Description Card -->
+            <div class="card glass-elevated border-0 shadow-sm mb-4 p-4">
+                <h5 class="fw-bold mb-3 border-bottom pb-2">Analysis Summary</h5>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="small text-muted fw-600 d-block mb-1">Detailed Description</label>
+                        <div class="bg-light p-3 rounded-3 border">
+                            @Model.Description
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.InvestigationNotes))
+                    {
+                        <div class="col-12 mt-3">
+                            <label class="small text-muted fw-600 d-block mb-1">Investigation Notes</label>
+                            <div class="bg-brand-blue bg-opacity-5 p-3 rounded-3 border">
+                                @Model.InvestigationNotes
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Root Cause Analysis (RCA) Card -->
+            <div class="card glass-elevated border-0 shadow-sm mb-4 overflow-hidden">
+                <div class="card-header bg-dark bg-opacity-5 py-3 border-0">
+                    <div class="d-flex align-items-center gap-2 fw-bold">
+                        <i class="bi bi-search text-primary"></i>
+                        <span>Root Cause Analysis (RCA)</span>
+                        @if (!string.IsNullOrEmpty(Model.RCAMethod))
+                        {
+                            <span class="badge bg-info bg-opacity-10 text-info ms-auto border border-info border-opacity-10 px-2 fw-normal">
+                                @Model.RCAMethod Method
+                            </span>
+                        }
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <label class="small text-muted fw-600 d-block mb-2">IDENTIFIED ROOT CAUSE</label>
+                            @if (!string.IsNullOrEmpty(Model.RootCause))
+                            {
+                                <div class="alert alert-danger border-0 border-start border-4 border-danger shadow-sm py-3 px-4">
+                                    <p class="mb-0 fw-500">@Model.RootCause</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-4 bg-light rounded-3 border">
+                                    <i class="bi bi-question-circle display-4 d-block mb-2 text-muted"></i>
+                                    <p class="text-muted mb-0">Root cause has not been identified yet.</p>
+                                    <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalUpdateStatus">
+                                        Update RCA
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-600 d-block mb-2">WORKAROUND (KEDB)</label>
+                            <div class="bg-success bg-opacity-5 p-3 rounded-3 border-success border-opacity-25 border min-h-150 shadow-sm border-dashed">
+                                @if (!string.IsNullOrEmpty(Model.Workaround))
+                                {
+                                    <p class="mb-0 small fw-500">@Model.Workaround</p>
+                                }
+                                else
+                                {
+                                    <p class="text-center text-muted small py-4 mb-0 italic">No workaround available.</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="small text-muted fw-600 d-block mb-2">PERMANENT SOLUTION</label>
+                            <div class="bg-primary bg-opacity-5 p-3 rounded-3 border-primary border-opacity-25 border min-h-150 shadow-sm border-dashed">
+                                @if (!string.IsNullOrEmpty(Model.PermanentFix))
+                                {
+                                    <p class="mb-0 small fw-500 text-brand-blue">@Model.PermanentFix</p>
+                                }
+                                else
+                                {
+                                    <p class="text-center text-muted small py-4 mb-0 italic">Investigation required for permanent fix.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Linked Incidents -->
+            <div class="card glass-elevated border-0 shadow-sm overflow-hidden mb-4">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-ticket-detailed me-2"></i>Linked Incidents (Tickets)</h5>
+                    <button class="btn btn-sm btn-brand-blue" data-bs-toggle="modal" data-bs-target="#modalLinkIncident">
+                        <i class="bi bi-link-45deg"></i> Link Incident
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="bg-light">
+                                <tr class="small fw-bold">
+                                    <th class="ps-4">Ticket</th>
+                                    <th>Status</th>
+                                    <th>Requester</th>
+                                    <th>Created At</th>
+                                    <th class="pe-4 text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var li in Model.LinkedIncidents)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-600">#@li.TicketId - @li.Ticket?.Subject</td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border px-2">@li.Ticket?.Status?.Name</span>
+                                        </td>
+                                        <td>@li.Ticket?.Requester?.Name</td>
+                                        <td class="small">@li.LinkedAt.ToString("g")</td>
+                                        <td class="pe-4 text-end">
+                                            <a href="@Url.Action("Details", "Tickets", new { id = li.TicketId })" class="btn btn-sm btn-link text-primary p-0">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!Model.LinkedIncidents.Any())
+                                {
+                                    <tr>
+                                        <td colspan="5" class="py-5 text-center text-muted italic">
+                                            No incidents have been linked to this problem record yet.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Stats & Activities -->
+        <div class="col-12 col-xl-4">
+            <!-- Overview Sidebar Card -->
+            <div class="card glass shadow-sm border-0 mb-4 overflow-hidden rounded-4">
+                <div class="card-body p-0">
+                    <div class="bg-brand-blue p-4 text-white">
+                        <div class="small fw-600 opacity-75 mb-1 d-block">CURRENT STATUS</div>
+                        <h4 class="mb-0 fw-bold">@Model.Status</h4>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="row row-cols-2 g-3 mb-4">
+                            <div class="col">
+                                <div class="p-3 bg-light rounded-3 border shadow-sm">
+                                    <label class="d-block small text-muted fw-bold mb-1">Impact</label>
+                                    <div class="fw-bold fs-6">@Model.Impact</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded-3 border shadow-sm">
+                                    <label class="d-block small text-muted fw-bold mb-1">Priority</label>
+                                    <div class="fw-bold fs-6 text-warning">@Model.Priority</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded-3 border shadow-sm h-100">
+                                    <label class="d-block small text-muted fw-bold mb-1">Urgency</label>
+                                    <div class="fw-bold fs-6">@Model.Urgency</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-light rounded-3 border shadow-sm h-100">
+                                    <label class="d-block small text-muted fw-bold mb-1">Category</label>
+                                    <div class="fw-bold fs-6 text-truncate">@(Model.Category?.Name ?? "General")</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.AssetId.HasValue)
+                        {
+                            <div class="mb-4">
+                                <div class="p-3 bg-brand-blue bg-opacity-5 rounded-3 border border-brand-blue border-opacity-10 shadow-sm">
+                                    <label class="d-block small text-muted fw-bold mb-2">RELATED ASSET</label>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">@Model.Asset?.Name</div>
+                                            <div class="small text-muted">Tag: @Model.Asset?.Tag</div>
+                                        </div>
+                                        <a href="@Url.Action("Details", "Assets", new { id = Model.AssetId })" class="btn btn-sm btn-brand-blue ms-2">
+                                            <i class="bi bi-box-arrow-in-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="border-top pt-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar bg-brand-blue text-primary me-3">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block small text-muted fw-600">ASSIGNED ANALYST</span>
+                                    <span class="fw-bold text-dark">@(Model.AssignedTo?.Name ?? "Not Assigned")</span>
+                                </div>
+                            </div>
+                            @if (Model.ClosedAt.HasValue)
+                            {
+                                <div class="d-flex align-items-center mb-3 text-success">
+                                    <div class="avatar bg-success bg-opacity-10 text-success me-3">
+                                        <i class="bi bi-calendar-check-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block small text-muted fw-600 text-uppercase">Closed Date</span>
+                                        <span class="fw-bold">@Model.ClosedAt.Value.ToString("MMM dd, yyyy")</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Audit Trail -->
+            <div class="card glass-elevated border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0 fw-bold font-heading"><i class="bi bi-clock-history me-2"></i>Problem Audit Trail</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush timeline-list">
+                        @foreach (var activity in Model.Activities.OrderByDescending(a => a.CreatedAt))
+                        {
+                            <div class="list-group-item p-3 border-0 border-bottom">
+                                <div class="d-flex gap-3">
+                                    <div class="timeline-point bg-primary bg-opacity-25 rounded-circle p-1 align-self-start mt-1"></div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="fw-bold small">@activity.Action</span>
+                                            <span class="smaller text-muted">@activity.CreatedAt.ToString("g")</span>
+                                        </div>
+                                        <p class="smaller text-muted mb-1">@activity.Details</p>
+                                        <div class="smaller fw-bold text-dark"><i class="bi bi-person me-1"></i>@activity.User?.Name</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Link Incident -->
+<div class="modal fade" id="modalLinkIncident" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-brand-blue text-white">
+                <h5 class="modal-title fw-bold">Link Incident Ticket</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="@Url.Action("LinkIncident")" method="post">
+                <input type="hidden" name="problemId" value="@Model.Id" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-600">Search Ticket (ID or Keyword)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
+                            <input type="text" id="incidentSearchInput" class="form-control border-start-0 ps-0 bg-light" placeholder="Type to search..." autocomplete="off">
+                        </div>
+                        <div id="incidentSearchResults" class="list-group mt-2 border rounded shadow-sm" style="display:none; max-height: 200px; overflow-y: auto;"></div>
+                        <input type="hidden" name="ticketId" id="selectedTicketId" required>
+                    </div>
+                    <div id="selectedIncidentDisplay" class="alert alert-info py-2 small shadow-sm" style="display:none;">
+                        <i class="bi bi-check-circle me-2"></i>Selected: <strong id="selectedIncidentText"></strong>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-brand-blue px-4" id="btnSubmitLink" disabled>Link Incident</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Update Status / RCA -->
+<div class="modal fade" id="modalUpdateStatus" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold">Investigation & Diagnosis</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="@Url.Action("UpdateRCA")" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Current Workflow Status</label>
+                            <select name="status" class="form-select shadow-sm py-2">
+                                <option value="Open" selected="@(Model.Status == "Open")">Open</option>
+                                <option value="Under Investigation" selected="@(Model.Status == "Under Investigation")">Under Investigation</option>
+                                <option value="Root Cause Identified" selected="@(Model.Status == "Root Cause Identified")">Root Cause Identified</option>
+                                <option value="Known Error" selected="@(Model.Status == "Known Error")">Known Error (KEDB)</option>
+                                <option value="Resolved" selected="@(Model.Status == "Resolved")">Resolved</option>
+                                <option value="Closed" selected="@(Model.Status == "Closed")">Closed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">RCA Method</label>
+                            <select name="rcaMethod" class="form-select shadow-sm py-2">
+                                <option value="">Select Method...</option>
+                                <option value="5 Whys" selected="@(Model.RCAMethod == "5 Whys")">5 Whys</option>
+                                <option value="Fishbone" selected="@(Model.RCAMethod == "Fishbone")">Fishbone Diagram</option>
+                                <option value="Failure Mode" selected="@(Model.RCAMethod == "Failure Mode")">Failure Mode & Effects</option>
+                                <option value="Brainstorming" selected="@(Model.RCAMethod == "Brainstorming")">Brainstorming</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Investigation Notes</label>
+                            <textarea name="investigationNotes" class="form-control" rows="3">@Model.InvestigationNotes</textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-3 bg-danger bg-opacity-5 rounded border-danger border-opacity-25 border border-dashed">
+                                <label class="form-label fw-bold text-danger">IDENTIFIED ROOT CAUSE</label>
+                                <textarea name="rootCause" class="form-control" rows="2" placeholder="Describe the findings that explain why the incident happened...">@Model.RootCause</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Workaround</label>
+                            <textarea name="workaround" class="form-control" rows="3" placeholder="Temporary steps to mitigate impact...">@Model.Workaround</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-brand-blue">Permanent Solution</label>
+                            <textarea name="permanentFix" class="form-control border-brand-blue border-opacity-25" rows="3" placeholder="Steps taken for long-term resolution...">@Model.PermanentFix</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark px-4">Save Progress</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const searchInput = document.getElementById('incidentSearchInput');
+        const resultsDiv = document.getElementById('incidentSearchResults');
+        const selectedIdInput = document.getElementById('selectedTicketId');
+        const selectedDisplay = document.getElementById('selectedIncidentDisplay');
+        const selectedText = document.getElementById('selectedIncidentText');
+        const submitBtn = document.getElementById('btnSubmitLink');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value;
+            clearTimeout(searchTimeout);
+            
+            if (query.length < 2) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                fetch(`@Url.Action("GetLinkableIncidents")?term=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        resultsDiv.innerHTML = '';
+                        if (data.length === 0) {
+                            resultsDiv.innerHTML = '<div class="list-group-item small text-muted">No incidents found</div>';
+                        } else {
+                            data.forEach(item => {
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'list-group-item list-group-item-action small py-2';
+                                btn.textContent = item.text;
+                                btn.onclick = () => selectIncident(item.id, item.text);
+                                resultsDiv.appendChild(btn);
+                            });
+                        }
+                        resultsDiv.style.display = 'block';
+                    });
+            }, 300);
+        });
+
+        function selectIncident(id, text) {
+            selectedIdInput.value = id;
+            selectedText.textContent = text;
+            selectedDisplay.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            searchInput.value = '';
+            submitBtn.disabled = false;
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = 'none';
+            }
+        });
+    </script>
+}
+
+<style>
+    .timeline-list { position: relative; }
+    .timeline-point { width: 10px; height: 10px; flex-shrink: 0; }
+    .avatar-xs { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .min-h-150 { min-height: 150px; }
+    .fw-500 { font-weight: 500; }
+</style>

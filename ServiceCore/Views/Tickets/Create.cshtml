@@ -26,19 +26,34 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label fw-bold">Category</label>
                                 <select class="form-select" asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" required>
                                     <option value="">-- Select Category --</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label fw-bold">Priority</label>
                                 <select class="form-select" asp-for="PriorityId" asp-items="@(new SelectList(ViewBag.Priorities, "Id", "Name"))" required>
                                     <option value="">-- Select Priority --</option>
                                 </select>
                                 <span asp-validation-for="PriorityId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Related Asset</label>
+                                <select class="form-select" asp-for="AssetId">
+                                    <option value="">-- None --</option>
+                                    @if(ViewBag.UserAssets != null)
+                                    {
+                                        foreach (var asset in ViewBag.UserAssets)
+                                        {
+                                            <option value="@asset.Id">@asset.Name (@asset.Tag)</option>
+                                        }
+                                    }
+                                </select>
+                                <div class="form-text">Optional: Link this ticket to an asset you own.</div>
+                                <span asp-validation-for="AssetId" class="text-danger"></span>
                             </div>
                         </div>
 

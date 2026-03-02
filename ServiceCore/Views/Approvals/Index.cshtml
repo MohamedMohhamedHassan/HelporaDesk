@@ -57,7 +57,37 @@
                                             break;
                                     }
                                 </td>
-                                <td class="text-end pe-4">
+                                <td class="text-end pe-4 text-nowrap">
+                                    @{
+                                        string detailsUrl = "#";
+                                        if (item.RelatedId.HasValue)
+                                        {
+                                            if (item.RequestType == "Ticket_Resolution" || item.RequestType == "Ticket")
+                                            {
+                                                detailsUrl = Url.Action("Details", "Tickets", new { id = item.RelatedId.Value });
+                                            }
+                                            else if (item.RequestType == "Change_Request" || item.RequestType == "Change")
+                                            {
+                                                detailsUrl = Url.Action("Details", "Changes", new { id = item.RelatedId.Value });
+                                            }
+                                            else if (item.RequestType == "Asset_Assignment" || item.RequestType == "Asset")
+                                            {
+                                                detailsUrl = Url.Action("Details", "Assets", new { id = item.RelatedId.Value });
+                                            }
+                                            else if (item.RequestType == "Contract")
+                                            {
+                                                detailsUrl = Url.Action("Details", "Contracts", new { id = item.RelatedId.Value });
+                                            }
+                                        }
+                                    }
+
+                                    @if(detailsUrl != "#")
+                                    {
+                                         <a href="@detailsUrl" class="btn btn-sm btn-light border fw-600 text-muted me-1" title="View Details">
+                                            <i class="bi bi-box-arrow-up-right"></i>
+                                         </a>
+                                    }
+
                                     @if (item.Status == "Pending")
                                     {
                                         <button class="btn btn-sm btn-outline-success border-0 fw-600 me-1" 

@@ -101,6 +101,12 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-600 px-4" id="audit-tab" data-bs-toggle="tab" data-bs-target="#audit" type="button" role="tab">Audit Trail</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-600 px-4" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets" type="button" role="tab">Linked Tickets</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-600 px-4" id="problems-tab" data-bs-toggle="tab" data-bs-target="#problems" type="button" role="tab">Linked Problems</button>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body p-4">
@@ -216,6 +222,104 @@
                                 <div class="text-center py-5">
                                     <i class="bi bi-journal-text display-6 text-muted mb-2"></i>
                                     <p class="text-muted small mb-0">No system events logged yet.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Linked Tickets -->
+                        <div class="tab-pane fade" id="tickets" role="tabpanel">
+                            @if (Model.Tickets != null && Model.Tickets.Any())
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle smaller-2 mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Ticket ID</th>
+                                                <th>Subject</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var t in Model.Tickets)
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">#@t.Id</td>
+                                                    <td>
+                                                        <a href="/Tickets/Details/@t.Id" class="text-decoration-none text-brand-blue fw-600">
+                                                            @t.Subject
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-light text-dark border">@t.Status?.Name</span>
+                                                    </td>
+                                                    <td class="text-muted">@t.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                    <td class="text-end">
+                                                        <a href="/Tickets/Details/@t.Id" class="btn btn-sm btn-outline-secondary">
+                                                            <i class="bi bi-box-arrow-up-right"></i> View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <i class="bi bi-ticket-detailed display-6 text-muted mb-2"></i>
+                                    <p class="text-muted small mb-0">No tickets have been logged for this asset.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Linked Problems -->
+                        <div class="tab-pane fade" id="problems" role="tabpanel">
+                            @if (Model.Problems != null && Model.Problems.Any())
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle smaller-2 mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Problem ID</th>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var p in Model.Problems)
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">PROB-@p.Id.ToString("D4")</td>
+                                                    <td>
+                                                        <a href="/Problems/Details/@p.Id" class="text-decoration-none text-brand-blue fw-600">
+                                                            @p.Title
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-light text-dark border">@p.Status</span>
+                                                    </td>
+                                                    <td class="text-muted">@p.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                    <td class="text-end">
+                                                        <a href="/Problems/Details/@p.Id" class="btn btn-sm btn-outline-secondary">
+                                                            <i class="bi bi-box-arrow-up-right"></i> View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <i class="bi bi-search display-6 text-muted mb-2"></i>
+                                    <p class="text-muted small mb-0">No investigations have been logged for this asset.</p>
                                 </div>
                             }
                         </div>

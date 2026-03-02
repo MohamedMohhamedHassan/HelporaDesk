@@ -138,7 +138,10 @@ namespace ServiceCore.Controllers
             }
 
             // Notify Requester
-            await _notificationService.NotifyUserAsync(ticket.RequesterId, "Ticket Created", $"Your ticket #{ticket.Id} - {ticket.Subject} has been created successfully.", $"/Tickets/Details/{ticket.Id}");
+            if (ticket.RequesterId.HasValue)
+            {
+                await _notificationService.NotifyUserAsync(ticket.RequesterId.Value, "Ticket Created", $"Your ticket #{ticket.Id} - {ticket.Subject} has been created successfully.", $"/Tickets/Details/{ticket.Id}");
+            }
 
             return RedirectToAction(nameof(Index));
         }

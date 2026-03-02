@@ -1,94 +1,124 @@
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ServiceCore.Models;
-using ServiceCore.Data;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
 namespace ServiceCore.Controllers
 {
+    [Authorize]
     public class HelpController : Controller
     {
-        private readonly ServiceCoreDbContext _db;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public HelpController(ServiceCoreDbContext db)
+        public HelpController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _db = db;
+            _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Chat(string query)
+        [HttpPost]
+        public async Task<IActionResult> Chat([FromBody] ChatRequest request)
         {
-            if (string.IsNullOrWhiteSpace(query))
-                return Json(new { success = false, message = "Please ask a question." });
+            if (string.IsNullOrWhiteSpace(request?.Message))
+                return BadRequest(new { error = "Message is required." });
 
-            var q = query.ToLower();
-            var keywords = q.Split(new[] { ' ', '?', '!', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var apiKey = _configuration["AI:ApiKey"];
+            var baseUrl = _configuration["AI:BaseUrl"] ?? "https://api.openai.com/v1/";
+            var model = _configuration["AI:Model"] ?? "gpt-4o-mini";
 
-            // 1. Database Metric Queries (Real-time assistant)
-            if (q.Contains("how many") || q.Contains("count") || q.Contains("total"))
+            if (string.IsNullOrWhiteSpace(apiKey) || apiKey.Contains("YOUR_API_KEY"))
+                return Ok(new { reply = "⚠️ AI not configured. Please add your API key to `appsettings.json` under `AI.ApiKey`." });
+
+            var messages = new List<object>
             {
-                if (q.Contains("ticket"))
-                {
-                    var count = await _db.Tickets.CountAsync();
-                    return Json(new { success = true, botResponse = $"There are currently {count} tickets in the system." });
+                new {
+                    role = "system",
+                    content = @"You are HelporaAI, an expert IT support assistant.
+Your ONLY purpose is to help with technical IT questions (Hardware, Software, Networking, Cloud, SysAdmin).
+If a question is NOT related to IT or technology, politely decline and redirect them.
+Be concise, professional, and use markdown for code blocks."
                 }
-                if (q.Contains("project"))
-                {
-                    var count = await _db.Projects.CountAsync();
-                    return Json(new { success = true, botResponse = $"I found {count} active projects in ServiceCore." });
-                }
-                if (q.Contains("user"))
-                {
-                    var count = await _db.Users.CountAsync();
-                    return Json(new { success = true, botResponse = $"There are {count} registered users." });
-                }
-            }
-
-            // 2. System Module Knowledge (The "Brain")
-            var moduleKnowledge = new Dictionary<string, string>
-            {
-                { "ticket", "The Tickets module allows you to track issues and requests. You can create a ticket from the sidebar or by clicking 'New Ticket' in the top bar." },
-                { "project", "Projects help you organize long-term work. You can manage tasks, milestones, and team members within each project." },
-                { "asset", "The Assets module tracks equipment like laptops, monitors, and licenses. You can assign them to users and track maintenance history." },
-                { "contract", "Contract management tracks your agreements with vendors, including value, expiry dates, and payment schedules." },
-                { "solution", "Solutions are your internal knowledge base. You can write articles to help others fix common issues faster." },
-                { "permission", "Permissions are managed in the Admin section. Only administrators can change what each role is allowed to do." },
-                { "kanban", "The Kanban board provides a visual way to track ticket progress across different statuses." }
             };
 
-            foreach (var kw in keywords)
+            if (request.History != null)
             {
-                if (moduleKnowledge.ContainsKey(kw))
+                foreach (var h in request.History.TakeLast(10))
                 {
-                    return Json(new { success = true, botResponse = moduleKnowledge[kw] });
+                    messages.Add(new { role = h.Role, content = h.Content });
                 }
             }
 
-            // 3. Fallback to KB Search (Knowledge Base)
-            var solutions = _db.Solutions
-                .Where(s => s.Title.ToLower().Contains(q) || s.Content.ToLower().Contains(q) || (s.Keywords != null && s.Keywords.ToLower().Contains(q)))
-                .Select(s => new {
-                    id = s.Id,
-                    title = s.Title,
-                    preview = s.Content.Length > 100 ? s.Content.Substring(0, 100) + "..." : s.Content,
-                    type = "Solution"
-                })
-                .Take(3)
-                .ToList();
+            messages.Add(new { role = "user", content = request.Message });
 
-            if (solutions.Any())
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+
+            var body = new
             {
-                var response = "I found some relevant solutions for you:";
-                return Json(new { success = true, botResponse = response, results = solutions });
-            }
+                model = model,
+                messages = messages,
+                max_tokens = 1024,
+                temperature = 0.3
+            };
 
-            // 4. Ultimate Fallback
-            return Json(new { success = true, botResponse = "I'm not exactly sure about that, but I'm learning! Try asking about 'Tickets', 'Projects', or 'How many tickets' to see what I can do." });
+            try
+            {
+                var jsonBody = JsonSerializer.Serialize(body);
+                var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                
+                // Ensure URL ends with chat/completions
+                var finalUrl = baseUrl.EndsWith("/") ? baseUrl + "chat/completions" : baseUrl + "/chat/completions";
+                
+                var response = await client.PostAsync(finalUrl, content);
+                var responseStr = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorMsg = $"❌ API Error `{(int)response.StatusCode}`.";
+                    try {
+                        using var errDoc = JsonDocument.Parse(responseStr);
+                        if (errDoc.RootElement.TryGetProperty("error", out var errorEl) && 
+                            errorEl.TryGetProperty("message", out var msgEl))
+                        {
+                            errorMsg += $" Details: **{msgEl.GetString()}**";
+                        }
+                    } catch { }
+                    return Ok(new { reply = errorMsg });
+                }
+
+                using var doc = JsonDocument.Parse(responseStr);
+                var reply = doc.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString();
+
+                return Ok(new { reply });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { reply = $"❌ Connection error: {ex.Message}" });
+            }
         }
+    }
+
+    public class ChatRequest
+    {
+        public string? Message { get; set; }
+        public List<ChatHistoryItem>? History { get; set; }
+    }
+
+    public class ChatHistoryItem
+    {
+        public string Role { get; set; } = "user";
+        public string Content { get; set; } = "";
     }
 }

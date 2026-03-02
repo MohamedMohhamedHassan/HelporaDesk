@@ -54,9 +54,9 @@ namespace ServiceCore.Services
             if (ticket == null) return;
 
             // Notify Requester
-            if (ticket.RequesterId > 0)
+            if (ticket.RequesterId.HasValue && ticket.RequesterId > 0)
             {
-                await NotifyUserAsync(ticket.RequesterId, $"Ticket #{ticket.Id} Updated", message, $"/Tickets/Details/{ticket.Id}");
+                await NotifyUserAsync(ticket.RequesterId.Value, $"Ticket #{ticket.Id} Updated", message, $"/Tickets/Details/{ticket.Id}");
             }
 
             // Notify Assignee
@@ -82,7 +82,7 @@ namespace ServiceCore.Services
             string message = $"{comment.User?.Name ?? "Someone"} added a comment: \"{(comment.Content.Length > 50 ? comment.Content.Substring(0, 47) + "..." : comment.Content)}\"";
 
             // If commenter is the requester, notify the assignee
-            if (comment.UserId == ticket.RequesterId)
+            if (comment.UserId.HasValue && comment.UserId == ticket.RequesterId)
             {
                 if (ticket.AssignedId.HasValue)
                 {
@@ -92,14 +92,17 @@ namespace ServiceCore.Services
             // If commenter is the assignee, notify the requester
             else if (ticket.AssignedId.HasValue && comment.UserId == ticket.AssignedId.Value)
             {
-                await NotifyUserAsync(ticket.RequesterId, $"New Comment on Ticket #{ticket.Id}", message, $"/Tickets/Details/{ticket.Id}");
+                if (ticket.RequesterId.HasValue)
+                {
+                    await NotifyUserAsync(ticket.RequesterId.Value, $"New Comment on Ticket #{ticket.Id}", message, $"/Tickets/Details/{ticket.Id}");
+                }
             }
             // Otherwise notify both if they are not the commenter
             else
             {
-                if (comment.UserId != ticket.RequesterId)
+                if (ticket.RequesterId.HasValue && comment.UserId != ticket.RequesterId)
                 {
-                    await NotifyUserAsync(ticket.RequesterId, $"New Comment on Ticket #{ticket.Id}", message, $"/Tickets/Details/{ticket.Id}");
+                    await NotifyUserAsync(ticket.RequesterId.Value, $"New Comment on Ticket #{ticket.Id}", message, $"/Tickets/Details/{ticket.Id}");
                 }
                 if (ticket.AssignedId.HasValue && comment.UserId != ticket.AssignedId.Value)
                 {

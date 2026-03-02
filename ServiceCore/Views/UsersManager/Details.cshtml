@@ -1,24 +1,237 @@
 @model ServiceCore.Models.User
 @{
-    ViewData["Title"] = "User Details";
+    ViewData["Title"] = "User Details - " + Model.Name;
 }
 
-<div class="container">
-    <h1>User #@Model.Id</h1>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <!-- Breadcrumb & Actions -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/UsersManager" class="text-decoration-none">Team Management</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Details</li>
+                    </ol>
+                </nav>
+                <div class="d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi bi-pencil me-2"></i>Edit User</a>
+                    <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-dark"><i class="bi bi-key me-2"></i>Reset Password</a>
+                </div>
+            </div>
 
-    <dl class="row">
-        <dt class="col-sm-3">Name</dt>
-        <dd class="col-sm-9">@Model.Name</dd>
+            <!-- Profile Header Card -->
+            <div class="card shadow-sm border-0 mb-4 overflow-hidden rounded-4">
+                <div class="card-body p-0">
+                    <div class="bg-primary p-5 text-white">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="avatar-xl bg-white text-primary rounded-circle d-flex align-items-center justify-content-center fs-1 fw-bold shadow-sm" style="width: 120px; height: 120px; border: 4px solid rgba(255,255,255,0.2);">
+                                @(Model.Name?.Substring(0, Math.Min(2, Model.Name.Length)).ToUpper() ?? "U")
+                            </div>
+                            <div>
+                                <h1 class="display-6 fw-bold mb-1">@Model.Name</h1>
+                                <div class="d-flex gap-3 align-items-center opacity-75">
+                                    <span><i class="bi bi-envelope me-2"></i>@Model.Email</span>
+                                    <span><i class="bi bi-building me-2"></i>@(Model.Department ?? "No Department")</span>
+                                    <span class="badge bg-white text-primary rounded-pill px-3">@Model.Role</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dt class="col-sm-3">Role</dt>
-        <dd class="col-sm-9">@Model.Role</dd>
+            <!-- Dashboard Content -->
+            <div class="row g-4">
+                <!-- Status Sidebar -->
+                <div class="col-lg-3">
+                    <div class="card shadow-sm border-0 mb-4 rounded-4">
+                        <div class="card-body p-4">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-4">Account Status</h6>
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-grow-1">
+                                    <label class="d-block small text-muted">Active Status</label>
+                                    <span class="fw-bold @(Model.IsActive ? "text-success" : "text-danger")">
+                                        <i class="bi bi-circle-fill me-2 fs-6"></i> @(Model.IsActive ? "Enabled" : "Disabled")
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="d-block small text-muted">Phone Number</label>
+                                <span class="fw-medium">@(Model.PhoneNumber ?? "Not provided")</span>
+                            </div>
+                            <div class="mb-0">
+                                <label class="d-block small text-muted">Last Login</label>
+                                <span class="fw-medium">@(Model.LastLoginAt?.ToString("MMM dd, yyyy HH:mm") ?? "Never logged in")</span>
+                            </div>
+                        </div>
+                    </div>
 
-        <dt class="col-sm-3">Department</dt>
-        <dd class="col-sm-9">@Model.Department</dd>
-    </dl>
+                    <div class="card shadow-sm border-0 rounded-4 bg-light">
+                        <div class="card-body p-4">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-3">System Summary</h6>
+                            <div class="list-group list-group-flush bg-transparent">
+                                <div class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center border-0 py-2">
+                                    <span class="text-muted small">Tickets Submitted</span>
+                                    <span class="badge bg-primary rounded-pill">@(Model.SubmittedTickets?.Count ?? 0)</span>
+                                </div>
+                                <div class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center border-0 py-2">
+                                    <span class="text-muted small">Tickets Assigned</span>
+                                    <span class="badge bg-info rounded-pill">@(Model.AssignedTickets?.Count ?? 0)</span>
+                                </div>
+                                <div class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center border-0 py-2">
+                                    <span class="text-muted small">Assets Assigned</span>
+                                    <span class="badge bg-dark rounded-pill">@(Model.Assets?.Count ?? 0)</span>
+                                </div>
+                                <div class="list-group-item bg-transparent px-0 d-flex justify-content-between align-items-center border-0 py-2">
+                                    <span class="text-muted small">Active Tasks</span>
+                                    <span class="badge bg-success rounded-pill">@(Model.AssignedTasks?.Count ?? 0)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="mt-3">
-        <a class="btn btn-secondary" href="/UsersManager">Back to list</a>
-        <a class="btn btn-primary" href="/UsersManager/Edit/@Model.Id">Edit</a>
+                <!-- Main Content Tabs -->
+                <div class="col-lg-9">
+                    <div class="card shadow-sm border-0 rounded-4 h-100">
+                        <div class="card-header bg-white border-0 pt-4 px-4">
+                            <ul class="nav nav-pills custom-pills" id="userTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active rounded-pill px-4" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets" type="button" role="tab">Tickets</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-pill px-4" id="assets-tab" data-bs-toggle="tab" data-bs-target="#assets" type="button" role="tab">Assigned Assets</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-pill px-4" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab">Project Tasks</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="tab-content" id="userTabsContent">
+                                <!-- Tickets Tab -->
+                                <div class="tab-pane fade show active" id="tickets" role="tabpanel">
+                                    <h6 class="fw-bold mb-3">Submitted Tickets</h6>
+                                    @if (Model.SubmittedTickets?.Any() == true)
+                                    {
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Subject</th>
+                                                        <th>Created</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var ticket in Model.SubmittedTickets.OrderByDescending(t => t.CreatedAt).Take(10))
+                                                    {
+                                                        <tr>
+                                                            <td><a href="/Tickets/Details/@ticket.Id" class="fw-bold text-decoration-none border-bottom border-primary border-2">#@ticket.Id</a></td>
+                                                            <td>@ticket.Subject</td>
+                                                            <td class="small text-muted">@ticket.CreatedAt.ToShortDateString()</td>
+                                                            <td><span class="badge bg-secondary-subtle text-secondary rounded-pill">@ticket.StatusId</span></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-5">
+                                            <i class="bi bi-ticket-perforated fs-1 text-muted opacity-25"></i>
+                                            <p class="text-muted mt-3">No tickets submitted by this user.</p>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Assets Tab -->
+                                <div class="tab-pane fade" id="assets" role="tabpanel">
+                                    <h6 class="fw-bold mb-3">Hardware Inventory</h6>
+                                    @if (Model.Assets?.Any() == true)
+                                    {
+                                        <div class="row g-3">
+                                            @foreach (var asset in Model.Assets)
+                                            {
+                                                <div class="col-md-6">
+                                                    <div class="p-3 border rounded-3 h-100">
+                                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                                            <h6 class="mb-0 fw-bold">@asset.Name</h6>
+                                                            <span class="badge bg-info text-white rounded-pill small">@asset.Status</span>
+                                                        </div>
+                                                        <div class="small text-muted mb-2">Tag: @asset.Tag</div>
+                                                        <a href="/Assets/Details/@asset.Id" class="btn btn-sm btn-link p-0 text-decoration-none">View Details <i class="bi bi-arrow-right small"></i></a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-5">
+                                            <i class="bi bi-pc-display fs-1 text-muted opacity-25"></i>
+                                            <p class="text-muted mt-3">No assets assigned to this user.</p>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Tasks Tab -->
+                                <div class="tab-pane fade" id="tasks" role="tabpanel">
+                                    <h6 class="fw-bold mb-3">Assigned Tasks</h6>
+                                    @if (Model.AssignedTasks?.Any() == true)
+                                    {
+                                        <div class="list-group list-group-flush">
+                                            @foreach (var task in Model.AssignedTasks)
+                                            {
+                                                <div class="list-group-item border rounded-3 mb-2 p-3">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0 fw-bold">@task.Title</h6>
+                                                        <span class="small text-muted">Due: @(task.Id > 0 ? "Upcoming" : "No date")</span>
+                                                    </div>
+                                                    <small class="text-muted d-block mt-1">Status: @task.Status</small>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-5">
+                                            <i class="bi bi-check2-square fs-1 text-muted opacity-25"></i>
+                                            <p class="text-muted mt-3">No active tasks for this user.</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .custom-pills .nav-link {
+        color: #6c757d;
+        background: #f8f9fa;
+        margin-right: 8px;
+        font-weight: 500;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+    .custom-pills .nav-link:hover {
+        background: #e9ecef;
+        color: #343a40;
+    }
+    .custom-pills .nav-link.active {
+        background: #0d6efd;
+        color: white;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+    .avatar-xl {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+</style>

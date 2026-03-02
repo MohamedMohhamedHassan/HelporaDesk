@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ServiceCore.Data;
 using ServiceCore.Models;
 
@@ -114,6 +115,23 @@ namespace ServiceCore.Controllers
 
             TempData["Success"] = $"Password for {user.Name} updated successfully.";
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var user = await _db.Users
+                .Include(u => u.SubmittedTickets)
+                .Include(u => u.AssignedTickets)
+                .Include(u => u.Assets)
+                .Include(u => u.AssignedTasks)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null) return NotFound();
+
+            return View(user);
         }
 
         [HttpPost]

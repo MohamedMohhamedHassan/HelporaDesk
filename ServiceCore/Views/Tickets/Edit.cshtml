@@ -42,16 +42,29 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Requester</label>
                         <select class="form-select" asp-for="RequesterId" asp-items="@(new SelectList(ViewBag.Users, "Id", "Name"))">
                              <option value="">-- Select Requester --</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Assigned To</label>
                         <select class="form-select" asp-for="AssignedId" asp-items="@(new SelectList(ViewBag.Users, "Id", "Name"))">
                              <option value="">-- Unassigned --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Related Asset</label>
+                        <select class="form-select" asp-for="AssetId">
+                             <option value="">-- None --</option>
+                             @if(ViewBag.UserAssets != null)
+                             {
+                                 foreach (var asset in ViewBag.UserAssets)
+                                 {
+                                     <option value="@asset.Id">@asset.Name (@asset.Tag)</option>
+                                 }
+                             }
                         </select>
                     </div>
                 </div>

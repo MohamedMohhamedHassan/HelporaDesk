@@ -7,6 +7,8 @@
     var userWorkload = ViewBag.UserWorkload;
     var velocity = ViewBag.Velocity;
     var solutionStats = ViewBag.SolutionStats;
+    var problemStats = ViewBag.ProblemStats;
+    var changeStats = ViewBag.ChangeStats;
 }
 
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-5 d-print-none">
@@ -61,6 +63,14 @@
                             <label class="form-check-label fw-600" for="checkSolutions">Knowledge Base & Solutions</label>
                             <input class="form-check-input" type="checkbox" id="checkSolutions" checked>
                         </div>
+                        <div class="form-check form-switch p-0 d-flex align-items-center justify-content-between">
+                            <label class="form-check-label fw-600" for="checkProblems">Problem Analysis & RCA</label>
+                            <input class="form-check-input" type="checkbox" id="checkProblems" checked>
+                        </div>
+                        <div class="form-check form-switch p-0 d-flex align-items-center justify-content-between">
+                            <label class="form-check-label fw-600" for="checkChanges">Change Risk & Success</label>
+                            <input class="form-check-input" type="checkbox" id="checkChanges" checked>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0 d-flex gap-2">
@@ -99,41 +109,50 @@
 
     <!-- Top Level Metrics -->
     <div class="row g-4 mb-4" id="sectionMetrics">
-        <div class="col-12 col-md-6 col-xl-3" id="metricAssets">
+        <div class="col-12 col-md-6 col-xl-2" id="metricAssets">
             <div class="card glass shadow-sm border-0 h-100 p-2">
                 <div class="card-body">
-                    <div class="text-secondary small text-uppercase fw-bold mb-1">Total Assets Value</div>
+                    <div class="text-secondary small text-uppercase fw-bold mb-1">Assets Value</div>
                     <div class="h3 fw-bold mb-0 text-primary">$@assetStats.TotalValue.ToString("N0")</div>
-                    <div class="small text-muted mt-1">@assetStats.TotalCount total tracked items</div>
+                    <div class="small text-muted mt-1">@assetStats.TotalCount total</div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-xl-3" id="metricContracts">
+        <div class="col-12 col-md-6 col-xl-2" id="metricContracts">
             <div class="card glass shadow-sm border-0 h-100 p-2">
                 <div class="card-body">
                     <div class="text-secondary small text-uppercase fw-bold mb-1">Contract Value</div>
                     <div class="h3 fw-bold mb-0 text-success">$@contractStats.TotalValue.ToString("N0")</div>
                     <div class="small text-danger mt-1">
-                        <i class="bi bi-exclamation-circle text-danger"></i> @contractStats.UpcomingExpirations exp. soon
+                        <i class="bi bi-clock"></i> @contractStats.UpcomingExpirations exp.
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-xl-3" id="metricTickets">
+        <div class="col-12 col-md-6 col-xl-2" id="metricTickets">
             <div class="card glass shadow-sm border-0 h-100 p-2">
                 <div class="card-body">
-                    <div class="text-secondary small text-uppercase fw-bold mb-1">Ticket Resolution</div>
+                    <div class="text-secondary small text-uppercase fw-bold mb-1">Ticket Res.</div>
                     <div class="h3 fw-bold mb-0">@ticketStats.ResolvedLast30Days</div>
                     <div class="small text-muted mt-1">Last 30 days</div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-xl-3" id="metricMaintenance">
+        <div class="col-12 col-md-6 col-xl-2" id="metricProblems">
             <div class="card glass shadow-sm border-0 h-100 p-2">
                 <div class="card-body">
-                    <div class="text-secondary small text-uppercase fw-bold mb-1">Asset Maintenance</div>
-                    <div class="h3 fw-bold mb-0 text-warning">@assetStats.MaintenanceCount</div>
-                    <div class="small text-muted mt-1">Active tasks</div>
+                    <div class="text-secondary small text-uppercase fw-bold mb-1">Active Problems</div>
+                    <div class="h3 fw-bold mb-0 text-danger">@problemStats.Open</div>
+                    <div class="small text-muted mt-1">@problemStats.KnownErrors known errors</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-2" id="metricChanges">
+            <div class="card glass shadow-sm border-0 h-100 p-2">
+                <div class="card-body">
+                    <div class="text-secondary small text-uppercase fw-bold mb-1">Changes Tracked</div>
+                    <div class="h3 fw-bold mb-0 text-brand-blue">@changeStats.Total</div>
+                    <div class="small text-muted mt-1">@changeStats.EmergencyCount emergency type</div>
                 </div>
             </div>
         </div>
@@ -268,6 +287,69 @@
             </div>
         </div>
 
+        <div class="col-12 col-lg-6" id="sectionProblems">
+            <div class="card glass shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Problem Analysis</h5>
+                    <span class="badge @(problemStats.WithRCA >= problemStats.Total * 0.8 ? "bg-success" : "bg-warning")">
+                        RCA IDENTIFIED: @(problemStats.Total > 0 ? (problemStats.WithRCA * 100 / problemStats.Total) : 100)%
+                    </span>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <canvas id="problemStatusChart" style="max-height: 220px;"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-4 border">
+                                <div class="small fw-bold text-muted text-uppercase mb-2">Key Metrics</div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Known Errors</span>
+                                    <span class="fw-bold text-primary">@problemStats.KnownErrors</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Resolution Rate</span>
+                                    <span class="fw-bold text-success">@(problemStats.Total > 0 ? (problemStats.Resolved * 100 / problemStats.Total) : 100)%</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Open Impact</span>
+                                    <span class="fw-bold text-danger">High</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6" id="sectionChanges">
+            <div class="card glass shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Change Risk & Success</h5>
+                    <div class="text-end text-muted small">
+                        Implementation Success: <span class="fw-bold text-success">@changeStats.ImplementationSuccessRate.ToString("0")%</span>
+                    </div>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="row g-4 mb-3">
+                         <div class="col-6">
+                            <div class="p-2 border rounded text-center">
+                                <div class="small text-muted mb-1">Emergency</div>
+                                <div class="h4 fw-bold mb-0 text-danger">@changeStats.EmergencyCount</div>
+                            </div>
+                         </div>
+                         <div class="col-6">
+                            <div class="p-2 border rounded text-center">
+                                <div class="small text-muted mb-1">Total PRs</div>
+                                <div class="h4 fw-bold mb-0 text-primary">@changeStats.Total</div>
+                            </div>
+                         </div>
+                    </div>
+                    <canvas id="changeRiskChart" style="max-height: 200px;"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="col-12" id="sectionSolutions">
             <div class="card glass shadow-sm border-0">
                 <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
@@ -339,12 +421,17 @@
         const workloadData     = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(userWorkload));
         const contractData     = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(contractStats.ByStatus));
         const solutionTopics   = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(solutionStats.TopTopics));
+        const problemMetrics   = { total: @problemStats.Total, open: @problemStats.Open, resolved: @problemStats.Resolved, knownErrors: @problemStats.KnownErrors, withRca: @problemStats.WithRCA };
+        const changeRiskData   = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(changeStats.ByRisk));
+        
         const reportSummary = {
             tickets:   { total: @ticketStats.Total, resolved30: @ticketStats.ResolvedLast30Days,
                          aging: { d1: @ticketStats.Aging.Day1, d3: @ticketStats.Aging.Day3, d7: @ticketStats.Aging.Day7, old: @ticketStats.Aging.Older } },
             assets:    { count: @assetStats.TotalCount, value: @assetStats.TotalValue, maintenance: @assetStats.MaintenanceCount },
             contracts: { value: @contractStats.TotalValue, expiring: @contractStats.UpcomingExpirations },
             solutions: { total: @solutionStats.Total, published: @solutionStats.Published, views: @solutionStats.TotalViews },
+            problems:  { total: @problemStats.Total, open: @problemStats.Open, resolved: @problemStats.Resolved },
+            changes:   { total: @changeStats.Total, success: @changeStats.ImplementationSuccessRate, emergency: @changeStats.EmergencyCount },
             health:    @ViewBag.HealthScore
         };
 
@@ -356,7 +443,9 @@
                 'checkProjects': ['sectionProjects'],
                 'checkAssets': ['sectionAssets', 'assetCategoryChart', 'metricAssets', 'metricMaintenance'],
                 'checkContracts': ['metricContracts'],
-                'checkSolutions': ['sectionSolutions']
+                'checkSolutions': ['sectionSolutions'],
+                'checkProblems': ['sectionProblems', 'metricProblems'],
+                'checkChanges': ['sectionChanges', 'metricChanges']
             };
 
             Object.keys(sections).forEach(id => {
@@ -393,8 +482,10 @@
             const a = document.getElementById('checkAssets').checked;
             const c = document.getElementById('checkContracts').checked;
             const s = document.getElementById('checkSolutions').checked;
+            const pb = document.getElementById('checkProblems').checked;
+            const ch = document.getElementById('checkChanges').checked;
             
-            const url = `@Url.Action("ExportCsv")?includeTickets=${t}&includeProjects=${p}&includeAssets=${a}&includeContracts=${c}&includeSolutions=${s}`;
+            const url = `@Url.Action("ExportCsv")?includeTickets=${t}&includeProjects=${p}&includeAssets=${a}&includeContracts=${c}&includeSolutions=${s}&includeProblems=${pb}&includeChanges=${ch}`;
             window.location.href = url;
         }
 
@@ -405,6 +496,8 @@
             const selA = document.getElementById('checkAssets').checked;
             const selC = document.getElementById('checkContracts').checked;
             const selS = document.getElementById('checkSolutions').checked;
+            const selPb = document.getElementById('checkProblems').checked;
+            const selCh = document.getElementById('checkChanges').checked;
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('reportOptionsModal'));
             if (modal) modal.hide();
@@ -482,7 +575,7 @@
 
             // -- Modules selected summary row --
             doc.setFontSize(8).setTextColor(80).setFont(undefined, 'normal');
-            const selectedModules = [selT && 'Tickets', selP && 'Projects', selA && 'Assets', selC && 'Contracts', selS && 'Knowledge Base'].filter(Boolean);
+            const selectedModules = [selT && 'Tickets', selP && 'Projects', selA && 'Assets', selC && 'Contracts', selS && 'Knowledge Base', selPb && 'Problems', selCh && 'Changes'].filter(Boolean);
             doc.text(`Modules Included: ${selectedModules.join('  ·  ')}`, margin, y);
             y += 10;
 
@@ -592,6 +685,39 @@
                 }
             }
 
+            // ── PROBLEMS ────────────────────────────────────────────────
+            if (selPb) {
+                checkY(30);
+                sectionTitle('Problem Management');
+                doc.setFontSize(8).setFont(undefined, 'normal').setTextColor(60);
+                doc.text(`Active Problems: ${reportSummary.problems.open}   |   Resolved: ${reportSummary.problems.resolved}   |   Percentage Identified: ${Math.round(problemMetrics.withRca / problemMetrics.total * 100)}%`, col1, y);
+                y += 7;
+                autoTable(
+                    ['Metric', 'Count/Rate'],
+                    [
+                        ['Total Problem Records', problemMetrics.total],
+                        ['Open & Active', problemMetrics.open],
+                        ['Root Cause Analysis Completed', problemMetrics.withRca],
+                        ['Known Errors Recorded', problemMetrics.knownErrors]
+                    ]
+                );
+            }
+
+            // ── CHANGES ─────────────────────────────────────────────────
+            if (selCh) {
+                checkY(30);
+                sectionTitle('Change Risk Analysis');
+                doc.setFontSize(8).setFont(undefined, 'normal').setTextColor(60);
+                doc.text(`Total Changes: ${reportSummary.changes.total}   |   Implementation Success: ${Math.round(reportSummary.changes.success)}%   |   Emergency PRs: ${reportSummary.changes.emergency}`, col1, y);
+                y += 7;
+                if (changeRiskData.length > 0) {
+                    autoTable(
+                        ['Risk Level', 'Request Count'],
+                        changeRiskData.map(d => [d.Name, d.Count])
+                    );
+                }
+            }
+
             // ── TEAM WORKLOAD ─────────────────────────────────────────────
             if (selT && workloadData.length > 0) {
                 checkY(30);
@@ -692,6 +818,41 @@
                 scales: { 
                     x: { beginAtZero: true, grid: { display: false } },
                     y: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 5. Problem Status Chart (Doughnut)
+        new Chart(document.getElementById('problemStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Open/Active', 'Resolved'],
+                datasets: [{
+                    data: [problemMetrics.open, problemMetrics.resolved],
+                    backgroundColor: ['#ef4444', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: { cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // 6. Change Risk Chart (Bar)
+        new Chart(document.getElementById('changeRiskChart'), {
+            type: 'bar',
+            data: {
+                labels: changeRiskData.map(d => d.Name),
+                datasets: [{
+                    label: 'Requests by Risk',
+                    data: changeRiskData.map(d => d.Count),
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#7f1d1d'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { 
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                    x: { grid: { display: false } }
                 }
             }
         });

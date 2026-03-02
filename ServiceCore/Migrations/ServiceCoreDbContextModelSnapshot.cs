@@ -17,7 +17,7 @@ namespace ServiceCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -418,6 +418,233 @@ namespace ServiceCore.Migrations
                     b.ToTable("Attachments");
                 });
 
+            modelBuilder.Entity("ServiceCore.Models.ChangeActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ChangeRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChangeRequestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChangeActivities");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeApproval", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ActionedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ApproverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApproverId");
+
+                    b.HasIndex("ChangeRequestId");
+
+                    b.ToTable("ChangeApprovals");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeAsset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LinkedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetId");
+
+                    b.HasIndex("ChangeRequestId");
+
+                    b.ToTable("ChangeAssets");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ActualEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ActualStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("AssignedToId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ClosedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ClosureNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Impact")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImplementationPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PlannedEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("PlannedStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequestedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RiskLevel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RollbackPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TestPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedToId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("RequestedById");
+
+                    b.ToTable("ChangeRequests");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AssignedToId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedToId");
+
+                    b.HasIndex("ChangeRequestId");
+
+                    b.ToTable("ChangeTasks");
+                });
+
             modelBuilder.Entity("ServiceCore.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -801,6 +1028,151 @@ namespace ServiceCore.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("ServiceCore.Models.Problem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AssetId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssignedToId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ClosedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Impact")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("InvestigationNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PermanentFix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("RCAMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RootCause")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Urgency")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Workaround")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetId");
+
+                    b.HasIndex("AssignedToId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("Problems");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ProblemActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProblemId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ProblemActivities");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ProblemIncident", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("LinkedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProblemId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("ProblemIncidents");
+                });
+
             modelBuilder.Entity("ServiceCore.Models.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -1100,6 +1472,9 @@ namespace ServiceCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AssetId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("AssignedId")
                         .HasColumnType("int");
 
@@ -1119,7 +1494,7 @@ namespace ServiceCore.Migrations
                     b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RequesterId")
+                    b.Property<int?>("RequesterId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ResolutionDate")
@@ -1137,6 +1512,8 @@ namespace ServiceCore.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssetId");
 
                     b.HasIndex("AssignedId");
 
@@ -1227,7 +1604,7 @@ namespace ServiceCore.Migrations
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1237,6 +1614,37 @@ namespace ServiceCore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TicketComments");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.TicketLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LinkType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SourceTicketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TargetTicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceTicketId");
+
+                    b.HasIndex("TargetTicketId");
+
+                    b.ToTable("TicketLinks");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.TicketPriority", b =>
@@ -1524,6 +1932,105 @@ namespace ServiceCore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ServiceCore.Models.ChangeActivity", b =>
+                {
+                    b.HasOne("ServiceCore.Models.ChangeRequest", "ChangeRequest")
+                        .WithMany("Activities")
+                        .HasForeignKey("ChangeRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChangeRequest");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeApproval", b =>
+                {
+                    b.HasOne("ServiceCore.Models.User", "Approver")
+                        .WithMany()
+                        .HasForeignKey("ApproverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.ChangeRequest", "ChangeRequest")
+                        .WithMany("Approvals")
+                        .HasForeignKey("ChangeRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Approver");
+
+                    b.Navigation("ChangeRequest");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeAsset", b =>
+                {
+                    b.HasOne("ServiceCore.Models.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.ChangeRequest", "ChangeRequest")
+                        .WithMany("LinkedAssets")
+                        .HasForeignKey("ChangeRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
+
+                    b.Navigation("ChangeRequest");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeRequest", b =>
+                {
+                    b.HasOne("ServiceCore.Models.User", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ServiceCore.Models.TicketCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("ServiceCore.Models.User", "RequestedBy")
+                        .WithMany()
+                        .HasForeignKey("RequestedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTo");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("RequestedBy");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeTask", b =>
+                {
+                    b.HasOne("ServiceCore.Models.User", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ServiceCore.Models.ChangeRequest", "ChangeRequest")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ChangeRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTo");
+
+                    b.Navigation("ChangeRequest");
+                });
+
             modelBuilder.Entity("ServiceCore.Models.Comment", b =>
                 {
                     b.HasOne("ServiceCore.Models.ProjectTask", "ProjectTask")
@@ -1667,6 +2174,75 @@ namespace ServiceCore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ServiceCore.Models.Problem", b =>
+                {
+                    b.HasOne("ServiceCore.Models.Asset", "Asset")
+                        .WithMany("Problems")
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ServiceCore.Models.User", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ServiceCore.Models.TicketCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("ServiceCore.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
+
+                    b.Navigation("AssignedTo");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ProblemActivity", b =>
+                {
+                    b.HasOne("ServiceCore.Models.Problem", "Problem")
+                        .WithMany("Activities")
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ProblemIncident", b =>
+                {
+                    b.HasOne("ServiceCore.Models.Problem", "Problem")
+                        .WithMany("LinkedIncidents")
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.Ticket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("Ticket");
+                });
+
             modelBuilder.Entity("ServiceCore.Models.Project", b =>
                 {
                     b.HasOne("ServiceCore.Models.Contract", "Contract")
@@ -1772,10 +2348,13 @@ namespace ServiceCore.Migrations
 
             modelBuilder.Entity("ServiceCore.Models.Ticket", b =>
                 {
+                    b.HasOne("ServiceCore.Models.Asset", "Asset")
+                        .WithMany("Tickets")
+                        .HasForeignKey("AssetId");
+
                     b.HasOne("ServiceCore.Models.User", "Assigned")
                         .WithMany("AssignedTickets")
-                        .HasForeignKey("AssignedId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("AssignedId");
 
                     b.HasOne("ServiceCore.Models.TicketCategory", "Category")
                         .WithMany()
@@ -1792,14 +2371,15 @@ namespace ServiceCore.Migrations
                     b.HasOne("ServiceCore.Models.User", "Requester")
                         .WithMany("SubmittedTickets")
                         .HasForeignKey("RequesterId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("ServiceCore.Models.TicketStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Asset");
 
                     b.Navigation("Assigned");
 
@@ -1852,12 +2432,30 @@ namespace ServiceCore.Migrations
                     b.HasOne("ServiceCore.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Ticket");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.TicketLink", b =>
+                {
+                    b.HasOne("ServiceCore.Models.Ticket", "SourceTicket")
+                        .WithMany("LinkedFrom")
+                        .HasForeignKey("SourceTicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ServiceCore.Models.Ticket", "TargetTicket")
+                        .WithMany("LinkedTo")
+                        .HasForeignKey("TargetTicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SourceTicket");
+
+                    b.Navigation("TargetTicket");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.Asset", b =>
@@ -1867,6 +2465,21 @@ namespace ServiceCore.Migrations
                     b.Navigation("Histories");
 
                     b.Navigation("Maintenances");
+
+                    b.Navigation("Problems");
+
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.ChangeRequest", b =>
+                {
+                    b.Navigation("Activities");
+
+                    b.Navigation("Approvals");
+
+                    b.Navigation("LinkedAssets");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.Contract", b =>
@@ -1883,6 +2496,13 @@ namespace ServiceCore.Migrations
             modelBuilder.Entity("ServiceCore.Models.ContractType", b =>
                 {
                     b.Navigation("Contracts");
+                });
+
+            modelBuilder.Entity("ServiceCore.Models.Problem", b =>
+                {
+                    b.Navigation("Activities");
+
+                    b.Navigation("LinkedIncidents");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.Project", b =>
@@ -1916,6 +2536,10 @@ namespace ServiceCore.Migrations
                     b.Navigation("Attachments");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("LinkedFrom");
+
+                    b.Navigation("LinkedTo");
                 });
 
             modelBuilder.Entity("ServiceCore.Models.TicketCategory", b =>

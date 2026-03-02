@@ -1,0 +1,175 @@
+@model ServiceCore.Models.User
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Profile Header -->
+            <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="bg-primary p-5 text-white position-relative">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="avatar-lg bg-white text-primary rounded-circle d-flex align-items-center justify-content-center fs-1 fw-bold border border-4 border-primary-subtle shadow" style="width: 100px; height: 100px;">
+                                @(Model.Name?.Substring(0, Math.Min(2, Model.Name.Length)).ToUpper() ?? "U")
+                            </div>
+                            <div>
+                                <h1 class="h2 fw-bold mb-1">@Model.Name</h1>
+                                <p class="opacity-75 mb-0"><i class="bi bi-shield-lock me-2"></i>@Model.Role</p>
+                            </div>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 p-4">
+                            <a asp-action="Edit" class="btn btn-light btn-sm shadow-sm"><i class="bi bi-pencil me-2"></i>Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Left Sidebar -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 mb-4 h-100">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Contact Information</h5>
+                            
+                            <div class="mb-4">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Email Address</label>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope text-primary me-2"></i>
+                                    <span>@Model.Email</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Phone Number</label>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-telephone text-primary me-2"></i>
+                                    <span>@(Model.PhoneNumber ?? "Not provided")</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Department</label>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-building text-primary me-2"></i>
+                                    <span>@(Model.Department ?? "Not assigned")</span>
+                                </div>
+                            </div>
+
+                            <hr class="my-4 opacity-10">
+
+                            <h5 class="fw-bold mb-3">Security</h5>
+                            <a asp-action="ChangePassword" class="btn btn-outline-primary btn-sm w-100"><i class="bi bi-key me-2"></i>Change Password</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-md-8">
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <div class="card shadow-sm border-0 p-4 h-100 bg-white">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-primary-subtle p-3 rounded-3">
+                                        <i class="bi bi-ticket-perforated text-primary fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="fw-bold mb-0">@(Model.SubmittedTickets?.Count ?? 0)</h3>
+                                        <p class="text-muted small mb-0 font-medium">Tickets Submitted</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card shadow-sm border-0 p-4 h-100 bg-white">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-success-subtle p-3 rounded-3">
+                                        <i class="bi bi-check2-circle text-success fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="fw-bold mb-0">@(Model.AssignedTasks?.Count ?? 0)</h3>
+                                        <p class="text-muted small mb-0 font-medium">Active Tasks</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                                    <h5 class="fw-bold mb-0">Assigned Equipment</h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    @if (Model.Assets?.Any() == true)
+                                    {
+                                        <div class="list-group list-group-flush gap-2">
+                                            @foreach (var asset in Model.Assets)
+                                            {
+                                                <div class="list-group-item border rounded-3 p-3 bg-light-subtle">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="bg-white p-2 rounded-2 shadow-sm">
+                                                            <i class="bi bi-laptop fs-4 text-primary"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-bold small">@asset.Name</div>
+                                                            <div class="text-muted" style="font-size: 0.75rem;">S/N: @asset.SerialNumber</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-4 border border-dashed rounded-3">
+                                            <i class="bi bi-box fs-2 text-muted opacity-25 d-block mb-2"></i>
+                                            <p class="text-muted small mb-0">No hardware assigned.</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                                    <h5 class="fw-bold mb-0">Recent Activity</h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    @if (Model.SubmittedTickets?.Any() == true)
+                                    {
+                                        <div class="list-group list-group-flush gap-2">
+                                            @foreach (var ticket in Model.SubmittedTickets.OrderByDescending(t => t.CreatedAt).Take(4))
+                                            {
+                                                <a href="/Tickets/Details/@ticket.Id" class="list-group-item list-group-item-action border rounded-3 p-3 mb-2">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="text-truncate me-2">
+                                                            <h6 class="fw-bold mb-1 text-truncate" style="max-width: 200px;">@ticket.Subject</h6>
+                                                            <small class="text-muted">#@ticket.Id • @ticket.CreatedAt.ToShortDateString()</small>
+                                                        </div>
+                                                        <span class="badge bg-primary-subtle text-primary rounded-pill px-2 py-1" style="font-size: 0.7rem;">
+                                                            @(ticket.Status?.Name ?? "Open")
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-4">
+                                            <i class="bi bi-activity fs-2 text-muted opacity-25 d-block mb-2"></i>
+                                            <p class="text-muted small">No recent activity.</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

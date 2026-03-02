@@ -74,6 +74,20 @@ namespace ServiceCore.Constants
         public const string Tasks_Delete = "Tasks_Delete";
         public const string Tasks_Manage = "Tasks_Manage";
 
+        // Problems
+        public const string Problems_View = "Problems_View";
+        public const string Problems_Create = "Problems_Create";
+        public const string Problems_Edit = "Problems_Edit";
+        public const string Problems_Delete = "Problems_Delete";
+        public const string Problems_Manage = "Problems_Manage";
+        
+        // Changes
+        public const string Changes_View = "Changes_View";
+        public const string Changes_Create = "Changes_Create";
+        public const string Changes_Edit = "Changes_Edit";
+        public const string Changes_Delete = "Changes_Delete";
+        public const string Changes_Manage = "Changes_Manage";
+
         public static readonly List<string> All = new List<string>
         {
             Dashboard_View,
@@ -88,7 +102,9 @@ namespace ServiceCore.Constants
             Reports_View,
             Approvals_View, Approvals_Manage,
             Help_Usage,
-            Tasks_View, Tasks_Create, Tasks_Edit, Tasks_Delete, Tasks_Manage
+            Tasks_View, Tasks_Create, Tasks_Edit, Tasks_Delete, Tasks_Manage,
+            Problems_View, Problems_Create, Problems_Edit, Problems_Delete, Problems_Manage,
+            Changes_View, Changes_Create, Changes_Edit, Changes_Delete, Changes_Manage
         };
     }
 }

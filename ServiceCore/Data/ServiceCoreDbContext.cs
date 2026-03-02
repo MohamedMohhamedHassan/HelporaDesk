@@ -10,6 +10,10 @@ namespace ServiceCore.Data
         }
 
         public DbSet<Ticket> Tickets { get; set; } = null!;
+        public DbSet<TicketLink> TicketLinks { get; set; } = null!;
+        public DbSet<Problem> Problems { get; set; } = null!;
+        public DbSet<ProblemIncident> ProblemIncidents { get; set; } = null!;
+        public DbSet<ProblemActivity> ProblemActivities { get; set; } = null!;
         public DbSet<Project> Projects { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<RolePermission> RolePermissions { get; set; } = null!;
@@ -52,6 +56,13 @@ namespace ServiceCore.Data
         public DbSet<ContractPayment> ContractPayments { get; set; } = null!;
         public DbSet<ContractHistory> ContractHistories { get; set; } = null!;
 
+        // Change Management Module
+        public DbSet<ChangeRequest> ChangeRequests { get; set; } = null!;
+        public DbSet<ChangeApproval> ChangeApprovals { get; set; } = null!;
+        public DbSet<ChangeTask> ChangeTasks { get; set; } = null!;
+        public DbSet<ChangeActivity> ChangeActivities { get; set; } = null!;
+        public DbSet<ChangeAsset> ChangeAssets { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Project Owner (One-to-Many)
@@ -92,13 +103,13 @@ namespace ServiceCore.Data
                 .HasOne(t => t.Requester)
                 .WithMany(u => u.SubmittedTickets)
                 .HasForeignKey(t => t.RequesterId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Assigned)
                 .WithMany(u => u.AssignedTickets)
                 .HasForeignKey(t => t.AssignedId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Category)
@@ -116,6 +127,18 @@ namespace ServiceCore.Data
                 .HasOne(t => t.Status)
                 .WithMany()
                 .HasForeignKey(t => t.StatusId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TicketComment>()
+                .HasOne(tc => tc.User)
+                .WithMany()
+                .HasForeignKey(tc => tc.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Problem>()
+                .HasOne(p => p.Asset)
+                .WithMany(a => a.Problems)
+                .HasForeignKey(p => p.AssetId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Asset Financial Properties
@@ -208,6 +231,75 @@ namespace ServiceCore.Data
                 .HasOne(p => p.Contract)
                 .WithMany()
                 .HasForeignKey(p => p.ContractId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Ticket Links
+            modelBuilder.Entity<TicketLink>()
+                .HasOne(tl => tl.SourceTicket)
+                .WithMany(t => t.LinkedFrom)
+                .HasForeignKey(tl => tl.SourceTicketId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TicketLink>()
+                .HasOne(tl => tl.TargetTicket)
+                .WithMany(t => t.LinkedTo)
+                .HasForeignKey(tl => tl.TargetTicketId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Problem Module
+            modelBuilder.Entity<Problem>()
+                .HasOne(p => p.AssignedTo)
+                .WithMany()
+                .HasForeignKey(p => p.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Problem>()
+                .HasOne(p => p.Creator)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProblemIncident>()
+                .HasOne(pi => pi.Problem)
+                .WithMany(p => p.LinkedIncidents)
+                .HasForeignKey(pi => pi.ProblemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProblemIncident>()
+                .HasOne(pi => pi.Ticket)
+                .WithMany()
+                .HasForeignKey(pi => pi.TicketId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Change Management Relationships
+            modelBuilder.Entity<ChangeRequest>()
+                .HasOne(c => c.RequestedBy)
+                .WithMany()
+                .HasForeignKey(c => c.RequestedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChangeRequest>()
+                .HasOne(c => c.AssignedTo)
+                .WithMany()
+                .HasForeignKey(c => c.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChangeApproval>()
+                .HasOne(a => a.Approver)
+                .WithMany()
+                .HasForeignKey(a => a.ApproverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChangeTask>()
+                .HasOne(t => t.AssignedTo)
+                .WithMany()
+                .HasForeignKey(t => t.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChangeAsset>()
+                .HasOne(ca => ca.Asset)
+                .WithMany()
+                .HasForeignKey(ca => ca.AssetId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

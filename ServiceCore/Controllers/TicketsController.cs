@@ -184,8 +184,15 @@ namespace ServiceCore.Controllers
                 .Include(t => t.Category)
                 .Include(t => t.Requester)
                 .Include(t => t.Assigned)
+                .Include(t => t.Asset)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.User)
+                .Include(t => t.LinkedTo)
+                    .ThenInclude(l => l.SourceTicket)
+                        .ThenInclude(st => st.Status)
+                .Include(t => t.LinkedFrom)
+                    .ThenInclude(l => l.TargetTicket)
+                        .ThenInclude(tt => tt.Status)
                 .FirstOrDefault(t => t.Id == id);
 
             if (ticket == null) return NotFound();
@@ -229,6 +236,7 @@ namespace ServiceCore.Controllers
             ViewBag.Categories = flatCategories;
 
             ViewBag.Users = _db.Users.ToList();
+            ViewBag.UserAssets = _db.Assets.Where(a => a.UserId == ticket.RequesterId).ToList();
 
             return View(ticket);
         }
@@ -241,6 +249,7 @@ namespace ServiceCore.Controllers
             ModelState.Remove(nameof(ticket.Category));
             ModelState.Remove(nameof(ticket.Requester));
             ModelState.Remove(nameof(ticket.Assigned));
+            ModelState.Remove(nameof(ticket.Asset));
 
             if (!ModelState.IsValid)
             {
@@ -257,6 +266,10 @@ namespace ServiceCore.Controllers
                 ViewBag.Categories = flatCategories;
 
                 ViewBag.Users = _db.Users.ToList();
+                var existingTicket = _db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                int reqId = existingTicket?.RequesterId ?? 0;
+                ViewBag.UserAssets = _db.Assets.Where(a => a.UserId == reqId).ToList();
+
                 return View(ticket);
             }
 
@@ -290,6 +303,7 @@ namespace ServiceCore.Controllers
             existing.PriorityId = ticket.PriorityId;
             existing.CategoryId = ticket.CategoryId;
             existing.AssignedId = ticket.AssignedId;
+            existing.AssetId = ticket.AssetId;
             existing.UpdatedAt = DateTime.Now;
 
             _db.Tickets.Update(existing);
@@ -361,6 +375,17 @@ namespace ServiceCore.Controllers
             ViewBag.Categories = flatCategories;
 
             ViewBag.Priorities = _db.TicketPriorities.ToList();
+            
+            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(userIdString, out int userId))
+            {
+                ViewBag.UserAssets = _db.Assets.Where(a => a.UserId == userId).ToList();
+            }
+            else
+            {
+                ViewBag.UserAssets = new List<Asset>();
+            }
+
             return View();
         }
 
@@ -373,6 +398,7 @@ namespace ServiceCore.Controllers
             ModelState.Remove(nameof(ticket.Category));
             ModelState.Remove(nameof(ticket.Requester));
             ModelState.Remove(nameof(ticket.Assigned));
+            ModelState.Remove(nameof(ticket.Asset));
 
             if (!ModelState.IsValid)
             {
@@ -386,6 +412,17 @@ namespace ServiceCore.Controllers
                 ViewBag.Categories = flatCategories;
 
                 ViewBag.Priorities = _db.TicketPriorities.ToList();
+                
+                var uidStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (int.TryParse(uidStr, out int uid))
+                {
+                    ViewBag.UserAssets = _db.Assets.Where(a => a.UserId == uid).ToList();
+                }
+                else
+                {
+                    ViewBag.UserAssets = new List<Asset>();
+                }
+
                 return View(ticket);
             }
 
@@ -451,6 +488,58 @@ namespace ServiceCore.Controllers
             await _notificationService.NotifyTicketUpdateAsync(ticket.Id, $"New ticket created by user.");
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LinkTickets(int sourceTicketId, int targetTicketId, string linkType)
+        {
+            if (sourceTicketId == targetTicketId)
+                return BadRequest("Cannot link a ticket to itself.");
+
+            var exists = await _db.TicketLinks.AnyAsync(l => 
+                (l.SourceTicketId == sourceTicketId && l.TargetTicketId == targetTicketId) ||
+                (l.SourceTicketId == targetTicketId && l.TargetTicketId == sourceTicketId));
+
+            if (exists)
+                return BadRequest("These tickets are already linked.");
+
+            var link = new TicketLink
+            {
+                SourceTicketId = sourceTicketId,
+                TargetTicketId = targetTicketId,
+                LinkType = linkType,
+                CreatedAt = DateTime.Now
+            };
+
+            _db.TicketLinks.Add(link);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = sourceTicketId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLinkableTickets(int currentTicketId, string term)
+        {
+            var tickets = await _db.Tickets
+                .Where(t => t.Id != currentTicketId && 
+                           ((t.Subject != null && t.Subject.Contains(term)) || t.Id.ToString() == term))
+                .Select(t => new { id = t.Id, text = $"#{t.Id} - {t.Subject}" })
+                .Take(10)
+                .ToListAsync();
+
+            return Json(tickets);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveLink(int linkId, int returnTicketId)
+        {
+            var link = await _db.TicketLinks.FindAsync(linkId);
+            if (link != null)
+            {
+                _db.TicketLinks.Remove(link);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Details), new { id = returnTicketId });
         }
 
         private void FlattenCategories(TicketCategory category, List<dynamic> list, int level)

@@ -1,0 +1,106 @@
+@model ServiceCore.Models.Problem
+@{
+    ViewData["Title"] = "Edit Problem Record";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="d-flex align-items-center mb-4">
+                <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-outline-secondary btn-sm me-3 border-0 shadow-sm">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="h3 mb-1 fw-bold">Edit Problem Record</h1>
+                    <p class="text-muted small mb-0">Modify background information and categorization.</p>
+                </div>
+            </div>
+
+            <div class="card glass-elevated border-0 shadow-sm p-4 overflow-hidden">
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreatedById" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    <input type="hidden" asp-for="Status" />
+                    <input type="hidden" asp-for="RootCause" />
+                    <input type="hidden" asp-for="Workaround" />
+                    <input type="hidden" asp-for="PermanentFix" />
+                    <input type="hidden" asp-for="RCAMethod" />
+                    <input type="hidden" asp-for="InvestigationNotes" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <label asp-for="Title" class="form-label small fw-bold text-uppercase text-muted">Problem Title</label>
+                            <input asp-for="Title" class="form-control form-control-lg border-2" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label small fw-bold text-uppercase text-muted">Problem Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="Impact" class="form-label small fw-bold text-uppercase text-muted">Impact</label>
+                            <select asp-for="Impact" class="form-select border-2">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Extensive">Extensive (Whole Org)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="Urgency" class="form-label small fw-bold text-uppercase text-muted">Urgency</label>
+                            <select asp-for="Urgency" class="form-select border-2">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Immediate">Immediate</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="Priority" class="form-label small fw-bold text-uppercase text-muted">Priority</label>
+                            <select asp-for="Priority" class="form-select border-2">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label small fw-bold text-uppercase text-muted">Category</label>
+                            <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                                <option value="">Select Category...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="AssetId" class="form-label small fw-bold text-uppercase text-muted">Related Asset</label>
+                            <select asp-for="AssetId" class="form-select border-2" asp-items="@(new SelectList(ViewBag.UserAssets, "Id", "Tag"))">
+                                <option value="">No specific asset...</option>
+                            </select>
+                            <span asp-validation-for="AssetId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label asp-for="AssignedToId" class="form-label small fw-bold text-uppercase text-muted">Assigned Analyst</label>
+                            <select asp-for="AssignedToId" class="form-select" asp-items="@(new SelectList(ViewBag.Users, "Id", "Name"))">
+                                <option value="">Assign to analyst...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 border-top pt-4 text-end">
+                            <button type="submit" class="btn btn-brand-blue px-5">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

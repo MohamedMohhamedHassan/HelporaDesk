@@ -12,6 +12,9 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<ServiceCore.Services.PermissionFilter>();
 });
 
+// Register HttpClient factory for external API calls (e.g. OpenAI)
+builder.Services.AddHttpClient();
+
 // Add authentication (cookie) and authorization
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -195,6 +198,29 @@ using (var scope = app.Services.CreateScope())
 
         // Seed Asset Categories
         await AssetSeed.SeedAsync(db);
+
+        // Seed Test Asset for Admin (Ensure User Id 1 exists first)
+        if (!db.Assets.Any(a => a.Tag == "AST-TEST-001"))
+        {
+            var adminUser = db.Users.FirstOrDefault(u => u.Email == "admin@servicecore.local");
+            if (adminUser != null)
+            {
+                var hardwareCat = db.AssetCategories.FirstOrDefault(c => c.Name == "Hardware");
+                db.Assets.Add(new Asset
+                {
+                    Tag = "AST-TEST-001",
+                    Name = "Developer MacBook Pro",
+                    SerialNumber = "SN123456789",
+                    Model = "M2 Pro",
+                    Vendor = "Apple",
+                    Status = "In Use",
+                    UserId = adminUser.Id,
+                    CategoryId = hardwareCat?.Id,
+                    CreatedAt = DateTime.Now
+                });
+                await db.SaveChangesAsync();
+            }
+        }
 
         // Seed Permissions
         await ServiceCore.Data.PermissionSeeder.SeedAsync(db);

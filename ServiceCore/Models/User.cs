@@ -44,6 +44,7 @@ namespace ServiceCore.Models
         public ICollection<Ticket> AssignedTickets { get; set; } = new List<Ticket>();
         public ICollection<Project> JoinedProjects { get; set; } = new List<Project>();
         public ICollection<ProjectTask> AssignedTasks { get; set; } = new List<ProjectTask>();
+        public ICollection<Asset> Assets { get; set; } = new List<Asset>();
 
         // Helper method to hash password
         public static string HashPassword(string password)

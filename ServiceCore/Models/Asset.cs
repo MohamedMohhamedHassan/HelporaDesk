@@ -66,5 +66,7 @@ namespace ServiceCore.Models
         public ICollection<AssetAssignment> Assignments { get; set; } = new List<AssetAssignment>();
         public ICollection<AssetMaintenance> Maintenances { get; set; } = new List<AssetMaintenance>();
         public ICollection<AssetHistory> Histories { get; set; } = new List<AssetHistory>();
+        public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+        public ICollection<Problem> Problems { get; set; } = new List<Problem>();
     }
 }

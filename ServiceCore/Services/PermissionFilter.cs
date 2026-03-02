@@ -93,6 +93,14 @@ namespace ServiceCore.Services
                            action == "Delete" ? Permissions.Tasks_Delete : Permissions.Tasks_Manage,
                 "ProjectsManager" => Permissions.Projects_Manage,
                 "Settings" => Permissions.Admin_Settings,
+                "Problems" => action == "Index" || action == "Details" ? Permissions.Problems_View : 
+                             action == "Create" || action == "LinkIncident" ? Permissions.Problems_Create :
+                             action == "Edit" || action == "UpdateRCA" ? Permissions.Problems_Edit :
+                             action == "Delete" ? Permissions.Problems_Delete : Permissions.Problems_Manage,
+                "Changes" => action == "Index" || action == "Details" ? Permissions.Changes_View : 
+                            action == "Create" ? Permissions.Changes_Create :
+                            action == "Edit" ? Permissions.Changes_Edit :
+                            action == "Delete" ? Permissions.Changes_Delete : Permissions.Changes_Manage,
                 _ => string.Empty
             };
         }
